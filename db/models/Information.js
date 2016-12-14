@@ -64,21 +64,21 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'Notes'
 		},
 		webService: {
-			type: "BIT",
+			type: DataTypes.INTEGER,
 			allowNull: true,
-			defaultValue: "((0))",
+			defaultValue: 0,
 			field: 'WebService'
 		},
 		template: {
-			type: "BIT",
+			type: DataTypes.INTEGER,
 			allowNull: true,
-			defaultValue: "((0))",
+			defaultValue: 0,
 			field: 'Template'
 		},
 		internal: {
-			type: "BIT",
+			type: DataTypes.INTEGER,
 			allowNull: true,
-			defaultValue: "((0))",
+			defaultValue: 0,
 			field: 'Internal'
 		},
 		category1: {

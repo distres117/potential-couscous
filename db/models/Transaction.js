@@ -74,9 +74,9 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'Review Notes'
 		},
 		passed: {
-			type: "BIT",
+			type: DataTypes.INTEGER,
 			allowNull: true,
-			defaultValue: "((0))",
+			defaultValue: 0,
 			field: 'Passed'
 		},
 		sdePerson: {
@@ -95,9 +95,9 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'Load Name'
 		},
 		recorded: {
-			type: "BIT",
+			type: DataTypes.INTEGER,
 			allowNull: true,
-			defaultValue: "((0))",
+			defaultValue: 0,
 			field: 'Recorded'
 		}
 	}, {
