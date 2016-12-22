@@ -3,28 +3,25 @@ import dataCatalogType from './types/dataCatalogType';
 import transactionType from './types/transactionType';
 import {models} from '../index';
 import {resolver, attributeFields, defaultListArgs} from 'graphql-sequelize';
+import dataCatalogQuery from './queries/dataCatalogQuery';
+import transactionQuery from './queries/transactionQuery';
+import transactionMut from './mutators/transactionMut';
 import * as _ from 'lodash';
-
+const rootQueryFields = Object.assign(dataCatalogQuery, transactionQuery);
+const rootMutateFields = Object.assign(transactionMut);
 const Query = new GraphQLObjectType({
     name: 'Query',
     description: 'Root query object',
-    fields:()=>{
-        return{
-            catalogRows: {
-                type: new GraphQLList(dataCatalogType),
-                args: _.assign(attributeFields(models.DataCatalog, {exclude: ['dataCatalogId']}), _.assign(defaultListArgs())),
-                resolve: resolver(models.DataCatalog)
-            },
-            transactions:{
-                type: new GraphQLList(transactionType),
-                args: _.assign(attributeFields(models.Transaction, {exclude: ['transactionId']}), _.assign(defaultListArgs())),
-                resolve:resolver(models.Transaction)
-            }
-        }
-    }
-
+    fields:()=>rootQueryFields
 });
 
+const Mutation = new GraphQLObjectType({
+    name: 'Mutations',
+    description: 'for creating new database objects',
+    fields:()=>rootMutateFields
+})
+
 export const Schema = new GraphQLSchema({
-    query: Query
+    query: Query,
+    mutation: Mutation
 }); 

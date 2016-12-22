@@ -6,7 +6,8 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			primaryKey: true,
-			field: 'DataCatalogID'
+			field: 'DataCatalogID',
+			autoIncrement:true
 		},
 		type: {
 			type: DataTypes.STRING,
@@ -29,10 +30,10 @@ module.exports = function(sequelize, DataTypes) {
 		classMethods:{
 			associate: models=>{
 				DataCatalog.hasMany(models.Transaction, {foreignKey:'DataCatalogID'});
-				DataCatalog.hasMany(models.Disbursement, {foreignKey:'DataCatalogID'});
-				DataCatalog.hasMany(models.Layer, {foreignKey:'DataCatalogID'});
-				DataCatalog.hasOne(models.EnterpriseGDB, {foreignKey:'DataCatalogID'});
-				DataCatalog.hasOne(models.Information, {foreignKey:'DataCatalogID'});
+				// DataCatalog.hasMany(models.Disbursement, {foreignKey:'DataCatalogID'});
+				// DataCatalog.hasMany(models.Layer, {foreignKey:'DataCatalogID'});
+				// DataCatalog.hasOne(models.EnterpriseGDB, {foreignKey:'DataCatalogID'});
+				// DataCatalog.hasOne(models.Information, {foreignKey:'DataCatalogID'});
 
 			}
 		}
