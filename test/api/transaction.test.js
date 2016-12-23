@@ -23,7 +23,6 @@ describe('api tests', function(){
         graphql(Schema, query)
         .then(res=>{
             let transaction = res.data.newTransaction;
-            expect(transaction.dataCatalogId).to.equal(1);
             expect(transaction.transactionId).to.equal(1);
             done();
         });

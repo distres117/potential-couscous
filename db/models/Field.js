@@ -1,7 +1,7 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('tblFields', {
+	const Field = sequelize.define('tblFields', {
 		fieldId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -54,6 +54,9 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'Source'
 		}
 	}, {
-		tableName: 'tblFields'
+		tableName: 'tblFields',
+		timeStamps:false
+		//TODO: Add class methods
 	});
+	return Field;
 };

@@ -19,3 +19,12 @@ export const getDetails = (datasetName, datasetType)=>{
         })
     
 }
+export const getDetailsGpOnly = (datasetName, datasetType)=>{
+    let data = {datasetName,datasetType};
+    return axios.post(endpoints.gpService,querystring.stringify(data),{
+        headers: {
+            'content-Type':'application/x-www-form-urlencoded'
+        }
+    });
+    
+}
