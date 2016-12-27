@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
 		timestamps:false,
 		classMethods:{
 			associate: models=>{
-				Table.belongsTo(models.EnterpriseGDB, {foreignKey: 'DataCatalogID'})
+				Table.belongsTo(models.EnterpriseGdb, {foreignKey: 'DataCatalogID'})
 			}
 		}
 	});

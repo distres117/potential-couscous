@@ -1,12 +1,13 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	const Field = sequelize.define('tblFields', {
+	const Field = sequelize.define('Field', {
 		fieldId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			primaryKey: true,
-			field: 'FieldID'
+			field: 'FieldID',
+			autoIncrement:true
 		},
 		dataCatalogId: {
 			type: DataTypes.INTEGER,
@@ -52,11 +53,21 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING,
 			allowNull: true,
 			field: 'Source'
+		},
+		domain:{
+			type: DataTypes.STRING,
+			allowNull:true,
+			field: 'Domain'
 		}
 	}, {
 		tableName: 'tblFields',
-		timeStamps:false
-		//TODO: Add class methods
+		timeStamps:false,
+		classMethods:{
+			associate: (models)=>{
+				Field.belongsTo(models.DataCatalog, {foreignKey: 'DataCatalogID'})
+			}
+		}
+		
 	});
 	return Field;
 };

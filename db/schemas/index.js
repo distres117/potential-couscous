@@ -1,13 +1,12 @@
 import {GraphQLObjectType, GraphQLSchema, GraphQLList} from 'graphql';
-import dataCatalogType from './types/dataCatalogType';
-import transactionType from './types/transactionType';
 import {models} from '../index';
 import {resolver, attributeFields, defaultListArgs} from 'graphql-sequelize';
 import dataCatalogQuery from './queries/dataCatalogQuery';
 import transactionQuery from './queries/transactionQuery';
+import featureClassQuery from './queries/featureClassQuery';
 import transactionMut from './mutators/transactionMut';
 import * as _ from 'lodash';
-const rootQueryFields = Object.assign(dataCatalogQuery, transactionQuery);
+const rootQueryFields = Object.assign(dataCatalogQuery, transactionQuery, featureClassQuery);
 const rootMutateFields = Object.assign(transactionMut);
 const Query = new GraphQLObjectType({
     name: 'Query',

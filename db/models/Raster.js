@@ -43,7 +43,7 @@ module.exports = function(sequelize, DataTypes) {
 		tableName: 'tblRasters',
 		classMethods:{
 			associate:models=>{
-				Raster.belongsTo(models.EnterpriseGDB, {foreignKey: 'DataCatalogID'});
+				Raster.belongsTo(models.EnterpriseGdb, {foreignKey: 'DataCatalogID'});
 			}
 		}
 	});

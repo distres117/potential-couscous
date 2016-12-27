@@ -3,6 +3,9 @@ import {models} from '../../index';
 import {attributeFields} from 'graphql-sequelize';
 import transactionType from './transactionType';
 import informationType from './informationType';
+import featureClassType from './featureClassType';
+import fieldType from './fieldType';
+import gdbType from './gdbType';
 import {GraphQLObjectType, GraphQLList} from 'graphql';
 
 const dataCatalogType = new GraphQLObjectType({
@@ -16,12 +19,31 @@ const dataCatalogType = new GraphQLObjectType({
                     return row.getTransactions();
                 }
             },
-            information:{
-                type: informationType,
+            featureClasses:{
+                type: featureClassType,
+                resolve(row){
+                    return row.getFeatureClass();
+                }
+            },
+            gdb:{
+                type:gdbType,
+                resolve(row){
+                    return row.getEnterpriseGdb();
+                }
+            },
+            info:{
+                type:informationType,
                 resolve(row){
                     return row.getInformation();
                 }
+            },
+            fields:{
+                type:fieldType,
+                resolve(row){
+                    return row.getFields();
+                }
             }
+
     })
     }
 });

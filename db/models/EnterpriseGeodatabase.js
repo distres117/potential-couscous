@@ -1,7 +1,7 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	let EnterpriseGDB = sequelize.define('EnterpriseGDB', {
+	const EnterpriseGdb = sequelize.define('EnterpriseGdb', {
 		dataCatalogId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -38,12 +38,9 @@ module.exports = function(sequelize, DataTypes) {
 		timestamps:false,
 		classMethods:{
 			associate:models=>{
-				EnterpriseGDB.belongsTo(models.DataCatalog, {foreignKey:'DataCatalogID'});
-				EnterpriseGDB.hasOne(models.Raster, {foreignKey:'DataCatalogID'});
-				EnterpriseGDB.hasOne(models.Table, {foreignKey:'DataCatalogID'});
-				EnterpriseGDB.hasOne(models.FeatureClass, {foreignKey:'DataCatalogID'});
+				EnterpriseGdb.belongsTo(models.DataCatalog, {foreignKey:'DataCatalogID'});
 			}
 		}
 	});
-	return EnterpriseGDB;
+	return EnterpriseGdb;
 };

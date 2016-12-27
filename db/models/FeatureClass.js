@@ -38,7 +38,7 @@ module.exports = function(sequelize, DataTypes) {
 		tableName: 'tblFeatureClasses',
 		classMethods:{
 			associate:models=>{
-				FeatureClass.belongsTo(models.EnterpriseGDB, {foreignKey:'DataCatalogID'});
+				FeatureClass.belongsTo(models.DataCatalog, {foreignKey:'DataCatalogID'});
 			}
 		}
 	});
