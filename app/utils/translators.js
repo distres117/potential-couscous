@@ -46,3 +46,13 @@ export const tryMe = async (fn)=>{
         console.log(chalk.red(e))
     }
 }
+export const actionToStatus = action=>{
+    switch(action){
+        case 'New':
+            return 'Production';
+        case 'Delete':
+            return 'Retired';
+        default:
+            return 'Archive';
+    }
+}

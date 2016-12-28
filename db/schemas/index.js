@@ -4,9 +4,10 @@ import {resolver, attributeFields, defaultListArgs} from 'graphql-sequelize';
 import dataCatalogQuery from './queries/dataCatalogQuery';
 import transactionQuery from './queries/transactionQuery';
 import featureClassQuery from './queries/featureClassQuery';
+import keywordQuery from './queries/keywordQuery';
 import transactionMut from './mutators/transactionMut';
 import * as _ from 'lodash';
-const rootQueryFields = Object.assign(dataCatalogQuery, transactionQuery, featureClassQuery);
+const rootQueryFields = Object.assign(dataCatalogQuery, transactionQuery, featureClassQuery, keywordQuery);
 const rootMutateFields = Object.assign(transactionMut);
 const Query = new GraphQLObjectType({
     name: 'Query',

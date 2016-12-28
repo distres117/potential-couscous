@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 
 let db = {};
 const modelsDir = __dirname + '/models';
-const whiteList = ['DataCatalog', 'Transaction', 'Information', 'FeatureClass', 'Field', 'EnterpriseGeodatabase']; //For dev purposes
+const whiteList = ['DataCatalog', 'Transaction', 'Information', 'FeatureClass', 'Field', 'EnterpriseGeodatabase', 'Keyword']; //For dev purposes
 let sequelize = new Sequelize(config.database, config.username, config.password, config.options);
 fs.readdirSync(modelsDir)
     .forEach(file => {

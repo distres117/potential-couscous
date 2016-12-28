@@ -4,6 +4,7 @@ import {attributeFields} from 'graphql-sequelize';
 import transactionType from './transactionType';
 import informationType from './informationType';
 import featureClassType from './featureClassType';
+import keywordType from './keywordType';
 import fieldType from './fieldType';
 import gdbType from './gdbType';
 import {GraphQLObjectType, GraphQLList} from 'graphql';
@@ -38,11 +39,18 @@ const dataCatalogType = new GraphQLObjectType({
                 }
             },
             fields:{
-                type:fieldType,
+                type:new GraphQLList(fieldType),
                 resolve(row){
                     return row.getFields();
                 }
+            },
+            keywords:{
+                type:keywordType,
+                resolve(row){
+                    return row.getKeywords();
+                }
             }
+
 
     })
     }

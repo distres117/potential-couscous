@@ -61,7 +61,7 @@ module.exports = function(sequelize, DataTypes) {
 		}
 	}, {
 		tableName: 'tblFields',
-		timeStamps:false,
+		timestamps:false,
 		classMethods:{
 			associate: (models)=>{
 				Field.belongsTo(models.DataCatalog, {foreignKey: 'DataCatalogID'})

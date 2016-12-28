@@ -1,12 +1,13 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('tblKeywords', {
+	const Keyword = sequelize.define('Keyword', {
 		keywordId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			primaryKey: true,
-			field: 'KeywordID'
+			field: 'KeywordID',
+			autoIncrement:true
 		},
 		dataCatalogId: {
 			type: DataTypes.INTEGER,
@@ -24,6 +25,13 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'Keyword'
 		}
 	}, {
-		tableName: 'tblKeywords'
+		tableName: 'tblKeywords',
+		timestamps:false,
+		classMethods:{
+			associate:models=>{
+				Keyword.belongsTo(models.DataCatalog, {foreignKey: 'DataCatalogID'});
+			}
+		}
 	});
+	return Keyword;
 };
