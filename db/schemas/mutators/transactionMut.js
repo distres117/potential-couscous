@@ -21,22 +21,13 @@ async function archiveOrDelete(action) {
 export default {
     newTransaction: {
         type: transactionType,
-        args: _.assign(attributeFields(models.Transaction, { exclude: ['transactionId'] }), {
-            datasetName: {
-                type: new GraphQLNonNull(GraphQLString)
-            },
-            datasetType: {
-                type: new GraphQLNonNull(GraphQLString)
-            }
-        }),
+        args: _.assign(attributeFields(models.Transaction, { exclude: ['transactionId'] })),
         async resolve(source, args) {
-            let type = dataTypeString(args.datasetType);
-            const transaction = await models.Transaction.create(_.assign(_.omit(args, ['datasetName', 'datasetType']), {
-                submitGdb: 'I:\\SDE_IMPORT\\READY_TO_LOAD\\Data_to_import.gdb',
+            let type = dataType(args.datasetType);
+            
+            const transaction = await models.Transaction.create(_.assign(args, {
                 submitDate: Date.now(),
-                action: 'New',
-                submitName: args.datasetName,
-                dataType: dataType(type)
+                dataType: type
             }));
             return transaction;
         }
@@ -53,30 +44,8 @@ export default {
     },
     recordTransaction: {
         type: transactionType,
-        args: _.assign(attributeFields(models.Transaction, { only: ['transactionId'] })),
+        args: _.assign(attributeFields(models.Transaction, { only: ['transactionId', 'loadName'] })),
         resolve: recordTransactionFn
-    },
-    updateTransaction: {
-        type: transactionType,
-        args: _.assign(attributeFields(models.Transaction, { exclude: ['transactionId'] }), {
-            updateType: {
-                type: new GraphQLNonNull(GraphQLString)
-            }
-        }),
-        async resolve(source, args) {
-            let action = `Update (${args.updateType})`;
-            try {
-                let transaction = await models.Transaction.create(_.assign(args, {
-                    submitGdb: 'voemsql1',
-                    submitDate: Date.now(),
-                    action
-                }));
-                return transaction;
-            } catch (e) {
-                console.log(e);
-            }
-        }
-
     },
     archiveTransaction: { //creates a new row in transactions
         type: transactionType,

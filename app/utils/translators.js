@@ -13,9 +13,9 @@ export const dataType = (type) =>{
 
 export const dataTypeString = (type)=>{
     switch(type){
-        case 'table' || '3':
+        case '3':
             return 'SDE Table';
-        case 'raster' || '2':
+        case '2':
             return 'SDE Raster Dataset';
         default:
             return 'SDE Feature Class';
@@ -48,11 +48,11 @@ export const tryMe = async (fn)=>{
 }
 export const actionToStatus = action=>{
     switch(action){
-        case 'New':
-            return 'Production';
+        case 'Archive':
+            return 'Archived';
         case 'Delete':
             return 'Retired';
         default:
-            return 'Archive';
+            return 'Production';
     }
 }

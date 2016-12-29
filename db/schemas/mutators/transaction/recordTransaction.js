@@ -12,21 +12,34 @@ export default async (source,args)=>{
     if (!transaction)
         return errorRes('transaction not found');
     //create common values
-    let loadName = `sde.SDE.${transaction.submitName}`;
+    let loadName = args.loadName || transaction.submitName;
+    if (loadName.indexOf('SDE')===-1)
+        loadName = `sde.SDE.${loadName}`; 
+    if (transaction.action==='Archive')
+        loadName = loadName.replace(/^\w*/i, 'archive');
     let type = dataTypeString(transaction.dataType);
     //update transaction row to reflect change
+    transaction.loadName = loadName;
     transaction.loadDate = Date.now();
+    transaction.recorded = 1;
     //check if catalogRow already exists
+    //console.log(chalk.red(transaction.submitName));
     let existingRow = await models.DataCatalog.findOne({where:{
-        name: loadName
+        name: {
+            $like: '%' + transaction.submitName
+        }
     }});
     if (existingRow){
         //Update catalog row with new status or name
-        existingRow.status = actionToStatus(transaction.action);
-        return Promise.all(transaction.save(), existingRow.save());
+        transaction.dataCatalogId = existingRow.dataCatalogId;
+        existingRow.name = loadName;
+        if (transaction.action !== 'Rename')
+            existingRow.status = actionToStatus(transaction.action);
+        await existingRow.save();
+        return transaction.save();
     }
     //If this is a new entry in catalog
-    let {data} = await getDetailsGp(transaction.submitName, dataTypeSimple(transaction.dataType));
+    let {data} = await getDetailsGp(transaction.submitName, transaction.dataType);
     let metadata = data.results[0].value.metadata ? data.results[0].value.metadata.metadata : null;
     
     //create new DataCatalog row
@@ -108,7 +121,6 @@ export default async (source,args)=>{
         //update transaction row to reflect change
         console.log(chalk.blue('Updating transaction...'));
         transaction.dataCatalogId = catalogRow.dataCatalogId;
-        transaction.recorded = 1;
         transaction.loadName = loadName;
         return transaction.save();
     }
