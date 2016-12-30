@@ -3,8 +3,9 @@ import axios from 'axios';
 const endpoints = require('../config/endpoints');
 import querystring from 'querystring';
 
-export const getList = ()=>{
-    return axios.post(endpoints.gpService);
+export const getList = async ()=>{
+    let res = await axios.post(endpoints.gpService);
+    return res.data.results[0].value;
 }
 
 export const getDetails = (datasetName, datasetType)=>{

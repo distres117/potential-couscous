@@ -3,6 +3,7 @@ import config from './config';
 import fs from 'fs';
 import path from 'path';
 import * as _ from 'lodash';
+import chalk from 'chalk';
 
 let db = {};
 const modelsDir = __dirname + '/models';
@@ -17,7 +18,7 @@ fs.readdirSync(modelsDir)
     });
 Object.keys(db).forEach(modelName => {
     if ('associate' in db[modelName]){
-        console.log(modelName);
+        //console.log(modelName);
         db[modelName].associate(db);
     }
 });
@@ -40,7 +41,7 @@ export const connect = dev => {
     
     return sequelize.sync({force: !!dev})
         .then(()=>{
-            console.log('Models registered...');
+            console.log(chalk.blue('DB CONNECTED...'));
         })
         .catch(err=>{
             console.log(err);

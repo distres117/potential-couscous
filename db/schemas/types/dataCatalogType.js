@@ -45,7 +45,7 @@ const dataCatalogType = new GraphQLObjectType({
                 }
             },
             keywords:{
-                type:keywordType,
+                type:new GraphQLList(keywordType),
                 resolve(row){
                     return row.getKeywords();
                 }

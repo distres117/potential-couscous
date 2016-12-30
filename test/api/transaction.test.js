@@ -81,6 +81,9 @@ describe('api tests', function () {
                     fields{
                         dataCatalogId
                     }
+                    keywords{
+                        dataCatalogId
+                    }
                 }
             }
         `;
@@ -92,6 +95,7 @@ describe('api tests', function () {
                 expect(row.gdb).to.be.ok;
                 expect(row.info).to.be.ok;
                 expect(row.fields.length).to.be.greaterThan(1);
+                expect(row.keywords.length).to.be.greaterThan(1);
                 done();
             })
     });
@@ -186,7 +190,6 @@ describe('api tests', function () {
             });
     });
     it('should create delete transaction', done => {
-        //for renaming, 'loadName' value MUST be provided
         let query = `
             mutation{
                 newTransaction(

@@ -102,27 +102,41 @@ export default async (source,args)=>{
         } finally {
             await infoRow.save();
         }
-
-        //create EnterpriseGdb row
-        console.log(chalk.blue('Enterprise gdb row'));
-        try {
-            let gdbRow = await models.EnterpriseGdb.create({
-                dataCatalogId: catalogRow.dataCatalogId,
-                server: 'voemsql1',
-                instance: 'sde:sqlserver:voemsql1\sde',
-                location: 'sde',
-                version: 'sde.DEFAULT',
-                description: 'Instance default version'
+        try{
+            let keywords = metadata.idinfo.keywords.theme;
+            let keywordPromises = keywords.themekey.map(k=>{
+                return models.Keyword.create({
+                    dataCatalogId: catalogRow.dataCatalogId,
+                    theme: keywords.themekt,
+                    keyword: k
+                });
             });
-        } catch (e) {
+            await Promise.all(keywordPromises);
+        }catch(e){
             console.log(chalk.red(e));
         }
-
-        //update transaction row to reflect change
-        console.log(chalk.blue('Updating transaction...'));
-        transaction.dataCatalogId = catalogRow.dataCatalogId;
-        transaction.loadName = loadName;
-        return transaction.save();
+        
     }
+    //create EnterpriseGdb row
+    console.log(chalk.blue('Enterprise gdb row'));
+    try {
+        let gdbRow = await models.EnterpriseGdb.create({
+            dataCatalogId: catalogRow.dataCatalogId,
+            server: 'voemsql1',
+            instance: 'sde:sqlserver:voemsql1\sde',
+            location: 'sde',
+            version: 'sde.DEFAULT',
+            description: 'Instance default version'
+        });
+    } catch (e) {
+        console.log(chalk.red(e));
+    }
+
+    //update transaction row to reflect change
+    console.log(chalk.blue('Updating transaction...'));
+    transaction.dataCatalogId = catalogRow.dataCatalogId;
+    transaction.loadName = loadName;
+    return transaction.save();
+    
 
 }

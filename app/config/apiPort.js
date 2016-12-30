@@ -1,0 +1,1 @@
+module.exports = process.env.DB = 'DEV' ? 3000 : process.env.PORT;  
