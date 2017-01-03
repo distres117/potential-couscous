@@ -20,3 +20,9 @@ export const startGetReadyToLoad = ()=>{
         });
     }
 }
+export const noWork = ()=>{
+    return {
+        type: 'THIS NO WORK',
+        payload: true
+    };
+}

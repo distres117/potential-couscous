@@ -1,33 +1,42 @@
 var webpack = require('webpack'),
     path = require('path'),
-    BrowserSync = require('browser-sync-webpack-plugin');
+    BrowserSync = require('browser-sync-webpack-plugin'),
+    nodeExternals = require('webpack-node-externals');
 
 var isDev = process.env.DB === 'DEV';
+var isClientTest = process.env.DB === 'NONE';
 
-var devPlugins =[
+var commonPlugins = [
+    new webpack.ProvidePlugin({
+        'PORT':'apiPort'
+    })
+]
+
+var devPlugins =([
     new BrowserSync({
             host: 'localhost',
             port: 3001,
             server:{
                 baseDir:[__dirname + '/public']
             }
-        }),
-    new webpack.ProvidePlugin({
-        'PORT':'apiPort'
-    })
-];
-var prodPlugins = [
+        }) 
+]).concat(commonPlugins);
+
+var prodPlugins = ([
     new webpack.optimize.UglifyJsPlugin({
             compressor:{
                 warnings: false
             }
         }),
-];
+]).concat(commonPlugins);
+
+let externals = isClientTest ? [nodeExternals()] : [];
 module.exports = {
     entry:[
         './app/client/app.jsx'
     ],
-    plugins:isDev ? devPlugins: prodPlugins,
+    externals: externals,
+    plugins:isDev ? (!isClientTest ? devPlugins : commonPlugins): prodPlugins,
     output:{
         path:__dirname + '/public',
         filename: 'bundle.js'
@@ -54,7 +63,7 @@ module.exports = {
             { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
         ]
     },
-    devtool: isDev ? 'source-map' : null
+    devtool: isDev ? 'cheap-module-eval-source-map' : null
     // sassLoader:{
     //     includePaths: [path.resolve(__dirname, './node_modules/foundation-sites/scss')]
     // }
