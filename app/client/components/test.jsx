@@ -1,8 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import {connect} from 'react-redux';
+import {connected} from '../helpers/redux.helpers';
 import {startGetReadyToLoad, noWork} from '../redux/actions/gpService.actions';
-export class TestComponent extends React.Component{
+
+@connected
+export default class TestComponent extends React.Component{
     constructor(props){
         super(props);
     }
@@ -32,4 +34,3 @@ export class TestComponent extends React.Component{
     }
 }
 
-export default connect(s=>s)(TestComponent);

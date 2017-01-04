@@ -4,14 +4,17 @@ import {Provider} from 'react-redux';
 import * as redux from 'redux';
 import thunk from 'redux-thunk';
 import TestComponent from './components/test';
-import reducers from './redux/reducers'
+import TransactionSubmit from './components/transactions/submit.component';
+import reducers from './redux/reducers';
+require('bootstrap');
+require('bootstrap/dist/css/bootstrap.min.css');
 
 const store = redux.createStore(reducers,{},
     redux.compose(redux.applyMiddleware(thunk), window.devToolsExtension()));
 
 ReactDOM.render(
     <Provider store={store}>
-        <TestComponent/>
+        <TransactionSubmit/>
     </Provider>,
     document.getElementById('app')
 )

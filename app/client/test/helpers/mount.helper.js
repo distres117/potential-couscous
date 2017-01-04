@@ -6,6 +6,9 @@ import * as redux from 'redux';
 import {mount as _mount, shallow as _shallow} from 'enzyme';
 import React from 'react';
 import {stub} from 'sinon';
+import chai from 'chai';
+import chaiDispatch from '../helpers/chai-dispatch';
+chai.use(chaiDispatch);
 
 function attach(obj,fn, blockDispatch, dispatchArray){
     stub(obj,'dispatch',(arg)=>{
@@ -25,7 +28,8 @@ function attach(obj,fn, blockDispatch, dispatchArray){
         return arg;
     });
 }
-export const mount = (ComponentClass, state, blockDispatch = false)=>{
+export const mount = (_ComponentClass, state, blockDispatch = true)=>{
+    const ComponentClass = _ComponentClass.WrappedComponent
     const dispatchArray = [];
     const store = createStore(reducers, state, redux.compose(redux.applyMiddleware(thunk)));
     attach(store, 'dispatch',blockDispatch, dispatchArray);
@@ -34,13 +38,16 @@ export const mount = (ComponentClass, state, blockDispatch = false)=>{
             <ComponentClass {...state} dispatch={store.dispatch} />
        </Provider> 
     );
-    return {wrapped,dispatchArray};
+    wrapped.dispatchArray = dispatchArray
+    return wrapped;
 };
 
-export const shallow = (ComponentClass,state,blockDispatch = false)=>{
+export const shallow = (_ComponentClass,state,blockDispatch = true)=>{
+    const ComponentClass = _ComponentClass.WrappedComponent
     const dispatchArray = [];
     const store = {dispatch:s=>s};
     attach(store, 'dispatch', blockDispatch,dispatchArray);
     const wrapped = _shallow(<ComponentClass {...state} dispatch={store.dispatch}/>);
-    return {wrapped, dispatchArray};
+    wrapped.dispatchArray = dispatchArray;
+    return wrapped;
 }
