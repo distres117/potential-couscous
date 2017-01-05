@@ -1,53 +1,79 @@
 import React from 'react';
 import { connected } from '../../helpers/redux.helpers';
-import 'react-date-picker/index.css';
-import { DateField, DatePicker } from 'react-date-picker';
+import helper from '../../helpers/html.helpers';
+import {startGetAllPeopleAction} from '../../redux/actions/db.actions.js';
+import {TransactionSubmitModel} from '../../models/transaction.models';
+import {startGetReadyToLoad} from '../../redux/actions/gpService.actions';
 
 @connected
 export default class TransactionSubmit extends React.Component {
     constructor(props) {
         super(props);
+        this.model = new TransactionSubmitModel();
+        this.state = {dataType: 'featureClasses'};
     }
     componentDidMount(){
-        //TODO: Get people action
-        //TODO: Get contents of ready to load
+        let {dispatch} = this.props;
+        dispatch(startGetAllPeopleAction());
+        dispatch(startGetReadyToLoad());
     }
     onDateChange = (dateString, {dateMoment, timestamp}) => {
-        console.log(dateString);
+        this.model.submitDate = new Date(dateString);
+        console.log(this.model);
     }
-    labelFor(title){
-        return <label className='col-sm-2 control-label'>{title}</label>
+    handleClick = (e)=>{
+        e.preventDefault();
     }
-    dropDownFor(title,items){
-        return (
-            <select>
-                <option></option>
-                {items.map((it,i)=><option key={i}>{it}</option>)}
-            </select>
-        )
+    changeDataType = (e)=>{
+        if (this.props.readyToLoad){
+            this.setState({dataType:e.target.value})
+        }
+    }
+
+    updateModel = (e)=>{
+        this.model[e.target.name] = e.target.value;
+        console.log(this.model);
     }
     render() {
-        return (<div>
+        return (
+        <div>
             <form className='form-horizontal'>
                 <div className='form-group'>
-                    {this.labelFor('Submit date')}
-                    <DateField dateFormat="YYYY-MM-DD" forceValidDate={true} updateOnDateClick={true} collapseOnDateClick={true} defaultValue={Date.now()} showClock={false}>
-                        <DatePicker navigation={true} locale="en" forceValidDate={true} highlightWeekends={false} highlightToday={false} weekNumbers={true} weekStartDay={0} footer={false}/>
-                    </DateField>
+                    {helper.labelFor('Submit date')}
+                    {helper.datePickerFor('submitDate', this.onDateChange)}
                 </div>
                 <div className='form-group'>
-                    {this.labelFor('Submit person')}
-                    {this.dropDownFor('select person...', ['test', 'shitface'])}
+                    {helper.labelFor('Submit person')}
+                    {helper.dropDownFor('submitPerson', 'select person...', _.keys(this.props.people), this.updateModel)}
                 </div>
                 <div className='form-group'>
-                    {this.labelFor('Action')}
-                    {this.dropDownFor('Transaction type...',['New', 'Update (version)', 'Update (external)', 'Archive', 'Rename', 'Delete'])}
+                    {helper.labelFor('Action')}
+                    {helper.dropDownFor('action', 'Select transaction type...',this.model._actionList, this.updateModel)}
                 </div>
                 <div className='form-group'>
-                    {this.labelFor('Select data')}
+                    {helper.labelFor('Data type')}
+                    {helper.dropDownFor('dataType',null, this.model._typeList, this.changeDataType )}
                 </div>
                 <div className='form-group'>
+                    {helper.labelFor('Select data')}
+                    <div hidden={!this.props.readyToLoad.loaded}>
+                        {helper.dropDownFor('selectData','Select a dataset...',this.props.readyToLoad[this.state.dataType], this.updateModel)}
+                    </div>
                     
+                </div>
+                <div className='form-group'>
+                    {helper.labelFor('Geodatabase')}
+                </div>
+                <div className='form-group'>
+                    {helper.labelFor('Dataset')}
+                </div>
+                <div className='form-group'>
+                    {helper.labelFor('Description')}
+                    {helper.textAreaFor('description', this.updateModel)}
+                </div>
+                <div className='form-group'>
+                    {helper.labelFor('Indexes')}
+                    {helper.buttonFor('indexBtn','Add index...', this.handleClick)}
                 </div>
             </form>
         </div>);

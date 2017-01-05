@@ -1,12 +1,20 @@
 import types from '../actions/action.types';
-export const gpServiceReducer = (state={}, action)=>{
+
+class ReadyToLoadModel{
+    featureClasses= [];
+    rasters = [];
+    tables = [];
+    loaded = false;
+}
+export const gpServiceReducer = (state=new ReadyToLoadModel(), action)=>{
     switch(action.type){
         case types.READY_TO_LOAD:
-            return {
-                featureClasses: [...action.payload.featureClasses],
-                rasters: [...action.payload.rasters],
-                tables: [...action.payload.tables]
-            };
+            let model = new ReadyToLoadModel();
+                model.featureClasses = [...action.payload.featureClasses],
+                model.rasters= [...action.payload.rasters],
+                model.tables=[...action.payload.tables]
+                model.loaded = true;
+            return model;
         default:
             return state;
     }
