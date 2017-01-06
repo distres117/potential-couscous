@@ -8,3 +8,12 @@ export const peopleReducer = (state={}, action)=>{
             return state;
     }
 }
+
+export const tableDataReducer = (state = [], action)=>{
+    switch(action.type){
+        case types.GET_TABLE_DATA:
+            return action.payload;
+        default:
+            return state;
+    }
+}

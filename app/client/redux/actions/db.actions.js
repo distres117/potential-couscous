@@ -11,3 +11,14 @@ export const startGetAllPeopleAction = ()=>{
         }
     };
 }
+export const startGetTransactionData = ()=>{
+    //TODO: make this return actual from the db
+    return {
+        type: types.GET_TABLE_DATA,
+        payload: [
+            ['thing1','thing2','thing3'],
+            ['thing4', 'thing5', 'thing6'],
+            ['thing7', 'thing8', 'thing9']
+        ]
+    }
+}

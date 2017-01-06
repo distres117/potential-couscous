@@ -1,7 +1,6 @@
 import React from 'react';
 import { connected } from '../../helpers/redux.helpers';
 import helper from '../../helpers/html.helpers';
-import {startGetAllPeopleAction} from '../../redux/actions/db.actions.js';
 import {TransactionSubmitModel} from '../../models/transaction.models';
 import {startGetReadyToLoad} from '../../redux/actions/gpService.actions';
 
@@ -13,9 +12,7 @@ export default class TransactionSubmit extends React.Component {
         this.state = {dataType: 'featureClasses'};
     }
     componentDidMount(){
-        let {dispatch} = this.props;
-        dispatch(startGetAllPeopleAction());
-        dispatch(startGetReadyToLoad());
+        this.props.dispatch(startGetReadyToLoad());
     }
     onDateChange = (dateString, {dateMoment, timestamp}) => {
         this.model.submitDate = new Date(dateString);
@@ -35,8 +32,7 @@ export default class TransactionSubmit extends React.Component {
         console.log(this.model);
     }
     render() {
-        return (
-        <div>
+        const markup = (
             <form className='form-horizontal'>
                 <div className='form-group'>
                     {helper.labelFor('Submit date')}
@@ -75,7 +71,13 @@ export default class TransactionSubmit extends React.Component {
                     {helper.labelFor('Indexes')}
                     {helper.buttonFor('indexBtn','Add index...', this.handleClick)}
                 </div>
+                {helper.buttonFor('submitTransaction', 'Submit', this.handleClick, 'btn btn-primary pull-right')}
             </form>
-        </div>);
+        )
+        return (
+            <div>
+                {helper.panelFor('Submit Transaction', markup)}
+            </div>
+        );
     }
 }
