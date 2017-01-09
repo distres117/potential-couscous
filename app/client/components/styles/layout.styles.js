@@ -16,3 +16,15 @@ export const sidebarStyles = {
     height:'100%',
     background: '#cac9c9'
 }
+
+export const formStyles = {
+    display: 'inline-block',
+    float: 'right',
+    width:'45%'
+}
+
+export const tableStyles = {
+    display: 'inline-block',
+    float: 'left',
+    width: '45%'
+}

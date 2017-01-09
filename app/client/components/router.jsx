@@ -7,7 +7,7 @@ import People from './people';
 import Organizations from './organizations';
 import Layers from './layers';
 import Summary from './common/summary';
-import { Route, Router, IndexRoute, hashHistory } from 'react-router';
+import { Route, Router, IndexRoute, browserHistory } from 'react-router';
 
 export default class RouterComponent extends React.Component {
     constructor(props) {
@@ -15,7 +15,7 @@ export default class RouterComponent extends React.Component {
     }
     render() {
         return (
-            <Router history={hashHistory}>
+            <Router history={browserHistory}>
                 <Route component={Main} path='/'>
                     <Route path='/transactions' name='transactions' component={Transactions}/>
                     <Route path='/information' name='information' component={Information}/>

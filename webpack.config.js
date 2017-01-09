@@ -1,7 +1,8 @@
 var webpack = require('webpack'),
     path = require('path'),
     BrowserSync = require('browser-sync-webpack-plugin'),
-    nodeExternals = require('webpack-node-externals');
+    nodeExternals = require('webpack-node-externals'),
+    historyFallback = require('connect-history-api-fallback');
 
 var isDev = process.env.DB === 'DEV';
 var isClientTest = process.env.DB === 'NONE';
@@ -20,7 +21,8 @@ var devPlugins =([
             host: 'localhost',
             port: 3001,
             server:{
-                baseDir:[__dirname + '/public']
+                baseDir:[__dirname + '/public'],
+                middleware:[historyFallback()]
             }
         }) 
 ]).concat(commonPlugins);
@@ -36,6 +38,9 @@ var prodPlugins = ([
 let externals = isClientTest ? [nodeExternals()] : [];
 module.exports = {
     entry:[
+        'script-loader!jquery/dist/jquery.min.js',
+        'script-loader!bootstrap/dist/js/bootstrap.min.js',
+        'style-loader!css-loader!less-loader!./app/styles/global.less',
         './app/client/app.jsx'
     ],
     externals: externals,

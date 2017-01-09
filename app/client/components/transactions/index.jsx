@@ -5,6 +5,7 @@ import TransactionLoad from './load.component';
 import {connected} from '../../helpers/redux.helpers';
 import {startGetAllPeopleAction, startGetTransactionData} from '../../redux/actions/db.actions.js';
 import DataTable from '../common/datatable';
+import {formStyles} from '../styles/layout.styles';
 
 @connected
 export default class TransactionsComponent extends React.Component{
@@ -31,7 +32,9 @@ export default class TransactionsComponent extends React.Component{
         return (
             <div>
                 <DataTable headers={['header1', 'header2', 'header3']} controls = {this.getTableControls()}/>
-                <TransactionSubmit/>
+                <div style={formStyles}>
+                    <TransactionSubmit/>
+                </div>
             </div>
         );
     }
