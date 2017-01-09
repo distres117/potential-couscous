@@ -20,11 +20,22 @@ export const sidebarStyles = {
 export const formStyles = {
     display: 'inline-block',
     float: 'right',
-    width:'45%'
+    width: '46%'
 }
 
 export const tableStyles = {
     display: 'inline-block',
     float: 'left',
-    width: '45%'
+    width: '46%',
+    maxHeight: '75vh',
+    overflowY:'scroll',
+    overflowX:'hidden'
+}
+
+export const infoStyles = {
+    display: 'inline-block',
+    float: 'right',
+    width:'46%',
+    maxHeight:'20vh',
+    marginBottom: '30px'
 }

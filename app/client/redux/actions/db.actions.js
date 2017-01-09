@@ -1,4 +1,12 @@
 import types from '../actions/action.types';
+import axios from 'axios';
+const client = axios.create({
+    baseURL: `http://localhost:3000/`,
+    headers: {
+        'Content-type': 'application/json',
+        'Accept':'application/json'
+    }
+});
 
 export const startGetAllPeopleAction = ()=>{
     //TODO: make this return actual data from the db
@@ -12,13 +20,22 @@ export const startGetAllPeopleAction = ()=>{
     };
 }
 export const startGetTransactionData = ()=>{
-    //TODO: make this return actual from the db
-    return {
-        type: types.GET_TABLE_DATA,
-        payload: [
-            ['thing1','thing2','thing3'],
-            ['thing4', 'thing5', 'thing6'],
-            ['thing7', 'thing8', 'thing9']
-        ]
+    return (dispatch, getState)=>{
+        return client.post('/api',{
+           query: `{
+                transactions(limit:100){
+                    transactionId,
+                    submitName,
+                    dataType,
+                    action
+                } 
+            }`
+        })
+        .then(res=>{
+            dispatch({
+                type: types.GET_TABLE_DATA,
+                payload: res.data.data.transactions
+            });
+        });
     }
 }

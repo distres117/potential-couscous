@@ -58,12 +58,6 @@ export default class TransactionSubmit extends React.Component {
                     
                 </div>
                 <div className='form-group'>
-                    {helper.labelFor('Geodatabase')}
-                </div>
-                <div className='form-group'>
-                    {helper.labelFor('Dataset')}
-                </div>
-                <div className='form-group'>
                     {helper.labelFor('Description')}
                     {helper.textAreaFor('description', this.updateModel)}
                 </div>
@@ -71,7 +65,7 @@ export default class TransactionSubmit extends React.Component {
                     {helper.labelFor('Indexes')}
                     {helper.buttonFor('indexBtn','Add index...', this.handleClick)}
                 </div>
-                {helper.buttonFor('submitTransaction', 'Submit', this.handleClick, 'btn btn-primary pull-right')}
+                <button className='btn btn-primary pull-right' onClick={this.handleClick}>Submit</button>
             </form>
         )
         return (

@@ -2,7 +2,7 @@ import React from 'react';
 import { DateField, DatePicker } from 'react-date-picker';
 import 'react-date-picker/index.css';
 import 'react-select/dist/react-select.css';
-import Select from 'react-select';
+import {formStyles} from '../components/styles/element.styles';
 
 export default {
     labelFor(title){
@@ -12,7 +12,7 @@ export default {
         let initialElem = initial ? (<option>{initial}</option>) : null;
         return (
             <div className='col-lg-8'>
-                <select className='form-control'name={name} onChange={change} >
+                <select className='form-control'name={name} onChange={change} style={formStyles.dropDown} >
                     {initialElem}
                     {items.map((it,i)=>{
                         let v = it.value || it;
