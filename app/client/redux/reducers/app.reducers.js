@@ -8,3 +8,12 @@ export const currentRecordReducer = (state={}, action)=>{
             return state;
     }
 }
+
+export const transactionReducer = (state={}, action)=>{
+    switch(action.type){
+        case types.CREATE_TRANSACTION:
+            return action.payload;
+        default:
+            return state;
+    }
+}

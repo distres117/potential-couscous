@@ -18,24 +18,32 @@ export const sidebarStyles = {
 }
 
 export const formStyles = {
-    display: 'inline-block',
-    float: 'right',
-    width: '46%'
+    bottom:0
 }
 
 export const tableStyles = {
-    display: 'inline-block',
-    float: 'left',
-    width: '46%',
     maxHeight: '75vh',
     overflowY:'scroll',
     overflowX:'hidden'
 }
 
 export const infoStyles = {
-    display: 'inline-block',
-    float: 'right',
-    width:'46%',
     maxHeight:'20vh',
     marginBottom: '30px'
+}
+export const splitViews = {
+    left:{
+        display: 'inline-block',
+        float: 'left',
+        width: '50%',
+        paddingRight: '5px',
+        right:'75vh'
+    },
+    right:{
+        display: 'inline-block',
+        float: 'right',
+        width:'50%',
+        paddingLeft: '5px',
+        height: '75vh'
+    }
 }

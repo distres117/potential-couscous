@@ -19,15 +19,18 @@ export const startGetAllPeopleAction = ()=>{
         }
     };
 }
-export const startGetTransactionData = ()=>{
+export const startGetTransactionData = (query)=>{
     return (dispatch, getState)=>{
         return client.post('/api',{
            query: `{
-                transactions(limit:100){
+                transactions(limit:100, order:"reverse:submitDate" ${query ? ',' + query: ''}){
                     transactionId,
                     submitName,
                     dataType,
-                    action
+                    action,
+                    loadDate,
+                    reviewDate,
+                    submitDate
                 } 
             }`
         })
