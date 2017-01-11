@@ -100,6 +100,17 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true,
 			defaultValue: 0,
 			field: 'Recorded'
+		},
+		dataTypeString:{
+			type: DataTypes.VIRTUAL,
+			get: function() {
+				let types = {
+					1: 'Feature class',
+					2: 'Raster',
+					3: 'Table'
+				};
+				return types[this.dataType]
+			}
 		}
 	}, {
 		tableName: 'tblTransaction',

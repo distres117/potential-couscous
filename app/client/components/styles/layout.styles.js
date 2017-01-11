@@ -18,7 +18,7 @@ export const sidebarStyles = {
 }
 
 export const formStyles = {
-    bottom:0
+    marginTop: '10px'
 }
 
 export const tableStyles = {
@@ -28,8 +28,7 @@ export const tableStyles = {
 }
 
 export const infoStyles = {
-    maxHeight:'20vh',
-    marginBottom: '30px'
+    marginBottom: '20px'
 }
 export const splitViews = {
     left:{

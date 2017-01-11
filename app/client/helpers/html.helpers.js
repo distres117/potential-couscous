@@ -47,7 +47,7 @@ export default {
     },
     panelFor(title, markup){
         return (
-            <div className='row-align-items-center'>
+            <div>
                 <div className='panel panel-default'>
                     <div className='panel-heading'>
                         <h3 className='panel-title'>{title}</h3>
@@ -58,5 +58,43 @@ export default {
                 </div>
             </div>
         );
+    },
+    infoPaneFor(items, cur, headerField){
+        function getMarkup(_items){
+            if (!_items)
+                return;
+            return _items.map((it,i)=>{
+                return (
+                <div className='form-group' key = {i}>
+                    <label className='control-label'>{it.label}:</label>
+                    <span> {it.format && cur[it.key] !== undefined ? it.format(cur[it.key]) : cur[it.key] || 'None'}</span>
+                </div>)
+            })
+        }
+        let [left,right] = _.chunk(items, Math.round(items.length /2));
+        let cls = {lineHeight: '2px'};
+        let headerElem = cur[headerField] ? (
+            <div>
+                <p><i>{cur[headerField]}</i></p>
+                <hr/>
+            </div>
+        ) : null;
+        return (
+            <div>
+                {headerElem}
+                <div className='col-lg-6' style={cls}>
+                    <form className='form-horizontal'>
+                        {getMarkup(left)}
+                    </form>
+                                
+                </div>
+                <div className='col-lg-6' style={cls}>
+                    <form className='form-horizontal'>
+                        {getMarkup(right)}
+                    </form>
+                </div>
+            </div>
+        );
+
     }
 }

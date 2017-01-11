@@ -9,7 +9,7 @@ export default class TransactionTable extends React.Component{
         super(props)
     }
     handleRowSelect = (row, isSelected, e)=>{
-        console.log(row.transactionId);
+        //console.log(row.transactionId);
         this.props.dispatch(createTransactionAction(false));
         this.props.dispatch(setCurrentRecordAction(row));
     }

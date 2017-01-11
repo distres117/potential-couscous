@@ -19,18 +19,29 @@ export const startGetAllPeopleAction = ()=>{
         }
     };
 }
-export const startGetTransactionData = (query)=>{
+export const startGetTransactionData = (offset = 0,query)=>{
     return (dispatch, getState)=>{
         return client.post('/api',{
            query: `{
-                transactions(limit:100, order:"reverse:submitDate" ${query ? ',' + query: ''}){
+                transactions(offset:${offset}, limit:100, order:"reverse:submitDate" ${query ? ',' + query: ''}){
                     transactionId,
-                    submitName,
-                    dataType,
+                    dataTypeString,
                     action,
-                    loadDate,
+                    description,
+                    indexes,
+                    submitDate,
+                    submitPerson,
+                    submitGdb,
+                    submitVersion,
+                    submitName,
+                    reviewPerson,
+                    reviewNotes,
                     reviewDate,
-                    submitDate
+                    passed,
+                    loadDate,
+                    sdePerson,
+                    loadName,
+                    recorded
                 } 
             }`
         })

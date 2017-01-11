@@ -4,11 +4,11 @@ import TransactionReview from './review.component';
 import TransactionLoad from './load.component';
 import {connected} from '../../helpers/redux.helpers';
 import {startGetAllPeopleAction, startGetTransactionData} from '../../redux/actions/db.actions';
-import {createTransactionAction} from '../../redux/actions/app.actions'
+import {createTransactionAction, clearCurrentRecordAction} from '../../redux/actions/app.actions'
 import TransactionTable from './transactionTable.component';
 import {formStyles, infoStyles, tableStyles, splitViews} from '../styles/layout.styles';
 import {wellStyles} from '../styles/element.styles.js';
-import InfoPanel from '../common/infoPane';
+import TransactionInfo from './transactionInfo.component';
 
 @connected
 export default class TransactionsComponent extends React.Component{
@@ -18,16 +18,18 @@ export default class TransactionsComponent extends React.Component{
     componentDidMount(){
         let {dispatch} = this.props;
         dispatch(startGetAllPeopleAction());
-        dispatch(startGetTransactionData('recorded:0'));
+        dispatch(startGetTransactionData(0,'recorded:0'));
     }
     handleShowAllToggle = e=>{
         if (e.target.checked)
             this.props.dispatch(startGetTransactionData());
         else
-            this.props.dispatch(startGetTransactionData('recorded:0'));
+            this.props.dispatch(startGetTransactionData(0,'recorded:0'));
     }
     handleCreateNew = ()=>{
-        this.props.dispatch(createTransactionAction(true));   
+        let {dispatch} = this.props;
+        dispatch(clearCurrentRecordAction());
+        dispatch(createTransactionAction(true));   
     }
     getForm(){
         let current = this.props.current;
@@ -68,8 +70,8 @@ export default class TransactionsComponent extends React.Component{
                     </div>
                 </div>
                 <div style={splitViews.right}>
-                    <div style={infoStyles}>
-                        <InfoPanel/>
+                    <div style={infoStyles} hidden={!Object.keys(this.props.current).length}>
+                        <TransactionInfo/>
                     </div>
                     <div style={formStyles}>
                         {this.getForm()}
