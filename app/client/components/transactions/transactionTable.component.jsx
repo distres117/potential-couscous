@@ -1,7 +1,7 @@
 import React from 'react';
 import {connected} from '../../helpers/redux.helpers';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-import {setCurrentRecordAction, createTransactionAction} from '../../redux/actions/app.actions.js';
+import {setCurrentRecordAction, createTransactionAction, reviewTransactionAction, loadTransactionAction, nullTransactionAction} from '../../redux/actions/app.actions.js';
 
 @connected
 export default class TransactionTable extends React.Component{
@@ -10,8 +10,15 @@ export default class TransactionTable extends React.Component{
     }
     handleRowSelect = (row, isSelected, e)=>{
         //console.log(row.transactionId);
-        this.props.dispatch(createTransactionAction(false));
-        this.props.dispatch(setCurrentRecordAction(row));
+        let {dispatch} = this.props;
+        dispatch(setCurrentRecordAction(row));
+        if (!row.passed && !row.recorded)
+            dispatch(reviewTransactionAction());
+        else if (row.passed && !row.recorded)
+            dispatch(loadTransactionAction());
+        else if (row.passed && row.recorded)
+            dispatch(nullTransactionAction());
+        
     }
     handleFormat(cell){
         if (cell)

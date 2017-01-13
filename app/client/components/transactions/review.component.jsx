@@ -7,16 +7,28 @@ import {TransactionReviewModel} from '../../models/transaction.models';
 export default class TransactionReview extends React.Component{
     constructor(props){
         super(props);
-        this.model = new TransactionReviewModel();
+        this.passedList = [
+            {value: 0, label:'No'},
+            {value: 1, label:'Yes'}
+        ];
+        this._refs = {};
     }
-
+    componentDidMount(){
+        //this ensures that the appropriate values are changed on the initial mounting
+        this.resetValues();
+    }
     onDateChange = (dateString)=>{
-        this.model.reviewDate = new Date(dateString);
+        this.props.transaction.model.reviewDate = new Date(dateString);
     }
     updateModel = (e)=>{
-        this.model[e.target.name] = e.target.value;
+        this.props.transaction.model[e.target.name] = e.target.value;
+    }
+    resetValues(){
+        this.props.transaction.model.prePopulate(this._refs, (tar,val)=>tar.value=val);
     }
     render(){
+        //this ensures that values are changed for each subsequent rendering (after initial mount)
+        this.resetValues();
         return(
             <div className='panel panel-default'>
                 <div className='panel-heading'>
@@ -30,15 +42,15 @@ export default class TransactionReview extends React.Component{
                         </div>
                         <div className='form-group'>
                             {helper.labelFor('Reviewer')}
-                            {helper.dropDownFor('reviewer', '', _.keys(this.props.people), this.updateModel)}
+                            {helper.dropDownFor('reviewPerson',_.keys(this.props.people), this.updateModel, ref=>this._refs['reviewPerson']=ref)}
                         </div>
                         <div className='form-group'>
                             {helper.labelFor('Review notes')}
-                            {helper.textAreaFor('reviewNotes', this.updateModel)}
+                            {helper.textAreaFor('reviewNotes', this.updateModel, ref=>this._refs['reviewNotes']=ref)}
                         </div>
                         <div className='form-group'>
                             {helper.labelFor('Passed')}
-                            {helper.dropDownFor('passed', '', this.model._passedList )}
+                            {helper.dropDownFor('passed', this.passedList, this.updateModel, ref=>this._refs['passed'] = ref)}
                         </div>
                         {helper.buttonFor('submitTransaction', 'Submit', this.handleClick, 'btn btn-primary pull-right')}
                     </form>

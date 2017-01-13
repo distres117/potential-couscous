@@ -8,14 +8,19 @@ import {startGetReadyToLoad} from '../../redux/actions/gpService.actions';
 export default class TransactionSubmit extends React.Component {
     constructor(props) {
         super(props);
-        this.model = new TransactionSubmitModel();
         this.state = {dataType: 'featureClasses'};
+        this.actionList = ['New', 'Update (version)', 'Update (external)', 'Archive', 'Rename', 'Delete'];
+        this.typeList = [
+            {label:'Feature Class', value:'featureClasses'},
+            {label: 'Raster', value: 'rasters'},
+            {label: 'Table', value: 'tables'}
+        ];
     }
     componentDidMount(){
         this.props.dispatch(startGetReadyToLoad());
     }
     onDateChange = (dateString, {dateMoment, timestamp}) => {
-        this.model.submitDate = new Date(dateString);
+        this.props.transaction.model.submitDate = new Date(dateString);
         console.log(this.model);
     }
     handleClick = (e)=>{
@@ -28,10 +33,11 @@ export default class TransactionSubmit extends React.Component {
     }
 
     updateModel = (e)=>{
-        this.model[e.target.name] = e.target.value;
-        console.log(this.model);
+        this.props.transaction.model[e.target.name] = e.target.value;
+        console.log(this.props.transaction.model);
     }
     render() {
+        let {model} = this.props.transaction;
         const markup = (
             <form className='form-horizontal'>
                 <div className='form-group'>
@@ -40,20 +46,20 @@ export default class TransactionSubmit extends React.Component {
                 </div>
                 <div className='form-group'>
                     {helper.labelFor('Submit person')}
-                    {helper.dropDownFor('submitPerson', 'select person...', _.keys(this.props.people), this.updateModel)}
+                    {helper.dropDownFor('submitPerson', _.keys(this.props.people), this.updateModel)}
                 </div>
                 <div className='form-group'>
                     {helper.labelFor('Action')}
-                    {helper.dropDownFor('action', 'Select transaction type...',this.model._actionList, this.updateModel)}
+                    {helper.dropDownFor('action',this.actionList, this.updateModel)}
                 </div>
                 <div className='form-group'>
                     {helper.labelFor('Data type')}
-                    {helper.dropDownFor('dataType',null, this.model._typeList, this.changeDataType )}
+                    {helper.dropDownFor('dataType', this.typeList, this.changeDataType )}
                 </div>
                 <div className='form-group'>
                     {helper.labelFor('Select data')}
                     <div hidden={!this.props.readyToLoad.loaded}>
-                        {helper.dropDownFor('selectData','Select a dataset...',this.props.readyToLoad[this.state.dataType], this.updateModel)}
+                        {helper.dropDownFor('selectData',this.props.readyToLoad[this.state.dataType], this.updateModel)}
                     </div>
                     
                 </div>

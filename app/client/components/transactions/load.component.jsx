@@ -7,15 +7,25 @@ import {TransactionLoadModel} from '../../models/transaction.models';
 export default class TransactionLoad extends React.Component{
     constructor(props){
         super(props);
-        this.model = new TransactionLoadModel();
+        this._refs = {};
+    }
+    componentDidMount(){
+        this.resetValues();
+    }
+
+    resetValues(){
+        if (!_.keys(this._refs).length)
+            return;
+        this.props.transaction.model.prePopulate(this._refs, (tar,val)=>tar.value=val);
     }
     onDateChange = (dateString)=>{
-        this.model.loadDate = new Date(dateString);
+        this.props.transaction.model.loadDate = new Date(dateString);
     }
     updateModel = (e)=>{
         this.model[e.target.name] = e.target.value;
     }
     render(){
+        this.resetValues();
         const markup = (
             <form className='form-horiziontal'>
                     <div className='form-group'>
@@ -24,7 +34,7 @@ export default class TransactionLoad extends React.Component{
                     </div>
                     <div className='form-group'>
                         {helper.labelFor('Sde person')}
-                        {helper.dropDownFor('sdePerson', '',_.keys(this.props.people), this.updateModel)}
+                        {helper.dropDownFor('sdePerson',_.keys(this.props.people), this.updateModel, ref=>this._refs['sdePerson'] = ref )}
                     </div>
                 </form>
         );

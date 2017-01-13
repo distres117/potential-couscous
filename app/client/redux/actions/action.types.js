@@ -4,5 +4,8 @@ export default {
         GET_TABLE_DATA: 'get_table_data',
         SET_CURRENT_RECORD: 'set_current_record',
         CREATE_TRANSACTION: 'create_transaction',
-        CLEAR_CURRENT_RECORD: 'clear_current_record'
+        CLEAR_CURRENT_RECORD: 'clear_current_record',
+        REVIEW_TRANSACTION: 'review_transaction',
+        LOAD_TRANSACTION: 'load_transaction',
+        NULL_TRANSACTION: 'null_transaction'
 };

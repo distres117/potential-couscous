@@ -1,21 +1,19 @@
 import React from 'react';
 import { DateField, DatePicker } from 'react-date-picker';
 import 'react-date-picker/index.css';
-import 'react-select/dist/react-select.css';
 import {formStyles} from '../components/styles/element.styles';
 
 export default {
     labelFor(title){
         return <label className='col-lg-2 control-label'>{title}</label>
     },
-    dropDownFor(name,initial,items,change){
-        let initialElem = initial ? (<option>{initial}</option>) : null;
+    dropDownFor(name,items,change, ref, noDefault=false){
         return (
             <div className='col-lg-8'>
-                <select className='form-control'name={name} onChange={change} style={formStyles.dropDown} >
-                    {initialElem}
+                <select className='form-control'name={name} onChange={change} style={formStyles.dropDown} ref={ref} >
+                    <option></option>
                     {items.map((it,i)=>{
-                        let v = it.value || it;
+                        let v = it.value !== undefined ? it.value : it;
                         it = it.label || it;
                         return <option value={v} key={i}>{it}</option>
                     })}
@@ -38,10 +36,10 @@ export default {
             <button className={classStyling} name={name} onClick={clicked}>{title}</button> 
         );
     },
-    textAreaFor(name, change, style){
+    textAreaFor(name, change, ref){
         return (
             <div className='col-lg-8'>
-                <textarea className='form-control' style={style} onChange={change} name={name}/>
+                <textarea className='form-control' onChange={change} name={name} ref={ref} />
             </div>
         )
     },

@@ -1,10 +1,19 @@
+function _prePopulate(cur, fn){
+        if (!Object.keys(cur).length)
+            return;
+        let instance = this;
+        Object.keys(cur).forEach(k=>{
+            if(instance[k]!== undefined){
+                if (fn)
+                    fn(cur[k],instance[k]);
+                else
+                    instance[k] = cur[k]
+            }
+        });
+    }
+
 export class TransactionSubmitModel{
-    _actionList = ['New', 'Update (version)', 'Update (external)', 'Archive', 'Rename', 'Delete'];
-    _typeList = [
-            {label:'Feature Class', value:'featureClasses'},
-            {label: 'Raster', value: 'rasters'},
-            {label: 'Table', value: 'tables'}
-        ];
+    
     submitDate = Date.now();
     submitPerson = null;
     action = null;
@@ -14,11 +23,16 @@ export class TransactionSubmitModel{
 }
 
 export class TransactionReviewModel{
-    _passedList = ['No', 'Yes'];
     reviewDate = Date.now();
-    reviewer = null;
+    reviewPerson = null;
     reviewNotes = null;
-    passed = false;
+    passed = null;
+
+    prePopulate(cur,fn){
+        return _prePopulate.call(this,cur,fn);
+    }
+
+    
 
 }
 
@@ -26,4 +40,7 @@ export class TransactionLoadModel{
     loadDate = Date.now();
     sdePerson = null;
     dataset = null;
+    prePopulate(cur,fn){
+        return _prePopulate.call(this,cur,fn);
+    }
 }
