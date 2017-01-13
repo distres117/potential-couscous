@@ -3,7 +3,7 @@ function _prePopulate(cur, fn){
             return;
         let instance = this;
         Object.keys(cur).forEach(k=>{
-            if(instance[k]!== undefined){
+            if(instance[k]!== undefined && cur[k]){
                 if (fn)
                     fn(cur[k],instance[k]);
                 else
@@ -11,6 +11,10 @@ function _prePopulate(cur, fn){
             }
         });
     }
+function _isValid(optionalFields=[]){
+    let instance = this;
+    return _.difference(_.keys(instance), optionalFields).every(k=>instance[k]!==null && instance[k]!== '' );
+}
 
 export class TransactionSubmitModel{
     
@@ -20,6 +24,10 @@ export class TransactionSubmitModel{
     selectData = null;
     description = null;
     indexes = null;
+
+    isValid(){
+        return _isValid.call(this, 'indexes', 'description');
+    }
 }
 
 export class TransactionReviewModel{
@@ -30,6 +38,9 @@ export class TransactionReviewModel{
 
     prePopulate(cur,fn){
         return _prePopulate.call(this,cur,fn);
+    }
+    isValid(){
+        return _isValid.call(this, ['reviewNotes']);
     }
 
     
@@ -42,5 +53,8 @@ export class TransactionLoadModel{
     dataset = null;
     prePopulate(cur,fn){
         return _prePopulate.call(this,cur,fn);
+    }
+    isValid(){
+        return _isValid.call(this);
     }
 }

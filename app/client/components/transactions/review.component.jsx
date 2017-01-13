@@ -16,18 +16,31 @@ export default class TransactionReview extends React.Component{
     componentDidMount(){
         //this ensures that the appropriate values are changed on the initial mounting
         this.resetValues();
+        this.checkIfValid();
     }
-    onDateChange = (dateString)=>{
-        this.props.transaction.model.reviewDate = new Date(dateString);
+    checkIfValid(){
+        this.submitBtn.disabled = !this.props.transaction.model.isValid(); //because of the way we're collecting values, must check validity manually after change/mount'
+    }
+    handleClick = (e)=>{
+        e.preventDefault();
+        console.log(this.props.transaction.model, this.props.transaction.model.isValid());
+    }
+    onDateChange = (dateString, opt)=>{
+        this.props.transaction.model.reviewDate = opt.timestamp;
+        this.checkIfValid();
     }
     updateModel = (e)=>{
-        this.props.transaction.model[e.target.name] = e.target.value;
+        let model = this.props.transaction.model;
+        model[e.target.name] = e.target.value;
+        this.checkIfValid();
+        
     }
     resetValues(){
         this.props.transaction.model.prePopulate(this._refs, (tar,val)=>tar.value=val);
     }
     render(){
         //this ensures that values are changed for each subsequent rendering (after initial mount)
+        let model = this.props.transaction.model;
         this.resetValues();
         return(
             <div className='panel panel-default'>
@@ -52,7 +65,7 @@ export default class TransactionReview extends React.Component{
                             {helper.labelFor('Passed')}
                             {helper.dropDownFor('passed', this.passedList, this.updateModel, ref=>this._refs['passed'] = ref)}
                         </div>
-                        {helper.buttonFor('submitTransaction', 'Submit', this.handleClick, 'btn btn-primary pull-right')}
+                        <button className='btn btn-primary pull-right' name='submitTransaction' ref={ref=>this.submitBtn=ref} onClick={this.handleClick}>Submit</button> 
                     </form>
                 </div>
                 
