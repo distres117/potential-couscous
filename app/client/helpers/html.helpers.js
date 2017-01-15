@@ -63,7 +63,8 @@ export default {
                 return;
             return _items.map((it,i)=>{
                 let val = it.format ? it.format(cur[it.key]) : cur[it.key];
-                let cls = val && val.length > 30 ? 12 : 6;
+                let group = `${it.label}: ${val}`;
+                let cls = val && group.length > 30 ? 12 : 6;
                 return (
                     <div className={`col-lg-${cls}`} key = {i}>
                         <div className='form-group'>
