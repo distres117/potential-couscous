@@ -18,6 +18,7 @@ export const currentRecordReducer = (state=new CurrentRecord(), action)=>{
     }
 }
 
+
 export const transactionReducer = (state={}, action)=>{
     switch(action.type){
         case types.CREATE_TRANSACTION:

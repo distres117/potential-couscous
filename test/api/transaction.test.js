@@ -13,7 +13,7 @@ describe('api tests', function () {
                 done();
             });
     });
-    it('should create new transaction', done => {
+    it('should create new transaction', () => {
         let query = `
             mutation{
                 newTransaction(
@@ -26,7 +26,7 @@ describe('api tests', function () {
                 }
             }
         `;
-        graphql(Schema, query)
+        return graphql(Schema, query)
             .then(async res => {
                 if (res.errors) {
                     console.log(res.errors);
@@ -37,11 +37,10 @@ describe('api tests', function () {
                 expect(transaction.transactionId).to.equal(1);
                 expect(transaction.submitName).to.equal('NYC_Buildings_composite');
                 expect(catalogRow).to.equal(0);
-                done();
             });
 
     });
-    it('should record transaction', done => {
+    it('should record transaction', () => {
         let query = `
                 mutation{
                     recordTransaction(transactionId: ${transaction.transactionId}){
@@ -49,7 +48,7 @@ describe('api tests', function () {
                         transactionId
                     }
                 }`;
-        graphql(Schema, query)
+        return graphql(Schema, query)
             .then(async res => {
                 let information = await models.Information.count();
                 let gdb = await models.EnterpriseGdb.count();
@@ -59,10 +58,9 @@ describe('api tests', function () {
                 expect(gdb).to.equal(1);
                 expect(featureClass).to.equal(1);
                 expect(field).to.be.greaterThan(1);
-                done();
             });
     });
-    it('should populate return object correctly', done => {
+    it('should populate return object correctly', () => {
         let query = `
             query{
                 catalogRows(dataCatalogId:1){
@@ -87,7 +85,7 @@ describe('api tests', function () {
                 }
             }
         `;
-        graphql(Schema, query)
+        return graphql(Schema, query)
             .then(res => {
                 let row = res.data.catalogRows[0];
                 expect(row.transactions.length).to.equal(1);
@@ -96,10 +94,9 @@ describe('api tests', function () {
                 expect(row.info).to.be.ok;
                 expect(row.fields.length).to.be.greaterThan(1);
                 expect(row.keywords.length).to.be.greaterThan(1);
-                done();
-            })
+            });
     });
-    it('should alter transaction', done => {
+    it('should alter transaction', () => {
         let query = `
                 mutation{
                     changeTransaction(transactionId:1, sdePerson: 2){
@@ -107,13 +104,13 @@ describe('api tests', function () {
                     }
                 }
             `;
-        graphql(Schema, query)
+        return graphql(Schema, query)
             .then(res => {
                 expect(res.data.changeTransaction.sdePerson).to.equal(2);
                 done();
             });
     });
-    it('should create a versioned update transaction', done => {
+    it('should create a versioned update transaction', () => {
         let query = `
             mutation{
                 newTransaction(
@@ -128,14 +125,13 @@ describe('api tests', function () {
                 }
             }
         `;
-        graphql(Schema, query)
+        return graphql(Schema, query)
             .then(async res => {
                 let transactions = await models.Transaction.count();
                 expect(transactions).to.equal(2);
-                done();
             });
     });
-    it('should not create new catalogRow if row exists', done => {
+    it('should not create new catalogRow if row exists', () => {
         let query = `
             mutation{
                 recordTransaction(transactionId: 2){
@@ -143,14 +139,13 @@ describe('api tests', function () {
                 }
             }
         `;
-        graphql(Schema, query)
+        return graphql(Schema, query)
             .then(async res => {
                 let count = await models.DataCatalog.count();
                 expect(count).to.equal(1);
-                done();
             });
     });
-    it('should create an archive transaction', done => {
+    it('should create an archive transaction', () => {
         let query = `
             mutation{
                 newTransaction(
@@ -165,7 +160,7 @@ describe('api tests', function () {
                 }
             }
         `;
-        graphql(Schema, query)
+        return graphql(Schema, query)
             .then(res => {
                 let query = `
             mutation{
@@ -186,10 +181,9 @@ describe('api tests', function () {
                 expect(res.data.recordTransaction.recorded).to.equal(1);
                 expect(catalogRow.status).to.equal('Archived');
                 expect(catalogRow.name).to.equal('archive.SDE.NYC_Buildings_composite');
-                done();
             });
     });
-    it('should create delete transaction', done => {
+    it('should create delete transaction', () => {
         let query = `
             mutation{
                 newTransaction(
@@ -204,7 +198,7 @@ describe('api tests', function () {
                 }
             }
         `;
-        graphql(Schema, query)
+        return graphql(Schema, query)
             .then(res => {
             let query = `
             mutation{

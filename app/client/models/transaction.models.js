@@ -21,12 +21,13 @@ export class TransactionSubmitModel{
     submitDate = Date.now();
     submitPerson = null;
     action = null;
-    selectData = null;
+    submitName = null;
     description = null;
     indexes = null;
+    dataType = null;
 
     isValid(){
-        return _isValid.call(this, 'indexes', 'description');
+        return _isValid.call(this, ['indexes', 'description']);
     }
 }
 

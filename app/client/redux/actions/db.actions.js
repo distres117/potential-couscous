@@ -1,5 +1,7 @@
 import types from '../actions/action.types';
 import axios from 'axios';
+import {toastr} from 'react-redux-toastr';
+import {clearCurrentRecordAction} from '../actions/app.actions';
 const client = axios.create({
     baseURL: `http://localhost:3000/`,
     headers: {
@@ -52,4 +54,19 @@ export const startGetTransactionData = (offset = 0,query)=>{
             });
         });
     }
+}
+export const startCommitData= (model, clearCurrentOnSuccess = true)=>{
+    //TODO: refactor to commit record to database
+    model.transactionId = 1; //delete this!
+    toastr.success('Record successfuly committed');
+    return (dispatch,getState)=>{
+        //on success
+        if (clearCurrentOnSuccess)
+            dispatch(clearCurrentRecordAction());
+        dispatch({
+            type: types.COMMIT_TABLE_DATA,
+            payload: model
+        })
+    }
+    
 }

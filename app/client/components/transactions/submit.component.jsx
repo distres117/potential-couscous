@@ -3,6 +3,7 @@ import { connected } from '../../helpers/redux.helpers';
 import helper from '../../helpers/html.helpers';
 import {TransactionSubmitModel} from '../../models/transaction.models';
 import {startGetReadyToLoad} from '../../redux/actions/gpService.actions';
+import {startCommitData} from '../../redux/actions/db.actions';
 
 @connected
 export default class TransactionSubmit extends React.Component {
@@ -19,27 +20,36 @@ export default class TransactionSubmit extends React.Component {
     componentDidMount(){
         this.props.dispatch(startGetReadyToLoad());
     }
+    checkIfValid(){
+        this.submitBtn.disabled = !this.props.transaction.model.isValid(); //because of the way we're collecting values, must check validity manually after change/mount'
+        console.log(this.submitBtn.disabled);
+    }
     onDateChange = (dateString, {dateMoment, timestamp}) => {
         this.props.transaction.model.submitDate = new Date(dateString);
-        console.log(this.model);
     }
     handleClick = (e)=>{
+        let {dispatch} = this.props;
         e.preventDefault();
+        dispatch(startCommitData(this.props.transaction.model));
+        
+
     }
     changeDataType = (e)=>{
         if (this.props.readyToLoad){
-            this.setState({dataType:e.target.value})
+            this.setState({dataType:e.target.value});
+            this.updateModel(e);
         }
     }
 
     updateModel = (e)=>{
         this.props.transaction.model[e.target.name] = e.target.value;
+        this.checkIfValid();
         console.log(this.props.transaction.model);
     }
     render() {
         let {model} = this.props.transaction;
         const markup = (
-            <form className='form-horizontal'>
+            <form className='form-horizontal' onSubmit={this.handleClick}>
                 <div className='form-group'>
                     {helper.labelFor('Submit date')}
                     {helper.datePickerFor('submitDate', this.onDateChange)}
@@ -59,7 +69,7 @@ export default class TransactionSubmit extends React.Component {
                 <div className='form-group'>
                     {helper.labelFor('Select data')}
                     <div hidden={!this.props.readyToLoad.loaded}>
-                        {helper.dropDownFor('selectData',this.props.readyToLoad[this.state.dataType], this.updateModel)}
+                        {helper.dropDownFor('submitName',this.props.readyToLoad[this.state.dataType], this.updateModel)}
                     </div>
                     
                 </div>
@@ -71,7 +81,7 @@ export default class TransactionSubmit extends React.Component {
                     {helper.labelFor('Indexes')}
                     {helper.buttonFor('indexBtn','Add index...', this.handleClick)}
                 </div>
-                <button className='btn btn-primary pull-right' onClick={this.handleClick}>Submit</button>
+                <button className='btn btn-primary pull-right' disabled='true' ref={ref=>this.submitBtn=ref}>Submit</button>
             </form>
         )
         return (

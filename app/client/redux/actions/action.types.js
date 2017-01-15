@@ -7,5 +7,6 @@ export default {
         CLEAR_CURRENT_RECORD: 'clear_current_record',
         REVIEW_TRANSACTION: 'review_transaction',
         LOAD_TRANSACTION: 'load_transaction',
-        NULL_TRANSACTION: 'null_transaction'
+        NULL_TRANSACTION: 'null_transaction',
+        COMMIT_TABLE_DATA: 'commit_table_data'
 };

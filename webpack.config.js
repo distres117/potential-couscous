@@ -38,9 +38,10 @@ var prodPlugins = ([
 let externals = isClientTest ? [nodeExternals()] : [];
 module.exports = {
     entry:[
-        'script-loader!jquery/dist/jquery.min.js',
-        'script-loader!bootstrap/dist/js/bootstrap.min.js',
-        'style-loader!css-loader!less-loader!./app/styles/global.less',
+        'jquery/dist/jquery.min.js',
+        'bootstrap/dist/js/bootstrap.min.js',
+        '!style-loader!css-loader!less-loader!./app/styles/global.less',
+        '!style-loader!css-loader!sass-loader!react-redux-toastr/src/styles/index.scss',
         './app/client/app.jsx'
     ],
     externals: externals,

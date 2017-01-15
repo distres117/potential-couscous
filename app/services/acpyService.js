@@ -1,6 +1,6 @@
 import {runProcess} from '../utils/childProcess';
 import axios from 'axios';
-const endpoints = require('../config/endpoints');
+import endpoints from '../config/endpoints';
 import querystring from 'querystring';
 
 export const getList = async ()=>{
@@ -22,7 +22,7 @@ export const getDetails = (datasetName, datasetType)=>{
 }
 export const getDetailsGp = (datasetName, datasetType)=>{
     let data = {datasetName,datasetType};
-    return axios.post(endpoints.gpService,querystring.stringify(data),{
+    return axios.post(endpoints.gpService + '/execute?f=json',querystring.stringify(data),{
         headers: {
             'content-Type':'application/x-www-form-urlencoded'
         }
