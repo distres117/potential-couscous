@@ -62,14 +62,18 @@ export default {
             if (!_items)
                 return;
             return _items.map((it,i)=>{
+                let val = it.format ? it.format(cur[it.key]) : cur[it.key];
+                let cls = val && val.length > 30 ? 12 : 6;
                 return (
-                <div className='form-group' key = {i}>
-                    <label className='control-label'>{it.label}:</label>
-                    <span> {it.format && cur[it.key] !== undefined ? it.format(cur[it.key]) : cur[it.key] || 'None'}</span>
-                </div>)
+                    <div className={`col-lg-${cls}`} key = {i}>
+                        <div className='form-group'>
+                            <label className='control-label'>{it.label}:</label>
+                            <span> {val || 'None'}</span>
+                        </div>
+                    </div>
+                )
             })
         }
-        let [left,right] = _.chunk(items, Math.round(items.length /2));
         let cls = {lineHeight: '2px'};
         let headerElem = cur[headerField] ? (
             <div>
@@ -80,16 +84,8 @@ export default {
         return (
             <div>
                 {headerElem}
-                <div className='col-lg-6' style={cls}>
-                    <form className='form-horizontal'>
-                        {getMarkup(left)}
-                    </form>
-                                
-                </div>
-                <div className='col-lg-6' style={cls}>
-                    <form className='form-horizontal'>
-                        {getMarkup(right)}
-                    </form>
+                <div style={cls}>
+                    {getMarkup(items)}
                 </div>
             </div>
         );
