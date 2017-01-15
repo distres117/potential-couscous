@@ -40,8 +40,8 @@ export default class TransactionReview extends React.Component{
     }
     render(){
         //this ensures that values are changed for each subsequent rendering (after initial mount)
-        let model = this.props.transaction.model;
         this.resetValues();
+        console.log(this.props.transaction.model, this.props.current);
         return(
             <div className='panel panel-default'>
                 <div className='panel-heading'>

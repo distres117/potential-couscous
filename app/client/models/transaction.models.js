@@ -3,7 +3,7 @@ function _prePopulate(cur, fn){
             return;
         let instance = this;
         Object.keys(cur).forEach(k=>{
-            if(instance[k]!== undefined && cur[k]){
+            if(instance[k]!== undefined && cur[k] !==undefined){
                 if (fn)
                     fn(cur[k],instance[k]);
                 else
