@@ -1,13 +1,12 @@
 import React from 'react';
 import { DateField, DatePicker } from 'react-date-picker';
-import 'react-date-picker/index.css';
 import {formStyles} from '../components/styles/element.styles';
 
 export default {
     labelFor(title){
         return <label className='col-lg-2 control-label'>{title}</label>
     },
-    dropDownFor(name,items,change, ref, noDefault=false){
+    dropDownFor(name,items=[],change, ref, noDefault=false){
         return (
             <div className='col-lg-8'>
                 <select className='form-control'name={name} onChange={change} style={formStyles.dropDown} ref={ref} >

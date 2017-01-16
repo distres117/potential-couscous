@@ -34,31 +34,31 @@ export default class TransactionsComponent extends React.Component {
     getForm() {
         let current = this.props.current;
         let {mode} = this.props.transaction;
-        switch (mode) {
-            case 'create':
-                return <TransactionSubmit />
-            case 'review':
-                return <TransactionReview />;
-            case 'load':
-                return <TransactionLoad />;
-            case 'none':
-                return (
-                    <div>
-                        <h4>This transaction is closed</h4>
-                    </div>
-                )
-            default:
-                return (
-                    <div>
-                        <h4>No transactions are selected</h4>
-                    </div>)
+        if (mode === 'create')
+            return <TransactionSubmit />
+        else if(!current.isNull() && mode=== 'review')
+            return <TransactionReview />;
+        else if(!current.isNull() && mode==='load')
+            return <TransactionLoad />;
+        else if (!current.isNull() && mode==='none'){
+            return (
+                <div>
+                    <h4>This transaction is closed</h4>
+                </div>
+            )
+        }
+        else if (current.isNull()){
+            return (
+                <div>
+                    <h4>No transactions are selected</h4>
+                </div>)
         }
 
     }
 
 
     render() {
-        let create = !!this.props.transaction.create;
+        let create = this.props.transaction.mode === 'create';
         return (
             <div>
                 <div style={splitViews.left}>
@@ -75,7 +75,7 @@ export default class TransactionsComponent extends React.Component {
                     </div>
                 </div>
                 <div style={splitViews.right}>
-                    <div style={infoStyles} hidden={this.props.current.isNull()}>
+                    <div style={infoStyles} hidden={this.props.current.isNull()} >
                         <TransactionInfo />
                     </div>
                     <div style={formStyles}>

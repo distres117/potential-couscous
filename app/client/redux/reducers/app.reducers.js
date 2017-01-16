@@ -5,6 +5,10 @@ class CurrentRecord{
         return Object.keys(this).length <= 1
     }
 }
+class Transaction{
+    mode ='none';
+    model = null;
+}
 
 export const currentRecordReducer = (state=new CurrentRecord(), action)=>{
     switch(action.type){
@@ -19,28 +23,33 @@ export const currentRecordReducer = (state=new CurrentRecord(), action)=>{
 }
 
 
-export const transactionReducer = (state={}, action)=>{
-    switch(action.type){
+export const transactionReducer = (state=new Transaction(), action)=>{
+    let model = new Transaction();
+    switch(action.type){ 
         case types.CREATE_TRANSACTION:
-            return {
-                mode: 'create',
-                model: action.payload
-            };
+            _.assign(model,{
+                mode:'create',
+                model:action.payload
+            });
+            return model;
         case types.REVIEW_TRANSACTION:
-            return {
+            _.assign(model,{
                 mode: 'review',
                 model: action.payload
-            };
+            });
+            return model;
         case types.LOAD_TRANSACTION:
-            return {
+            _.assign(model,{
                 mode: 'load',
                 model: action.payload
-            }
+            });
+            return model;
         case types.NULL_TRANSACTION:
-            return{
+            _.assign(model,{
                 mode:'none',
                 model:null
-            }
+            });
+            return model;
         default:
             return state;
     }

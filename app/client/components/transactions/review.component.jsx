@@ -19,6 +19,8 @@ export default class TransactionReview extends React.Component{
         this.checkIfValid();
     }
     checkIfValid(){
+        if (!this.props.transaction.model)
+            return;
         this.submitBtn.disabled = !this.props.transaction.model.isValid(); //because of the way we're collecting values, must check validity manually after change/mount'
     }
     handleClick = (e)=>{
@@ -36,12 +38,14 @@ export default class TransactionReview extends React.Component{
         
     }
     resetValues(){
+        if (!this.props.transaction.model)
+            return;
         this.props.transaction.model.prePopulate(this._refs, (tar,val)=>tar.value=val);
     }
     render(){
         //this ensures that values are changed for each subsequent rendering (after initial mount)
         this.resetValues();
-        console.log(this.props.transaction.model, this.props.current);
+        //console.log(this.props.transaction.model, this.props.current);
         return(
             <div className='panel panel-default'>
                 <div className='panel-heading'>
@@ -55,7 +59,7 @@ export default class TransactionReview extends React.Component{
                         </div>
                         <div className='form-group'>
                             {helper.labelFor('Reviewer')}
-                            {helper.dropDownFor('reviewPerson',_.keys(this.props.people), this.updateModel, ref=>this._refs['reviewPerson']=ref)}
+                            {helper.dropDownFor('reviewPerson',this.props.people, this.updateModel, ref=>this._refs['reviewPerson']=ref)}
                         </div>
                         <div className='form-group'>
                             {helper.labelFor('Review notes')}

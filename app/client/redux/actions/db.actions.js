@@ -14,11 +14,11 @@ export const startGetAllPeopleAction = ()=>{
     //TODO: make this return actual data from the db
     return {
         type: types.GET_ALL_PEOPLE,
-        payload: {
-            testPerson1: 1,
-            testPerson2: 2,
-            testPerson3: 3
-        }
+        payload: [
+            {label:'testPerson1', value: 0},
+            {label:'testPerson2', value: 1},
+            {label:'testPerson3', value: 2}
+        ]
     };
 }
 export const startGetTransactionData = (offset = 0,query)=>{

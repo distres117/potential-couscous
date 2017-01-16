@@ -51,7 +51,7 @@ export class TransactionReviewModel{
 export class TransactionLoadModel{
     loadDate = Date.now();
     sdePerson = null;
-    dataset = null;
+    submitName = null;
     prePopulate(cur,fn){
         return _prePopulate.call(this,cur,fn);
     }

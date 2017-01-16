@@ -22,7 +22,7 @@ export default class TransactionSubmit extends React.Component {
     }
     checkIfValid(){
         this.submitBtn.disabled = !this.props.transaction.model.isValid(); //because of the way we're collecting values, must check validity manually after change/mount'
-        console.log(this.submitBtn.disabled);
+        //console.log(this.submitBtn.disabled);
     }
     onDateChange = (dateString, {dateMoment, timestamp}) => {
         this.props.transaction.model.submitDate = new Date(dateString);
@@ -44,7 +44,7 @@ export default class TransactionSubmit extends React.Component {
     updateModel = (e)=>{
         this.props.transaction.model[e.target.name] = e.target.value;
         this.checkIfValid();
-        console.log(this.props.transaction.model);
+        //console.log(this.props.transaction.model);
     }
     render() {
         let {model} = this.props.transaction;
@@ -56,7 +56,7 @@ export default class TransactionSubmit extends React.Component {
                 </div>
                 <div className='form-group'>
                     {helper.labelFor('Submit person')}
-                    {helper.dropDownFor('submitPerson', _.keys(this.props.people), this.updateModel)}
+                    {helper.dropDownFor('submitPerson', this.props.people, this.updateModel)}
                 </div>
                 <div className='form-group'>
                     {helper.labelFor('Action')}
