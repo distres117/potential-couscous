@@ -2,6 +2,7 @@ import React from 'react';
 import {connected} from '../../helpers/redux.helpers';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import {setCurrentRecordAction, createTransactionAction, reviewTransactionAction, loadTransactionAction, nullTransactionAction} from '../../redux/actions/app.actions.js';
+import format from '../../helpers/format.helpers.js';
 
 @connected
 export default class TransactionTable extends React.Component{
@@ -26,8 +27,8 @@ export default class TransactionTable extends React.Component{
         return (<i className='glyphicon glyphicon-remove'/>)
     }
     truncateData(cell){
-        if (cell && cell.length > 15)
-            return cell.slice(0,15) + '...';
+        if (cell && cell.length > 10)
+            return cell.slice(0,10) + '...';
         return cell;
     }
     render(){
@@ -39,9 +40,10 @@ export default class TransactionTable extends React.Component{
         }
         return (
             <BootstrapTable data={this.props.tableData} selectRow={selectRowProp} striped={true} hover={true} options={this.options} headerContainerClass='table-fixed'>
-                <TableHeaderColumn width='5' hidden={true} dataField='transactionId' isKey={true}>#</TableHeaderColumn>
-                <TableHeaderColumn width='10' dataField='submitName' dataFormat={this.truncateData}>Name</TableHeaderColumn>
-                <TableHeaderColumn width='10' dataField='action'>Action</TableHeaderColumn>
+                <TableHeaderColumn hidden={true} dataField='transactionId' isKey={true}>#</TableHeaderColumn>
+                <TableHeaderColumn dataField='lastUpdated' dataFormat={cell=>format.dateFormat(cell)}>Updated</TableHeaderColumn>
+                <TableHeaderColumn dataField='submitName'>Name</TableHeaderColumn>
+                <TableHeaderColumn dataField='action'>Action</TableHeaderColumn>
                 <TableHeaderColumn dataField='submitDate' dataFormat={this.handleFormat}>Submitted</TableHeaderColumn>
                 <TableHeaderColumn dataField='reviewDate' dataFormat={this.handleFormat}>Reviewed</TableHeaderColumn>
                 <TableHeaderColumn dataField='loadDate' dataFormat={this.handleFormat}>Loaded</TableHeaderColumn>

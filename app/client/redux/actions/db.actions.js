@@ -43,7 +43,8 @@ export const startGetTransactionData = (offset = 0,query)=>{
                     loadDate,
                     sdePerson,
                     loadName,
-                    recorded
+                    recorded,
+                    lastUpdated
                 } 
             }`
         })

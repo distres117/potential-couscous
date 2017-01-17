@@ -43,6 +43,7 @@ module.exports = {
         '!style-loader!css-loader!less-loader!./app/styles/global.less',
         '!style-loader!css-loader!sass-loader!react-redux-toastr/src/styles/index.scss',
         '!style-loader!css-loader!react-date-picker/index.css',
+        '!style-loader!css-loader!react-bootstrap-table/dist/react-bootstrap-table.min.css',
         './app/client/app.jsx'
     ],
     externals: externals,

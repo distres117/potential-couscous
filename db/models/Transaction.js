@@ -111,6 +111,12 @@ module.exports = function(sequelize, DataTypes) {
 				};
 				return types[this.dataType]
 			}
+		},
+		lastUpdated:{
+			type: DataTypes.VIRTUAL,
+			get: function(){
+				return new Date(Math.max(this.submitDate, this.loadDate, this.reviewDate));
+			}
 		}
 	}, {
 		tableName: 'tblTransaction',
