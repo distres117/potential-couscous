@@ -51,6 +51,7 @@
     "node-mssql": "0.0.1",
     "node-sass": "^4.1.1",
     "nodemon": "^1.11.0",
+    "parse-json": "^2.2.0",
     "querystring": "^0.2.0",
     "react": "^15.4.1",
     "react-addons-test-utils": "^15.4.1",

@@ -4,8 +4,14 @@ import { Schema } from '../../db/schemas';
 import { connect, models } from '../../db';
 import Sequelize from 'sequelize';
 
-describe('api tests', function () {
+describe('api tests', function () { //for new dataset, must have run util tests at least once (to export the metadata)
     let transaction;
+    const datasetName = '_OMtesting_feature';
+    const loadDataset = `sde.SDE.${datasetName}`;
+    const archiveName = `archive.SDE.${datasetName}`;
+    const renamed = '_omtesting_';
+    const loadRenamed = `sde.SDE.${renamed}`;
+    const archiveRenamed = `archive.SDE.${renamed}`; 
     this.timeout(30000);
     before(done => {
         connect(true)
@@ -17,7 +23,7 @@ describe('api tests', function () {
         let query = `
             mutation{
                 newTransaction(
-                    submitName:"NYC_Buildings_composite", 
+                    submitName:"${datasetName}", 
                     dataType: "1",
                     action:"New",
                     submitGdb: "I:\\\\SDE_IMPORT\\\\READY_TO_LOAD\\\\Data_to_import.gdb"){
@@ -30,12 +36,11 @@ describe('api tests', function () {
             .then(async res => {
                 if (res.errors) {
                     console.log(res.errors);
-                    done();
                 }
                 transaction = res.data.newTransaction;
                 let catalogRow = await models.DataCatalog.count();
                 expect(transaction.transactionId).to.equal(1);
-                expect(transaction.submitName).to.equal('NYC_Buildings_composite');
+                expect(transaction.submitName).to.equal(datasetName);
                 expect(catalogRow).to.equal(0);
             });
 
@@ -107,7 +112,7 @@ describe('api tests', function () {
         return graphql(Schema, query)
             .then(res => {
                 expect(res.data.changeTransaction.sdePerson).to.equal(2);
-                done();
+                
             });
     });
     it('should create a versioned update transaction', () => {
@@ -116,7 +121,7 @@ describe('api tests', function () {
                 newTransaction(
                     action:"Update (version)", 
                     submitVersion:"test", 
-                    submitName:"sde.SDE.NYC_Buildings_composite",
+                    submitName:"${loadDataset}",
                     submitGdb: "voemsql1")
                     {
                         action
@@ -151,7 +156,7 @@ describe('api tests', function () {
                 newTransaction(
                     action:"Archive", 
                     submitVersion:"test", 
-                    submitName:"sde.SDE.NYC_Buildings_composite",
+                    submitName:"${loadDataset}",
                     submitGdb: "voemsql1")
                     {
                         action
@@ -167,20 +172,20 @@ describe('api tests', function () {
                 recordTransaction(transactionId: 3){
                     transactionId
                     recorded
+                    }
                 }
-            }
-        `;
-                return graphql(Schema, query);
+            `;
+            return graphql(Schema, query);
             })
             .then(async res => {
                 if (res.errors) {
                     console.log(res.errors);
-                    done();
+                    
                 }
                 let catalogRow = await models.DataCatalog.findOne();
                 expect(res.data.recordTransaction.recorded).to.equal(1);
                 expect(catalogRow.status).to.equal('Archived');
-                expect(catalogRow.name).to.equal('archive.SDE.NYC_Buildings_composite');
+                expect(catalogRow.name).to.equal(archiveName);
             });
     });
     it('should create delete transaction', () => {
@@ -189,7 +194,7 @@ describe('api tests', function () {
                 newTransaction(
                     action:"Delete", 
                     submitVersion:"test", 
-                    submitName:"archive.SDE.NYC_Buildings_composite",
+                    submitName:"${archiveName}",
                     submitGdb: "voemsql1")
                     {
                         action
@@ -207,30 +212,28 @@ describe('api tests', function () {
                         transactionId
                         recorded
                         loadName
+                    }
                 }
-            }
-        `;
-            return graphql(Schema, query);
+            `;
+                return graphql(Schema, query);
             })
             .then(async res => {
                 if (res.errors) {
                     console.log(res.errors);
-                    done();
                 }
                 let catalogRow = await models.DataCatalog.findOne();
                 expect(res.data.recordTransaction.recorded).to.equal(1);
-                expect(res.data.recordTransaction.loadName).to.equal('archive.SDE.NYC_Buildings_composite');
+                expect(res.data.recordTransaction.loadName).to.equal(archiveName);
                 expect(catalogRow.status).to.equal('Retired');
-                done();
             });
     });
-    it('should create rename transaction', done=>{
+    it('should create rename transaction', ()=>{
         //for renaming, 'loadName' value MUST be provided
         let query = `
             mutation{
                 newTransaction(
                     action:"Rename",  
-                    submitName:"archive.SDE.NYC_Buildings_composite",
+                    submitName:"${archiveName}",
                     submitGdb: "voemsql1")
                     {
                         action
@@ -239,40 +242,38 @@ describe('api tests', function () {
                 }
             }
         `;
-        graphql(Schema, query)
+        return graphql(Schema, query)
             .then(res => {
             let query = `
             mutation{
                 recordTransaction(
                     transactionId: 5,
-                    loadName:"archive.SDE.NYC_Buildings"){
+                    loadName:"${archiveRenamed}"){
                         transactionId
                         recorded
                         loadName
+                    }
                 }
-            }
-        `;
+            `;
             return graphql(Schema, query);
             })
             .then(async res => {
                 if (res.errors) {
                     console.log(res.errors);
-                    done();
                 }
                 let catalogRow = await models.DataCatalog.findOne();
                 expect(res.data.recordTransaction.recorded).to.equal(1);
-                expect(res.data.recordTransaction.loadName).to.equal('archive.SDE.NYC_Buildings');
+                expect(res.data.recordTransaction.loadName).to.equal(archiveRenamed);
                 expect(catalogRow.status).to.equal('Retired');
-                expect(catalogRow.name).to.equal('archive.SDE.NYC_Buildings');
-                done();
+                expect(catalogRow.name).to.equal(archiveRenamed);
             });
     });
-    it('should create external update transaction', done=>{
+    it('should create external update transaction', ()=>{
         let query = `
             mutation{
                 newTransaction(
                     action:"Update (external)",  
-                    submitName:"NYC_Buildings",
+                    submitName:"${renamed}",
                     submitGdb: "I:\\\\SDE_IMPORT\\\\READY_TO_LOAD\\\\Data_to_import.gdb")
                     {
                         action
@@ -281,7 +282,7 @@ describe('api tests', function () {
                 }
             }
         `;
-        graphql(Schema, query)
+        return graphql(Schema, query)
             .then(res => {
             let query = `
             mutation{
@@ -290,22 +291,20 @@ describe('api tests', function () {
                         transactionId
                         recorded
                         loadName
+                    }
                 }
-            }
-        `;
-            return graphql(Schema, query);
+            `;
+                return graphql(Schema, query);
             })
             .then(async res => {
                 if (res.errors) {
                     console.log(res.errors);
-                    done();
                 }
                 let catalogRow = await models.DataCatalog.findOne();
                 expect(res.data.recordTransaction.recorded).to.equal(1);
-                expect(res.data.recordTransaction.loadName).to.equal('sde.SDE.NYC_Buildings');
+                expect(res.data.recordTransaction.loadName).to.equal(loadRenamed);
                 expect(catalogRow.status).to.equal('Production');
-                expect(catalogRow.name).to.equal('sde.SDE.NYC_Buildings');
-                done();
+                expect(catalogRow.name).to.equal(loadRenamed);
             });
     });
 });
