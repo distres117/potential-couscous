@@ -42,6 +42,13 @@ export default {
             </div>
         )
     },
+    textFieldFor(name, change, ref){
+        return(
+            <div className='col-lg-8'>
+                <input type='text' className='form-control' onChange={change} name={name} ref={ref}/>
+            </div>
+        )
+    },
     panelFor(title, markup){
         return (
             <div>

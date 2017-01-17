@@ -3,11 +3,12 @@ function _prePopulate(cur, fn){
             return;
         let instance = this;
         Object.keys(cur).forEach(k=>{
-            if(instance[k]!== undefined && cur[k] !==undefined){
+            if(instance.hasOwnProperty(k) && cur.hasOwnProperty(k)){
                 if (fn)
                     fn(cur[k],instance[k]);
-                else
-                    instance[k] = cur[k]
+                else if (cur[k] !== null)
+                    instance[k]=cur[k];
+                    
             }
         });
     }

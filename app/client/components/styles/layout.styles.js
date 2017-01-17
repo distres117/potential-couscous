@@ -22,9 +22,10 @@ export const formStyles = {
 }
 
 export const tableStyles = {
-    maxHeight: '75vh',
+    height: '75vh',
     overflowY:'scroll',
-    overflowX:'hidden'
+    overflowX:'hidden',
+    border: 'solid 1px lightgrey'
 }
 
 export const infoStyles = {

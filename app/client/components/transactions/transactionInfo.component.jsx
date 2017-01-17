@@ -45,6 +45,7 @@ export default class TransactionInfo extends React.Component{
                 ], current)
             default:
                 return helper.infoPaneFor([
+                    {key: 'submitName', label: 'Name'},
                     {key: 'dataTypeString', label: 'Type'},
                     {key: 'action', label: 'Action'},
                     {key: 'indexes', label: 'Indexes'}

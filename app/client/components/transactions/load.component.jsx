@@ -20,12 +20,13 @@ export default class TransactionLoad extends React.Component{
     }
     handleClick = (e)=>{
         e.preventDefault();
-        console.log(this.props.transaction.model, this.props.transaction.model.isValid());
+        //console.log(this.props.transaction.model, this.props.transaction.model.isValid());
     }
 
     resetValues(){
         if (!this.props.transaction.model)
             return;
+        //console.log(this.props.transaction.model);
         this.props.transaction.model.prePopulate(this._refs, (tar,val)=>tar.value=val);
     }
     onDateChange = (dateString)=>{
@@ -33,20 +34,20 @@ export default class TransactionLoad extends React.Component{
         this.checkIfValid();
     }
     updateModel = (e)=>{
-        this.model[e.target.name] = e.target.value;
+        this.props.transaction.model[e.target.name] = e.target.value;
         this.checkIfValid();
     }
     render(){
         this.resetValues();
         const markup = (
-            <form className='form-horiziontal' onSubmit={this.handleClick}>
+            <form className='form-horizontal' onSubmit={this.handleClick}>
                     <div className='form-group'>
                         {helper.labelFor('Load date')}
                         {helper.datePickerFor('loadDate', this.onDateChange)}
                     </div>
                     <div className='form-group'>
                         {helper.labelFor('Dataset name')}
-                        <input className='form-control' type='text' name='submitName' onChange={this.updateModel} ref={ref=>this._refs['submitName'] = ref}/>  
+                        {helper.textFieldFor('submitName', this.updateModel, ref=>this._refs['submitName'] = ref)}  
                     </div>
                     <div className='form-group'>
                         {helper.labelFor('Sde person')}

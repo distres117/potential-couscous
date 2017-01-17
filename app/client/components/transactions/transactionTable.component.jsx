@@ -39,7 +39,7 @@ export default class TransactionTable extends React.Component{
         }
         return (
             <BootstrapTable data={this.props.tableData} selectRow={selectRowProp} striped={true} hover={true} options={this.options} headerContainerClass='table-fixed'>
-                <TableHeaderColumn width='5' dataField='transactionId' isKey={true}>#</TableHeaderColumn>
+                <TableHeaderColumn width='5' hidden={true} dataField='transactionId' isKey={true}>#</TableHeaderColumn>
                 <TableHeaderColumn width='10' dataField='submitName' dataFormat={this.truncateData}>Name</TableHeaderColumn>
                 <TableHeaderColumn width='10' dataField='action'>Action</TableHeaderColumn>
                 <TableHeaderColumn dataField='submitDate' dataFormat={this.handleFormat}>Submitted</TableHeaderColumn>

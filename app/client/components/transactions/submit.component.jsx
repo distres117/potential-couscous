@@ -79,7 +79,7 @@ export default class TransactionSubmit extends React.Component {
                 </div>
                 <div className='form-group'>
                     {helper.labelFor('Indexes')}
-                    {helper.buttonFor('indexBtn','Add index...', this.handleClick)}
+                    {helper.textFieldFor('indexes', this.updateModel)}
                 </div>
                 <button className='btn btn-primary pull-right' disabled='true' ref={ref=>this.submitBtn=ref}>Submit</button>
             </form>
