@@ -3,19 +3,35 @@ import { connected } from '../../helpers/redux.helpers';
 import helper from '../../helpers/html.helpers';
 import {TransactionSubmitModel} from '../../models/transaction.models';
 import {startGetReadyToLoad} from '../../redux/actions/gpService.actions';
+import {startTransactionsDatasetSearch, startGetOneTransaction} from '../../redux/actions/db.actions';
 import {startCommitData} from '../../redux/actions/db.actions';
 
 @connected
 export default class TransactionSubmit extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {dataType: 'featureClasses'};
+        this.setInitialState();
         this.actionList = ['New', 'Update (version)', 'Update (external)', 'Archive', 'Rename', 'Delete'];
         this.typeList = [
             {label:'Feature Class', value:'featureClasses'},
             {label: 'Raster', value: 'rasters'},
             {label: 'Table', value: 'tables'}
         ];
+    }
+    setInitialState(){
+        this.state = {
+            dataType:'featureClasses',
+            searchMessage:null,
+            searchData:null
+        }
+    }
+    componentWillReceiveProps(nextProps){
+        let{searchResult} = nextProps;
+        if (searchResult.result){
+            if (searchResult.extra)
+                this.setState({searchMessage:searchResult.message, searchData:searchResult.extra.transactionId});
+            this.handleSearchResult(nextProps.searchResult.result);
+        }
     }
     componentDidMount(){
         this.props.dispatch(startGetReadyToLoad());
@@ -31,7 +47,31 @@ export default class TransactionSubmit extends React.Component {
         let {dispatch} = this.props;
         e.preventDefault();
         dispatch(startCommitData(this.props.transaction.model));
+    }
+    handleSearch = e=>{
+        e.preventDefault();
+        if (!this.search.value)
+            return
+        this.props.dispatch(startTransactionsDatasetSearch(this.search.value));
+        this.search.value = '';
+    }
+    handleSearchResult = (result)=>{
+        let elem = this.datasetList;
+        if (Array.from(elem.options).some(o=>o.label===result))
+            return;
+        let newOption = document.createElement('option');
+        newOption.value = newOption.text = result;
+        let len = elem.options.length;
+        elem.options[len] = newOption;
+        elem.selectedIndex = len;
+        this.props.transaction.model['submitName'] = result;
+        this.checkIfValid();
         
+    }
+    handleSetCurrent = e =>{
+        e.preventDefault();
+        this.props.dispatch(startGetOneTransaction(this.state.searchData));
+        this.setInitialState();
 
     }
     changeDataType = (e)=>{
@@ -68,11 +108,24 @@ export default class TransactionSubmit extends React.Component {
                 </div>
                 <div className='form-group'>
                     {helper.labelFor('Select data')}
-                    <div hidden={!this.props.readyToLoad.loaded}>
-                        {helper.dropDownFor('submitName',this.props.readyToLoad[this.state.dataType], this.updateModel)}
+                    <div>
+                        {helper.asyncDropdownFor('submitName',this.props.readyToLoad[this.state.dataType], this.updateModel, ref=>this.datasetList = ref,()=>!this.props.readyToLoad.loaded)}
                     </div>
-                    
+                    <div hidden={!this.props.readyToLoad.loaded}>
+                        {helper.collapsibleFor('Data not in ready_to_load?', (
+                        <div>
+                            <br/>
+                            <input type='text' placeholder='Enter the dataset name' ref={ref=>this.search = ref}/>
+                            <button type='button' className='btn btn-xs btn-primary' onClick={this.handleSearch}>Search</button>
+                            <div hidden={!this.state.searchMessage}>
+                                <h5>{this.state.searchMessage}: <a href onClick={this.handleSetCurrent}>open latest...</a></h5>
+                            </div> 
+                        </div>
+
+                        ))}
+                    </div>
                 </div>
+                
                 <div className='form-group'>
                     {helper.labelFor('Description')}
                     {helper.textAreaFor('description', this.updateModel)}

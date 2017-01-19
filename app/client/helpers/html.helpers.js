@@ -20,6 +20,21 @@ export default {
             </div> 
         );
     },
+    asyncDropdownFor(name, items=[], change,ref,hook){
+        if (!hook()){
+            return (
+                <div>
+                    <div hidden={hook()}>
+                        {this.dropDownFor(name,items,change,ref)}
+                    </div>
+                </div>);
+        }
+        return (//TODO: swap this out with something more interesting
+            <div className='col-lg-8'>
+                <h4>Fetching...</h4>
+            </div>
+        )
+    },
     datePickerFor(name, change){
         return (
             <div className='col-lg-9'>
@@ -96,6 +111,17 @@ export default {
                 </div>
             </div>
         );
+
+    },
+    collapsibleFor(title, markup){
+        return (
+            <div className='col-lg-8'>
+                <a role='button' data-toggle='collapse' href='#collapsible'>{title}</a>
+                <div className='collapse' id='collapsible'>
+                    {markup}
+                </div>
+            </div>
+        )        
 
     }
 }

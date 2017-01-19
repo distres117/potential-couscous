@@ -16,7 +16,11 @@ export const currentRecordReducer = (state=new CurrentRecord(), action)=>{
             _.assign(state, action.payload)
             return state;
         case types.CLEAR_CURRENT_RECORD:
-            return new CurrentRecord()
+            return new CurrentRecord();
+        case types.OVERWRITE_CURRENT_RECORD: //probably not necessary but whatevs
+            let model = new CurrentRecord();
+            _.assign(model, action.payload);
+            return model;
         default:
             return state;
     }
@@ -50,6 +54,14 @@ export const transactionReducer = (state=new Transaction(), action)=>{
                 model:null
             });
             return model;
+        default:
+            return state;
+    }
+}
+export const searchReducer = (state={},action)=>{
+    switch(action.type){
+        case types.SEARCH_RESULT_DATASET:
+            return action.payload;
         default:
             return state;
     }

@@ -3,9 +3,20 @@ import {TransactionReviewModel,TransactionSubmitModel,TransactionLoadModel} from
 import {toastr} from 'react-redux-toastr';
 
 export const setCurrentRecordAction = (row)=>{
+    console.log('current: ', row);
     return {
         type: types.SET_CURRENT_RECORD,
         payload:row
+    }
+}
+export const renderTransactionViewAction = (row)=>{
+    return (dispatch, getState)=>{
+        if (!row.passed && !row.recorded)
+            dispatch(reviewTransactionAction());
+        else if (row.passed && !row.recorded)
+            dispatch(loadTransactionAction());
+        else if (row.passed && row.recorded)
+            dispatch(nullTransactionAction());
     }
 }
 export const clearCurrentRecordAction = ()=>{
