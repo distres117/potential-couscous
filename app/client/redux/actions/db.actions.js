@@ -1,7 +1,7 @@
 import types from '../actions/action.types';
 import axios from 'axios';
 import {toastr} from 'react-redux-toastr';
-import {clearCurrentRecordAction, nullTransactionAction, renderTransactionViewAction} from '../actions/app.actions';
+import {clearCurrentRecordAction, nullTransactionAction, renderTransactionViewAction, setCurrentRecordAction} from '../actions/app.actions';
 import {searchDataGp} from '../../services/arcpyService';
 export const client = axios.create({ //export so  we can stub it out in tests
     baseURL: `http://localhost:3000/`,
@@ -77,10 +77,7 @@ export const startGetOneTransaction = (id)=>{
             let record = res.data.data.transactions[0];
             //console.log('related transaction: ',record);
             //dispatch(clearCurrentRecordAction())
-            dispatch({
-                type: types.SET_CURRENT_RECORD,
-                payload: record
-            });
+            dispatch(setCurrentRecordAction(record)); //must be set first for autopopulate to happen
             dispatch(renderTransactionViewAction(record));
         });
     }
