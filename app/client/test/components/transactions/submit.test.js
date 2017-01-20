@@ -7,7 +7,8 @@ describe('submit transaction', ()=>{
        let model = new TransactionSubmitModel();
        let state = {
            transaction:{model},
-           readyToLoad:{featureClasses:[], loaded:true}
+           readyToLoad:{featureClasses:[], loaded:true},
+           people:[]
        }
        let wrapped = mount(TransactionSubmit, state);
        expect(wrapped.findWhere(n=>n.text()==='Submit').node.disabled).to.be.true;
@@ -24,7 +25,8 @@ describe('submit transaction', ()=>{
            readyToLoad:{
                featureClasses:[], 
                loaded:true
-            }
+            },
+            people:[]
        }
        let wrapped = mount(TransactionSubmit,state);
        wrapped.find("select[name='action']").simulate('change', {target:{name: 'action', value: 'test'}}); //must change at least one value to trigger validation

@@ -4,7 +4,8 @@ import TransactionReview from './review.component';
 import TransactionLoad from './load.component';
 import { connected } from '../../helpers/redux.helpers';
 import { startGetOrgPeopleAction, startGetTransactionData } from '../../redux/actions/db.actions';
-import { createTransactionAction, clearCurrentRecordAction } from '../../redux/actions/app.actions'
+import { createTransactionAction, clearCurrentRecordAction } from '../../redux/actions/app.actions';
+import {startGetReadyToLoad} from '../../redux/actions/gpService.actions';
 import TransactionTable from './transactionTable.component';
 import { formStyles, infoStyles, tableStyles, splitViews } from '../styles/layout.styles';
 import { wellStyles } from '../styles/element.styles.js';
@@ -18,6 +19,7 @@ export default class TransactionsComponent extends React.Component {
     componentDidMount() {
         let {dispatch} = this.props;
         dispatch(startGetOrgPeopleAction('NYCEM'));
+        dispatch(startGetReadyToLoad());
         dispatch(startGetTransactionData(0, 'recorded:0'));
     }
     handleShowAllToggle = e => {

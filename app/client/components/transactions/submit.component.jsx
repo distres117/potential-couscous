@@ -33,9 +33,9 @@ export default class TransactionSubmit extends React.Component {
             this.handleSearchResult(nextProps.searchResult.result);
         }
     }
-    componentDidMount(){
-        this.props.dispatch(startGetReadyToLoad());
-    }
+    // componentDidMount(){
+    //     this.props.dispatch(startGetReadyToLoad());
+    // }
     checkIfValid(){
         this.submitBtn.disabled = !this.props.transaction.model.isValid(); //because of the way we're collecting values, must check validity manually after change/mount'
         //console.log(this.submitBtn.disabled);
