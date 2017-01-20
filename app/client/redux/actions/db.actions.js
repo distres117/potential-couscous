@@ -75,13 +75,13 @@ export const startGetOneTransaction = (id)=>{
                 return;
             }
             let record = res.data.data.transactions[0];
-            console.log('related transaction: ',record);
-            dispatch(clearCurrentRecordAction())
-            dispatch(renderTransactionViewAction(record));
+            //console.log('related transaction: ',record);
+            //dispatch(clearCurrentRecordAction())
             dispatch({
                 type: types.SET_CURRENT_RECORD,
                 payload: record
-            })
+            });
+            dispatch(renderTransactionViewAction(record));
         });
     }
 }
@@ -154,7 +154,7 @@ export const startTransactionsDatasetSearch = (name)=>{
                 let payload = {result: name, message: 'Match found in catalog'};
                 let transactions = foundRows;
                 if (transactions.length){
-                    console.log('found transactions: ', transactions);
+                    //console.log('found transactions: ', transactions);
                     let open = _.filter(transactions, t=>!t.recorded);
                     payload.message = `Match found with ${open.length} open transactions`;
                     if (open.length){

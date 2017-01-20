@@ -3,7 +3,7 @@ import {TransactionReviewModel,TransactionSubmitModel,TransactionLoadModel} from
 import {toastr} from 'react-redux-toastr';
 
 export const setCurrentRecordAction = (row)=>{
-    console.log('current: ', row);
+    //console.log('current: ', row);
     return {
         type: types.SET_CURRENT_RECORD,
         payload:row

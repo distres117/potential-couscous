@@ -12,13 +12,12 @@ export default class Main extends React.Component {
         return (
             <div>
                 <ReduxToastr
-                    timeOut={4000}
+                    timeOut={5000}
                     newestOnTop={false}
                     preventDuplicates={true}
                     position="top-left"
                     transitionIn="fadeIn"
-                    transitionOut="fadeOut"
-                    progressBar/>
+                    transitionOut="fadeOut"/>
                 <Navbar currentPath = {this.props.location.pathname}/>
                 <div className='container' style={contentPanelStyles}>
                     {this.props.children}
