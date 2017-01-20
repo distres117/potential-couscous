@@ -1,7 +1,7 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('tblOrganizations', {
+	let Organization = sequelize.define('Organization', {
 		organizationId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -24,6 +24,13 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'OrgTypeID'
 		}
 	}, {
-		tableName: 'tblOrganizations'
+		tableName: 'tblOrganizations',
+		timestamps:false,
+		classMethods:{
+			associate: models=>{
+				Organization.hasMany(models.Person, {foreignKey: 'OrganizationID'});
+			}
+		}
 	});
+	return Organization;
 };

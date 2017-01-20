@@ -1,7 +1,7 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('tblPersons', {
+	let Person = sequelize.define('Person', {
 		personId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -92,8 +92,22 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.TEXT,
 			allowNull: true,
 			field: 'Notes'
+		},
+		fullName:{
+			type: DataTypes.VIRTUAL,
+			get: function(){
+				return `${this.lastName}, ${this.firstName}`;
+			}
 		}
 	}, {
-		tableName: 'tblPersons'
+		tableName: 'tblPersons',
+		timestamps:false,
+		classMethods:{
+			associate:models=>{
+				Person.belongsTo(models.Organization, {foreignKey: 'OrganizationID'});
+			}
+		}
+		
 	});
+	return Person;
 };

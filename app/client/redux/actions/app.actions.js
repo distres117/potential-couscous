@@ -42,6 +42,12 @@ export const reviewTransactionAction = () =>{
         });
     }
 }
+export const setPeopleAction = (people)=>{
+    return {
+        type:types.SET_PEOPLE,
+        payload:people
+    }
+}
 export const loadTransactionAction = ()=>{
     return (dispatch, getState)=>{
         let model = new TransactionLoadModel();

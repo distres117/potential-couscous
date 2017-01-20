@@ -7,7 +7,16 @@ import chalk from 'chalk';
 
 let db = {};
 const modelsDir = __dirname + '/models';
-const whiteList = ['DataCatalog', 'Transaction', 'Information', 'FeatureClass', 'Field', 'EnterpriseGeodatabase', 'Keyword']; //For dev purposes
+const whiteList = [
+    'DataCatalog', 
+    'Transaction', 
+    'Information', 'FeatureClass', 
+    'Field', 
+    'EnterpriseGeodatabase', 
+    'Keyword', 
+    'Person',
+    'Organization'
+]; //For dev purposes
 let sequelize = new Sequelize(config.database, config.username, config.password, config.options);
 fs.readdirSync(modelsDir)
     .forEach(file => {
@@ -23,22 +32,6 @@ Object.keys(db).forEach(modelName => {
     }
 });
 export const connect = dev => {
-    // function synchronize(){
-    //     return sequelize.sync()
-    //         .then(()=>{
-    //             console.log('Models registered...');
-    //         });
-    // }
-    // if (dev){
-    //     let promises = Object.keys(_.omit(db, ['DataCatalog'])).map(k=>db[k].drop())
-    //     return Promise.all(promises)
-    //     .then(()=>{
-    //         return db['DataCatalog'].drop();
-    //     })
-    //     .then(()=>synchronize());
-    // }
-    // return synchronize();
-    
     return sequelize.sync({force: !!dev})
         .then(()=>{
             console.log(chalk.blue('DB CONNECTED...'));

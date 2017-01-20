@@ -1,7 +1,7 @@
 import types from '../actions/action.types';
 import axios from 'axios';
 import {toastr} from 'react-redux-toastr';
-import {clearCurrentRecordAction, nullTransactionAction, renderTransactionViewAction, setCurrentRecordAction} from '../actions/app.actions';
+import {clearCurrentRecordAction, nullTransactionAction, renderTransactionViewAction, setCurrentRecordAction, setPeopleAction} from '../actions/app.actions';
 import {searchDataGp} from '../../services/arcpyService';
 export const client = axios.create({ //export so  we can stub it out in tests
     baseURL: `http://localhost:3000/`,
@@ -31,16 +31,52 @@ const transactionSchema = `
                     loadName,
                     recorded,
                     lastUpdated`;
+const peopleSchema = `
+                    personId,
+                    title,
+                    firstName,
+                    middleName,
+                    lastName,
+                    fullName,
+                    position,
+                    organizationId,
+                    division,
+                    contractor,
+                    address1,
+                    address2,
+                    city,
+                    state,
+                    zip,
+                    phone,
+                    extension,
+                    eMail,
+                    notes,
+                    OrganizationID`;
 
-export const startGetAllPeopleAction = ()=>{
-    //TODO: make this return actual data from the db
-    return {
-        type: types.GET_ALL_PEOPLE,
-        payload: [
-            {label:'testPerson1', value: 0},
-            {label:'testPerson2', value: 1},
-            {label:'testPerson3', value: 2}
-        ]
+
+export const startGetOrgPeopleAction = (query)=>{
+    //getting poeple for a specific agency
+    return (dispatch,getState)=>{
+        return client.post('/api',{
+            query:`{
+                organizations(abbrev:"${query}"){
+                    people{
+                        ${peopleSchema}
+                    }
+                }
+            }`
+        })
+        .then(res=>{
+            let orgs = res.data.data.organizations;
+            if (orgs.length){
+                let items = orgs[0].people.map(p=>{
+                    return {value: p.personId, label: p.fullName};
+                }) 
+                dispatch(setPeopleAction(items));
+            }
+            else
+                toastr.error('Organization was not found');
+        });
     };
 }
 export const startGetTransactionData = (offset = 0,query)=>{

@@ -3,7 +3,7 @@ import TransactionSubmit from './submit.component';
 import TransactionReview from './review.component';
 import TransactionLoad from './load.component';
 import { connected } from '../../helpers/redux.helpers';
-import { startGetAllPeopleAction, startGetTransactionData } from '../../redux/actions/db.actions';
+import { startGetOrgPeopleAction, startGetTransactionData } from '../../redux/actions/db.actions';
 import { createTransactionAction, clearCurrentRecordAction } from '../../redux/actions/app.actions'
 import TransactionTable from './transactionTable.component';
 import { formStyles, infoStyles, tableStyles, splitViews } from '../styles/layout.styles';
@@ -17,7 +17,7 @@ export default class TransactionsComponent extends React.Component {
     }
     componentDidMount() {
         let {dispatch} = this.props;
-        dispatch(startGetAllPeopleAction());
+        dispatch(startGetOrgPeopleAction('NYCEM'));
         dispatch(startGetTransactionData(0, 'recorded:0'));
     }
     handleShowAllToggle = e => {

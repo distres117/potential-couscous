@@ -20,20 +20,20 @@ export default class TransactionInfo extends React.Component{
     }
     
     getContent(current){;
-
+        let {people} = this.props;
         switch(this.state.tab){
             case 'submit':
                 return helper.infoPaneFor([
                     {key:'submitName', label:'Submit Name'},
                     {key:'submitDate', label: 'Submitted', format: formatter.dateFormat},
-                    {key:'submitPerson', label: 'Submitted by'},
+                    {key:'submitPerson', label: 'Submitted by', format: formatter.personFormat.bind(this.props.people)},
                     {key:'submitGdb', label:'GDB'},
                     {key:'submitVersion', label:'Version'}
                 ], current);
             case 'review':
                 return helper.infoPaneFor([
                     {key: 'reviewDate', label: 'Reviewed', format: formatter.dateFormat },
-                    {key:'reviewPerson', label: 'Reviewed by'},
+                    {key:'reviewPerson', label: 'Reviewed by', format: formatter.personFormat.bind(this.props.people) },
                     {key: 'passed', label:'Passed', format:formatter.yesNoFormat}
 
                 ],current,'reviewNotes')
@@ -41,6 +41,7 @@ export default class TransactionInfo extends React.Component{
                 return helper.infoPaneFor([
                     {key: 'loadDate', label:'Loaded', format: formatter.dateFormat},
                     {key:'loadName', label:'Name'},
+                    {key:'sdePerson', label:'SDE person', format: formatter.personFormat.bind(this.props.people)},
                     {key:'recorded', label:'Recorded', format:formatter.yesNoFormat}
                 ], current)
             default:

@@ -96,7 +96,7 @@ export default class TransactionSubmit extends React.Component {
                 </div>
                 <div className='form-group'>
                     {helper.labelFor('Submit person')}
-                    {helper.dropDownFor('submitPerson', this.props.people, this.updateModel)}
+                    {helper.asyncDropdownFor('submitPerson', this.props.people, this.updateModel, ref=>this.submitPerson = ref, ()=>!this.props.people.length)}
                 </div>
                 <div className='form-group'>
                     {helper.labelFor('Action')}

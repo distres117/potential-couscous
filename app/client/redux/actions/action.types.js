@@ -10,5 +10,6 @@ export default {
         LOAD_TRANSACTION: 'load_transaction',
         NULL_TRANSACTION: 'null_transaction',
         COMMIT_TABLE_DATA: 'commit_table_data',
-        SEARCH_RESULT_DATASET: 'search_result_dataset'
+        SEARCH_RESULT_DATASET: 'search_result_dataset',
+        SET_PEOPLE: 'set_people'
 };
