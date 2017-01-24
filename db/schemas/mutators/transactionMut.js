@@ -39,7 +39,9 @@ export default {
             const transaction = await models.Transaction.findById(args.transactionId);
             if (!transaction)
                 return errorRes('transaction not found');
-            return transaction.update(_.omit(args, ['transactionId']));
+            return transaction.update( _.assign(_.omit(args, ['transactionId']), {
+                reviewDate: Date.now()
+            }));
         }
     },
     recordTransaction: {

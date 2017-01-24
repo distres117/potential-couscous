@@ -7,6 +7,7 @@
     "test": "cross-env DB=NONE mocha-webpack --recursive app/client/test/ --webpack-config webpack.config.js --watch --require app/client/test/helpers/jsdom.js",
     "test-server": "cross-env DB=DEV mocha --recursive --compilers js:babel-core/register --require babel-polyfill",
     "dev": "cross-env DB=DEV TEST=true concurrently \"nodemon .\" \"webpack -w\"",
+    "dev-scratch": "cross-env DB=DEV concurrently \"nodemon .\" \"webpack -w\"",
     "start": "node ."
   },
   "author": "",

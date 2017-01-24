@@ -1,5 +1,6 @@
 import {expect} from 'chai';
-import {startTransactionsDatasetSearch, client} from '../../redux/actions/db.actions';
+import client from '../../services/axios.service';
+import {startTransactionsDatasetSearch} from '../../redux/actions/transaction.actions';
 import types from '../../redux/actions/action.types';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';

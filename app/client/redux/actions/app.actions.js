@@ -48,6 +48,12 @@ export const setPeopleAction = (people)=>{
         payload:people
     }
 }
+export const commitTableData = models =>{
+    return {
+        type: types.COMMIT_TABLE_DATA,
+        payload: model
+    };
+}
 export const loadTransactionAction = ()=>{
     return (dispatch, getState)=>{
         let model = new TransactionLoadModel();

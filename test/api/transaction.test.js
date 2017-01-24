@@ -3,6 +3,8 @@ import { graphql } from 'graphql';
 import { Schema } from '../../db/schemas';
 import { connect, models } from '../../db';
 import Sequelize from 'sequelize';
+import {TransactionSubmitModel} from '../../app/client/models/transaction.models';
+import * as _ from 'lodash';
 
 describe('api tests', function () { //for new dataset, must have run util tests at least once (to export the metadata)
     let transaction;
@@ -25,6 +27,7 @@ describe('api tests', function () { //for new dataset, must have run util tests 
                 newTransaction(
                     submitName:"${datasetName}", 
                     dataType: "1",
+                    submitPerson:2,
                     action:"New",
                     submitGdb: "I:\\\\SDE_IMPORT\\\\READY_TO_LOAD\\\\Data_to_import.gdb"){
                         transactionId
@@ -113,6 +116,9 @@ describe('api tests', function () { //for new dataset, must have run util tests 
             .then(res => {
                 expect(res.data.changeTransaction.sdePerson).to.equal(2);
                 
+            })
+            .catch(err=>{
+                throw new Error(err);
             });
     });
     it('should create a versioned update transaction', () => {
@@ -306,5 +312,25 @@ describe('api tests', function () { //for new dataset, must have run util tests 
                 expect(catalogRow.status).to.equal('Production');
                 expect(catalogRow.name).to.equal(loadRenamed);
             });
+    });
+    it('should create new transaction using model', ()=>{
+        let model = new TransactionSubmitModel();
+        _.assign(model,{
+            action: 'New', submitDate:1485226245630, submitPerson:"10"
+        });
+        let query = `
+            mutation{
+                newTransaction(${model.stringify()}){
+                        transactionId
+                }
+            }
+        `;
+        return graphql(Schema, query)
+        .then(async res=>{
+            if (res.errors)
+                console.log(res.errors);
+            expect(res.data.newTransaction.transactionId).to.equal(7);
+        });
+        
     });
 });

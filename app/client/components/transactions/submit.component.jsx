@@ -3,8 +3,8 @@ import { connected } from '../../helpers/redux.helpers';
 import helper from '../../helpers/html.helpers';
 import {TransactionSubmitModel} from '../../models/transaction.models';
 import {startGetReadyToLoad} from '../../redux/actions/gpService.actions';
-import {startTransactionsDatasetSearch, startGetOneTransaction} from '../../redux/actions/db.actions';
-import {startCommitData} from '../../redux/actions/db.actions';
+import {startTransactionsDatasetSearch, startGetOneTransaction} from '../../redux/actions/transaction.actions';
+import {startCommitTransaction} from '../../redux/actions/transaction.actions';
 
 @connected
 export default class TransactionSubmit extends React.Component {
@@ -46,7 +46,7 @@ export default class TransactionSubmit extends React.Component {
     handleClick = (e)=>{
         let {dispatch} = this.props;
         e.preventDefault();
-        dispatch(startCommitData(this.props.transaction.model));
+        dispatch(startCommitTransaction(this.props.transaction.model));
     }
     handleSearch = e=>{
         e.preventDefault();
@@ -90,10 +90,6 @@ export default class TransactionSubmit extends React.Component {
         let {model} = this.props.transaction;
         const markup = (
             <form className='form-horizontal' onSubmit={this.handleClick}>
-                <div className='form-group'>
-                    {helper.labelFor('Submit date')}
-                    {helper.datePickerFor('submitDate', this.onDateChange)}
-                </div>
                 <div className='form-group'>
                     {helper.labelFor('Submit person')}
                     {helper.asyncDropdownFor('submitPerson', this.props.people, this.updateModel, ref=>this.submitPerson = ref, ()=>!this.props.people.length)}

@@ -1,15 +1,8 @@
-import types from '../actions/action.types';
-import axios from 'axios';
+import client from '../../services/axios.service';
 import {toastr} from 'react-redux-toastr';
-import {clearCurrentRecordAction, nullTransactionAction, renderTransactionViewAction, setCurrentRecordAction, setPeopleAction} from '../actions/app.actions';
+import types from './action.types';
+import {renderTransactionViewAction, setCurrentRecordAction, clearCurrentRecordAction, nullTransactionAction, commitTableData} from './app.actions';
 import {searchDataGp} from '../../services/arcpyService';
-export const client = axios.create({ //export so  we can stub it out in tests
-    baseURL: `http://localhost:3000/`,
-    headers: {
-        'Content-type': 'application/json',
-        'Accept':'application/json'
-    }
-});
 
 const transactionSchema = `
                     transactionId,
@@ -31,54 +24,7 @@ const transactionSchema = `
                     loadName,
                     recorded,
                     lastUpdated`;
-const peopleSchema = `
-                    personId,
-                    title,
-                    firstName,
-                    middleName,
-                    lastName,
-                    fullName,
-                    position,
-                    organizationId,
-                    division,
-                    contractor,
-                    address1,
-                    address2,
-                    city,
-                    state,
-                    zip,
-                    phone,
-                    extension,
-                    eMail,
-                    notes,
-                    OrganizationID`;
 
-
-export const startGetOrgPeopleAction = (query)=>{
-    //getting poeple for a specific agency
-    return (dispatch,getState)=>{
-        return client.post('/api',{
-            query:`{
-                organizations(abbrev:"${query}"){
-                    people{
-                        ${peopleSchema}
-                    }
-                }
-            }`
-        })
-        .then(res=>{
-            let orgs = res.data.data.organizations;
-            if (orgs.length){
-                let items = orgs[0].people.map(p=>{
-                    return {value: p.personId, label: p.fullName};
-                }) 
-                dispatch(setPeopleAction(items));
-            }
-            else
-                toastr.error('Organization was not found');
-        });
-    };
-}
 export const startGetTransactionData = (offset = 0,query)=>{
     return (dispatch, getState)=>{
         return client.post('/api',{
@@ -95,6 +41,9 @@ export const startGetTransactionData = (offset = 0,query)=>{
             });
         });
     }
+}
+export const startGetOpenTransactions = ()=>{
+    return startGetTransactionData(0,'recorded:0');
 }
 export const startGetOneTransaction = (id)=>{
     return (dispatch, getState)=>{
@@ -117,23 +66,6 @@ export const startGetOneTransaction = (id)=>{
             dispatch(renderTransactionViewAction(record));
         });
     }
-}
-export const startCommitData= (model, clearCurrentOnSuccess = true)=>{
-    //TODO: refactor to commit record to database
-    model.transactionId = 1; //TODO: delete this!
-    toastr.success('Record successfuly committed');
-    return (dispatch,getState)=>{
-        //on success
-        if (clearCurrentOnSuccess){
-            dispatch(clearCurrentRecordAction());
-            dispatch(nullTransactionAction()); //TODO: refactor to have one action to zero everything
-        }
-        dispatch({
-            type: types.COMMIT_TABLE_DATA,
-            payload: model
-        })
-    }
-    
 }
 export const startTransactionsDatasetSearch = (name)=>{
     return (dispatch,getState)=>{
@@ -206,5 +138,82 @@ export const startTransactionsDatasetSearch = (name)=>{
         });
             
          
+    }
+}
+
+export const startCommitTransaction = (model, clearCurrentOnSuccess=true)=>{
+    return (dispatch,getState)=>{
+        //fk contraints have to be passed as null!
+        let query = `mutation{newTransaction(dataCatalogId:null, ${model.stringify()}){ 
+                            ${transactionSchema}
+                        }
+                    }`;
+        return client.post('/api',{query})
+        .then(res=>{
+            if (res.data.errors){
+                toastr.error('An error occurred saving record', 'See console for details');
+                console.log(res.data.errors);
+            }
+            //on success
+            else {
+                let transaction = res.data.data.newTransaction;
+                console.log(transaction);
+                toastr.success('Record successfuly committed');
+                dispatch(setCurrentRecordAction(transaction));
+                dispatch(renderTransactionViewAction(transaction));
+                dispatch(startGetOpenTransactions());
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+            console.log(model.stringify());
+            toastr.error('A server error occurred', 'Check console');
+        })
+        
+    }
+}
+
+export const startUpdateTransaction = (id,model)=>{
+    return (dispatch,getState)=>{
+        let query = `mutation{changeTransaction(transactionId:${id}, ${model.stringify()}){
+                ${transactionSchema}
+            }
+        }`;
+        return client.post('/api', {query})
+        .then(res=>{
+            let transaction = res.data.data.changeTransaction;
+            if (res.data.errors){
+                toastr.error('Error updating record', 'See console for details');
+                console.log(res.data.errors);
+            }else{
+                toastr.success('Successfully updated record');
+                dispatch(setCurrentRecordAction(transaction));
+                dispatch(startGetOpenTransactions());
+                if (transaction.passed || transaction.recorded){
+                    dispatch(renderTransactionViewAction(transaction));
+                }
+            }
+        })
+    }
+}
+export const startRecordTransaction = id=>{
+    return (dispatch,getState)=>{
+        let query = `mutation{recordTransaction(transactionId:${id}){
+            dataCatalogId
+            }
+        }`;
+        toastr.info('Transaction has been submitted', 'This process may take up to 30 seconds to complete...');
+        return client.post('/api', {query})
+        .then(res=>{
+            if (res.data.errors){
+                toastr.error('Error recording transaction', 'See console for details');
+                console.log(res.data.errors);
+            }else{
+                toastr.success('Successfully recorded transaction');
+                dispatch(startGetOpenTransactions());
+                dispatch(nullTransactionAction());
+                dispatch(renderTransactionViewAction());
+            }
+        })
     }
 }

@@ -23,6 +23,9 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.INTEGER,
 			allowNull: true,
 			field: 'Submit Person'
+			// set: function(value){
+			// 	this.setDataValue('submitPerson',parseInt(value));
+			// }
 		},
 		action: {
 			type: DataTypes.STRING,

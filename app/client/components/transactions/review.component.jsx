@@ -2,6 +2,7 @@ import React from 'react';
 import { connected } from '../../helpers/redux.helpers';
 import helper from '../../helpers/html.helpers';
 import {TransactionReviewModel} from '../../models/transaction.models';
+import {startUpdateTransaction} from '../../redux/actions/transaction.actions';
 
 @connected
 export default class TransactionReview extends React.Component{
@@ -25,7 +26,9 @@ export default class TransactionReview extends React.Component{
     }
     handleClick = (e)=>{
         e.preventDefault();
-        console.log(this.props.transaction.model, this.props.transaction.model.isValid());
+        let {dispatch, current, transaction} = this.props;
+        dispatch(startUpdateTransaction(current.transactionId, transaction.model ));
+        //console.log(this.props.transaction.model, this.props.transaction.model.isValid());
     }
     onDateChange = (dateString, opt)=>{
         this.props.transaction.model.reviewDate = opt.timestamp;
@@ -53,10 +56,6 @@ export default class TransactionReview extends React.Component{
                 </div>
                 <div className='panel-body'>
                     <form className='form-horizontal'>
-                        <div className='form-group'>
-                            {helper.labelFor('Review date')}
-                            {helper.datePickerFor('reviewDate', this.onDateChange)}
-                        </div>
                         <div className='form-group'>
                             {helper.labelFor('Reviewer')}
                             {helper.dropDownFor('reviewPerson',this.props.people, this.updateModel, ref=>this._refs['reviewPerson']=ref)}

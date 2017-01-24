@@ -8,9 +8,11 @@ import organizationQuery from './queries/organizationQuery';
 import personQuery from './queries/personQuery';
 import keywordQuery from './queries/keywordQuery';
 import transactionMut from './mutators/transactionMut';
+import organizationMut from './mutators/organizationMut';
+import personMut from './mutators/peopleMut';
 import * as _ from 'lodash';
 const rootQueryFields = Object.assign(dataCatalogQuery, transactionQuery, featureClassQuery, keywordQuery, personQuery, organizationQuery);
-const rootMutateFields = Object.assign(transactionMut);
+const rootMutateFields = Object.assign(transactionMut, personMut, organizationMut);
 const Query = new GraphQLObjectType({
     name: 'Query',
     description: 'Root query object',

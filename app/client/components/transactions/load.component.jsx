@@ -2,6 +2,7 @@ import React from 'react';
 import { connected } from '../../helpers/redux.helpers';
 import helper from '../../helpers/html.helpers';
 import {TransactionLoadModel} from '../../models/transaction.models';
+import {startRecordTransaction} from '../../redux/actions/transaction.actions';
 
 @connected
 export default class TransactionLoad extends React.Component{
@@ -19,7 +20,9 @@ export default class TransactionLoad extends React.Component{
         this.submitBtn.disabled = !this.props.transaction.model.isValid(); //because of the way we're collecting values, must check validity manually after change/mount'
     }
     handleClick = (e)=>{
+        let {current,dispatch} = this.props;
         e.preventDefault();
+        dispatch(startRecordTransaction(current.transactionId));
         //console.log(this.props.transaction.model, this.props.transaction.model.isValid());
     }
 
@@ -41,10 +44,6 @@ export default class TransactionLoad extends React.Component{
         this.resetValues();
         const markup = (
             <form className='form-horizontal' onSubmit={this.handleClick}>
-                    <div className='form-group'>
-                        {helper.labelFor('Load date')}
-                        {helper.datePickerFor('loadDate', this.onDateChange)}
-                    </div>
                     <div className='form-group'>
                         {helper.labelFor('Dataset name')}
                         {helper.textFieldFor('submitName', this.updateModel, ref=>this._refs['submitName'] = ref)}  

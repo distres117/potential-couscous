@@ -6,7 +6,8 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			primaryKey: true,
-			field: 'OrganizationID'
+			field: 'OrganizationID',
+			autoIncrement:true
 		},
 		name: {
 			type: DataTypes.STRING,
