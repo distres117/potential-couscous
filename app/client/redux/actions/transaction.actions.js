@@ -1,7 +1,7 @@
 import client from '../../services/axios.service';
 import {toastr} from 'react-redux-toastr';
 import types from './action.types';
-import {renderTransactionViewAction, setCurrentRecordAction, clearCurrentRecordAction, nullTransactionAction, commitTableData} from './app.actions';
+import {renderTransactionViewAction, setCurrentRecordAction, clearCurrentRecordAction, nullTransactionAction, commitTableData, setVersions} from './app.actions';
 import {searchDataGp} from '../../services/arcpyService';
 
 const transactionSchema = `
@@ -103,6 +103,8 @@ export const startTransactionsDatasetSearch = (name)=>{
                         // });
                     }else{
                         toastr.success('Match found in SDE');
+                        let versions = res.sdeVersions;
+                        dispatch(setVersions(versions));
                         dispatch({
                             type:types.SEARCH_RESULT_DATASET,
                             payload:{
@@ -116,6 +118,7 @@ export const startTransactionsDatasetSearch = (name)=>{
             //check to see if there are open transactions for that dataset
             else{
                 toastr.success('Match found in catalog');
+                dispatch(setVersions(['sde.DEFAULT'])); //TODO: this will probably need to be the actual list of versions
                 let payload = {result: name, message: 'Match found in catalog'};
                 let transactions = foundRows;
                 if (transactions.length){

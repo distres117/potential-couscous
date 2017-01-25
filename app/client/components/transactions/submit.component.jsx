@@ -13,9 +13,9 @@ export default class TransactionSubmit extends React.Component {
         this.setInitialState();
         this.actionList = ['New', 'Update (version)', 'Update (external)', 'Archive', 'Rename', 'Delete'];
         this.typeList = [
-            {label:'Feature Class', value:'featureClasses'},
-            {label: 'Raster', value: 'rasters'},
-            {label: 'Table', value: 'tables'}
+            {label:'Feature Class', value:1},
+            {label: 'Raster', value: 2},
+            {label: 'Table', value: 3}
         ];
     }
     setInitialState(){
@@ -26,6 +26,7 @@ export default class TransactionSubmit extends React.Component {
         }
     }
     componentWillReceiveProps(nextProps){
+        this.checkIfValid();
         let{searchResult} = nextProps;
         if (searchResult.result){
             if (searchResult.extra)
@@ -44,9 +45,10 @@ export default class TransactionSubmit extends React.Component {
         this.props.transaction.model.submitDate = new Date(dateString);
     }
     handleClick = (e)=>{
-        let {dispatch} = this.props;
+        let {dispatch, transaction} = this.props;
         e.preventDefault();
-        dispatch(startCommitTransaction(this.props.transaction.model));
+        //console.log(transaction.model);
+        dispatch(startCommitTransaction(transaction.model));
     }
     handleSearch = e=>{
         e.preventDefault();
@@ -119,6 +121,12 @@ export default class TransactionSubmit extends React.Component {
                         </div>
 
                         ))}
+                    </div>
+                </div>
+                <div hidden={!this.props.versions.length}>
+                    <div className='form-group'>
+                        {helper.labelFor('Version')}
+                        {helper.dropDownFor('submitVersion', this.props.versions, this.updateModel,null)}
                     </div>
                 </div>
                 

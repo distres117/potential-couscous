@@ -37,14 +37,17 @@ export class TransactionSubmitModel{
     description = null;
     indexes = null;
     dataType = null;
+    submitVersion = null;
     converters = {
-        submitPerson: val=>parseInt(val),
-        //submitDate: val=>parseInt(val)
+        submitPerson: val=>parseInt(val)
     }
     
 
     isValid(){
-        return _isValid.call(this, ['indexes', 'description']);
+        let optional = ['indexes', 'description'];
+        if (this.submitName && !this.submitName.includes('sde.SDE'));
+            optional.push('submitVersion');
+        return _isValid.call(this, optional);
     }
     stringify(){
         return _stringify.call(this);

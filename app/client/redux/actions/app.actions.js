@@ -70,3 +70,12 @@ export const nullTransactionAction = ()=>{
         type:types.NULL_TRANSACTION
     }
 }
+export const setVersions = versions=>{
+    return {
+        type:types.SET_VERSIONS,
+        payload:versions
+    }
+}
+export const clearVersions =()=>{
+
+}

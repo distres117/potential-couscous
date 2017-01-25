@@ -66,3 +66,11 @@ export const searchReducer = (state={},action)=>{
             return state;
     }
 }
+export const versionsReducer = (state=[], action)=>{
+    switch(action.type){
+        case types.SET_VERSIONS:
+            return action.payload;
+        default:
+            return state;
+    }
+}

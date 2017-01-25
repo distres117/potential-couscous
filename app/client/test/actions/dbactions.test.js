@@ -20,7 +20,7 @@ function configStub(returnData){ //stubbing the api instead of using nock -- eas
 const createStore = configureMockStore([thunk]);
 
 let sandbox;
-describe('db actions testing',()=>{
+xdescribe('db actions testing',()=>{
     describe('startTransactionDatasetSearch',function(){
         this.timeout(20000);
         let store;
@@ -53,18 +53,18 @@ describe('db actions testing',()=>{
             let returnData = {
                 data:{
                     data:{
-                    transactions:[
-                        {lastUpdated: new Date('7/1/2016'), transactionId: 1, passed: 1},
-                        {lastUpdated: new Date('6/1/2016'), transactionId: 2, recorded:0},
-                        {lastUpdated: new Date('5/1/2016'), transactionId: 3, recorded:1},
-                        ]
-                    }
+                        transactions:[
+                                {lastUpdated: new Date('7/1/2016'), transactionId: 1, passed: 1},
+                                {lastUpdated: new Date('6/1/2016'), transactionId: 2, recorded:0},
+                                {lastUpdated: new Date('5/1/2016'), transactionId: 3, recorded:1},
+                            ]
+                        }
                 }
             }
             configStub(returnData);
             return store.dispatch(startTransactionsDatasetSearch('YOU_FOUND_ME'))
             .then(()=>{
-                let action = store.getActions()[0];
+                let action = store.getActions()[1];
                 expect(action).to.be.ok;
                 expect(action.payload.message).to.equal('Match found with 2 open transactions');
                 expect(action.payload.extra.transactionId).to.equal(1);
@@ -81,7 +81,7 @@ describe('db actions testing',()=>{
             configStub(returnData);
             return store.dispatch(startTransactionsDatasetSearch('sde.SDE.NYC_Buildings_composite'))
             .then(()=>{
-                let action = store.getActions()[0];
+                let action = store.getActions()[1];
                 expect(action).to.be.ok;
                 expect(action.payload.message).to.equal('Match found in sde');
             });
