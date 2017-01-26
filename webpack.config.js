@@ -28,11 +28,16 @@ var devPlugins =([
 ]).concat(commonPlugins);
 
 var prodPlugins = ([
+    new webpack.DefinePlugin({
+        'process.env':{
+            NODE_ENV: JSON.stringify('production')
+        }
+    }),
     new webpack.optimize.UglifyJsPlugin({
             compressor:{
                 warnings: false
             }
-        }),
+        })
 ]).concat(commonPlugins);
 
 let externals = isClientTest ? [nodeExternals()] : [];
