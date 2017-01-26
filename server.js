@@ -6,5 +6,5 @@ const isDev = process.env.DB === 'DEV';
 
 connect(isDev)
 .then(()=>{
-    app.listen(port, ()=>console.log(`SERVER IS RUNNING ON ${port}`));
+    app.listen(3000, ()=>console.log(`SERVER IS RUNNING...`));
 });

@@ -8,7 +8,8 @@
     "test-server": "cross-env DB=DEV mocha --recursive --compilers js:babel-core/register --require babel-polyfill",
     "dev": "cross-env DB=DEV TEST=true concurrently \"nodemon .\" \"webpack -w\"",
     "dev-scratch": "cross-env DB=DEV concurrently \"nodemon .\" \"webpack -w\"",
-    "start": "node ."
+    "start": "node .",
+	  "build":"webpack"
   },
   "author": "",
   "license": "ISC",

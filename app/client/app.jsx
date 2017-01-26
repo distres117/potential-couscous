@@ -7,7 +7,7 @@ import Router from './components/router';
 import reducers from './redux/reducers';
 
 const store = redux.createStore(reducers,{},
-    redux.compose(redux.applyMiddleware(thunk), window.devToolsExtension()));
+    redux.compose(redux.applyMiddleware(thunk)));
 
 ReactDOM.render(
     <Provider store={store}>

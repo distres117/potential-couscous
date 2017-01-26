@@ -4,7 +4,7 @@ import {Schema} from '../../db/schemas';
 import path from 'path';
 const app = Express();
 
-app.use(Express.static(path.join(__dirname,'../../public')));
+app.use('/', Express.static(path.join(__dirname,'../../public')));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
