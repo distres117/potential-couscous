@@ -6,7 +6,7 @@ import Sequelize from 'sequelize';
 import {TransactionSubmitModel} from '../../app/client/models/transaction.models';
 import * as _ from 'lodash';
 
-describe('api tests', function () { //for new dataset, must have run util tests at least once (to export the metadata)
+xdescribe('api tests', function () { //for new dataset, must have run util tests at least once (to export the metadata)
     let transaction;
     const datasetName = '_OMtesting_feature';
     const loadDataset = `sde.SDE.${datasetName}`;

@@ -4,10 +4,10 @@ import axios from 'axios';
 import {getDetailsGp} from '../app/services/acpyService'
 
 //These tests will not work without arcgis server and the appropriate gp service and data
-xdescribe('util tests', function(){
+describe('util tests', function(){
     const datasetName = '_OMtesting_feature';
     this.timeout(60000);
-    xit('should export metadata from dataset', ()=>{
+    it('should export metadata from dataset', ()=>{
         return runProcess(datasetName, 'feature')
         .then(out=>{
             expect(out).to.equal('success');
