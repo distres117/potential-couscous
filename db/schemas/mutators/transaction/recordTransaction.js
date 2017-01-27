@@ -39,8 +39,15 @@ export default async (source,args)=>{
         return transaction.save();
     }
     //If this is a new entry in catalog
-    let {data} = await getDetailsGp(transaction.submitName, transaction.dataType);
-    let metadata = data.results[0].value.metadata ? data.results[0].value.metadata.metadata : null;
+    let result;
+    try{
+        result = await getDetails(transaction.submitName, transaction.dataType);
+    }
+    catch(e){
+        console.log(e);
+    }
+    let value = result.value; 
+    let metadata = value.metadata ? value.metadata.metadata : null;
     
     //create new DataCatalog row
     console.log(chalk.blue('Catalog row..'));
@@ -58,8 +65,8 @@ export default async (source,args)=>{
                 dataCatalogId: catalogRow.dataCatalogId,
                 dataType: type,
                 featureClass: loadName,
-                featureType: data.results[0].value.featureType,
-                geometryType: data.results[0].value.shapeType
+                featureType: value.featureType,
+                geometryType: value.shapeType
             });
         } //TODO: Conditions for other dataset types
     } catch (e) {
@@ -68,7 +75,7 @@ export default async (source,args)=>{
 
     //create fields data rows
     console.log(chalk.blue('field rows..'));
-    let fieldPromises = data.results[0].value.fields.map(field => {
+    let fieldPromises = value.fields.map(field => {
         return models.Field.create({
             dataCatalogId: catalogRow.dataCatalogId,
             alias: field.alias,

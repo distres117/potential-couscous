@@ -5,8 +5,9 @@ import { connect, models } from '../../db';
 import Sequelize from 'sequelize';
 import {TransactionSubmitModel} from '../../app/client/models/transaction.models';
 import * as _ from 'lodash';
+import fs from 'fs';
 
-xdescribe('api tests', function () { //for new dataset, must have run util tests at least once (to export the metadata)
+describe('api tests', function () { //for new dataset, must have run util tests at least once (to export the metadata)
     let transaction;
     const datasetName = '_OMtesting_feature';
     const loadDataset = `sde.SDE.${datasetName}`;
@@ -14,12 +15,13 @@ xdescribe('api tests', function () { //for new dataset, must have run util tests
     const renamed = '_omtesting_';
     const loadRenamed = `sde.SDE.${renamed}`;
     const archiveRenamed = `archive.SDE.${renamed}`; 
-    this.timeout(30000);
-    before(done => {
-        connect(true)
-            .then(() => {
-                done();
-            });
+    this.timeout(60000);
+    before(()=> {
+        //delete generated xml first...
+        let fileName = `\\\\vnxfileserver\\GIS_FILES\\SDE_IMPORT\\READY_TO_LOAD\\metadata_export\\_OMtesting_feature.xml`;
+        if (fs.existsSync(fileName)) 
+            fs.unlinkSync(fileName);
+        return connect(true)
     });
     it('should create new transaction', () => {
         let query = `

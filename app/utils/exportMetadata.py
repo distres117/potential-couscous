@@ -12,18 +12,24 @@ def exportMetadata(datasetN, datasetT):
         print("arguments are invalid")
         return
     dataset = []
-    if datasetT == "table":
+    if datasetT == "3":
         pass
-    elif datasetT == "raster":
+    elif datasetT == "2":
         pass
-    elif datasetT == "feature":
+    elif datasetT == "1":
         dataset = arcpy.ListFeatureClasses(str(datasetN))
+    else:
+        return
     if dataset.count == 0:
         print("cannot find dataset")
         return
     outXml = os.path.join(XML_PATH, datasetN + ".xml")
-    arcpy.ExportMetadata_conversion(dataset[0], TRANSLATOR, outXml)
-    print("success")
-    return
+    if os.path.exists(outXml) == False:
+        arcpy.ExportMetadata_conversion(dataset[0], TRANSLATOR, outXml)
+        print("success with export")
+        return
+    else:
+        print("success")
+        return
 
 exportMetadata(datasetName, datasetType)
