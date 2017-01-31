@@ -45,10 +45,15 @@ export default {
             
         );
     },
-    buttonFor(name,title,clicked, classStyling){
+    buttonFor(name,title,classStyling, ref){
         return(
-            <button className={classStyling} name={name} onClick={clicked}>{title}</button> 
+            <button className={classStyling} name={name} ref={ref}>{title}</button> 
         );
+    },
+    asyncButtonFor(name, title, hook, classStyling, processStyling, ref){
+        if (!hook)
+            return this.buttonFor(name,title,classStyling,ref);
+        return <div className={processStyling}></div>
     },
     textAreaFor(name, change, ref){
         return (

@@ -25,6 +25,16 @@ export const currentRecordReducer = (state=new CurrentRecord(), action)=>{
             return state;
     }
 }
+export const longProcessReducer = (state = false,action)=>{
+    switch(action.type){
+        case types.START_LONG_PROCESS:
+            return true;
+        case types.END_LONG_PROCESS:
+            return false;
+        default:
+            return state;
+    }
+}
 
 
 export const transactionReducer = (state=new Transaction(), action)=>{

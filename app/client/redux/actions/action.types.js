@@ -12,5 +12,7 @@ export default {
         COMMIT_TABLE_DATA: 'commit_table_data',
         SEARCH_RESULT_DATASET: 'search_result_dataset',
         SET_PEOPLE: 'set_people',
-        SET_VERSIONS:'set_versions'
+        SET_VERSIONS:'set_versions',
+        START_LONG_PROCESS:'start_long_process',
+        END_LONG_PROCESS:'end_long_process'
 };

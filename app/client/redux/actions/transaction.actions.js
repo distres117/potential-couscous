@@ -1,7 +1,7 @@
 import client from '../../services/axios.service';
 import {toastr} from 'react-redux-toastr';
 import types from './action.types';
-import {renderTransactionViewAction, setCurrentRecordAction, clearCurrentRecordAction, nullTransactionAction, commitTableData, setVersions} from './app.actions';
+import {renderTransactionViewAction, setCurrentRecordAction, clearCurrentRecordAction, nullTransactionAction, commitTableData, setVersions, startLongProcess,endLongProcess} from './app.actions';
 import {searchDataGp} from '../../services/arcpyService';
 
 const transactionSchema = `
@@ -199,22 +199,26 @@ export const startUpdateTransaction = (id,model)=>{
         })
     }
 }
-export const startRecordTransaction = id=>{
+export const startRecordTransaction = (id, model)=>{
     return (dispatch,getState)=>{
-        let query = `mutation{recordTransaction(transactionId:${id}){
+        dispatch(startLongProcess());
+        console.log(model.stringify());
+        let query = `mutation{recordTransaction(transactionId:${id}, ${model.stringify()}){
             dataCatalogId
             }
         }`;
         toastr.info('Transaction has been submitted', 'This process may take up to 30 seconds to complete...');
         return client.post('/api', {query})
         .then(res=>{
+            dispatch(endLongProcess());
             if (res.data.errors){
                 toastr.error('Error recording transaction', 'See console for details');
                 console.log(res.data.errors);
             }else{
+                //let transaction = res.data.data.recordTransaction;
                 toastr.success('Successfully recorded transaction');
                 dispatch(startGetOpenTransactions());
-                dispatch(nullTransactionAction());
+                dispatch(clearCurrentRecordAction());
                 dispatch(renderTransactionViewAction());
             }
         })

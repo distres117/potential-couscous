@@ -26,8 +26,7 @@ export default {
             let type = dataType(args.datasetType);
             
             const transaction = await models.Transaction.create(_.assign(args, {
-                submitDate: Date.now(),
-                dataType: type
+                submitDate: Date.now()
             }));
             return transaction;
         }
@@ -46,7 +45,7 @@ export default {
     },
     recordTransaction: {
         type: transactionType,
-        args: _.assign(attributeFields(models.Transaction, { only: ['transactionId', 'loadName'] })),
+        args: _.assign(attributeFields(models.Transaction, { only: ['transactionId', 'submitName', 'sdePerson'] })),
         resolve: recordTransactionFn
     },
     archiveTransaction: { //creates a new row in transactions

@@ -3,7 +3,7 @@ import { graphql } from 'graphql';
 import { Schema } from '../../db/schemas';
 import { connect, models } from '../../db';
 
-xdescribe('People api tests', ()=>{
+describe('People api tests', ()=>{
     let orgId;
     before(()=>{
         return connect(true);

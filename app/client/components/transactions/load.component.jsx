@@ -20,9 +20,9 @@ export default class TransactionLoad extends React.Component{
         this.submitBtn.disabled = !this.props.transaction.model.isValid(); //because of the way we're collecting values, must check validity manually after change/mount'
     }
     handleClick = (e)=>{
-        let {current,dispatch} = this.props;
+        let {current,dispatch, transaction} = this.props;
         e.preventDefault();
-        dispatch(startRecordTransaction(current.transactionId));
+        dispatch(startRecordTransaction(current.transactionId, transaction.model));
         //console.log(this.props.transaction.model, this.props.transaction.model.isValid());
     }
 
@@ -42,6 +42,7 @@ export default class TransactionLoad extends React.Component{
     }
     render(){
         this.resetValues();
+        let {processing} = this.props;
         const markup = (
             <form className='form-horizontal' onSubmit={this.handleClick}>
                     <div className='form-group'>
@@ -52,7 +53,7 @@ export default class TransactionLoad extends React.Component{
                         {helper.labelFor('Sde person')}
                         {helper.dropDownFor('sdePerson',this.props.people, this.updateModel, ref=>this._refs['sdePerson'] = ref )}
                     </div>
-                    <button className='btn btn-primary pull-right' ref={ref=>this.submitBtn = ref}>Submit</button>
+                    {helper.asyncButtonFor('loadBtn', 'Submit', processing, 'btn btn-primary pull-right', 'loader pull-right', ref=>this.submitBtn = ref )}
                 </form>
         );
         return(

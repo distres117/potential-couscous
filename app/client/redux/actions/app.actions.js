@@ -11,7 +11,9 @@ export const setCurrentRecordAction = (row)=>{
 }
 export const renderTransactionViewAction = (row)=>{
     return (dispatch, getState)=>{
-        if (!row.passed && !row.recorded)
+        if (!row)
+            dispatch(nullTransactionAction());
+        else if (!row.passed && !row.recorded)
             dispatch(reviewTransactionAction());
         else if (row.passed && !row.recorded)
             dispatch(loadTransactionAction());
@@ -78,4 +80,14 @@ export const setVersions = versions=>{
 }
 export const clearVersions =()=>{
 
+}
+export const startLongProcess = ()=>{
+    return {
+        type: types.START_LONG_PROCESS
+    }
+}
+export const endLongProcess = () =>{
+    return {
+        type: types.END_LONG_PROCESS
+    }
 }

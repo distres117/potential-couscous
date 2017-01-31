@@ -13,9 +13,9 @@ export default class TransactionSubmit extends React.Component {
         this.setInitialState();
         this.actionList = ['New', 'Update (version)', 'Update (external)', 'Archive', 'Rename', 'Delete'];
         this.typeList = [
-            {label:'Feature Class', value:1},
-            {label: 'Raster', value: 2},
-            {label: 'Table', value: 3}
+            {label:'Feature Class', value:'featureClasses'},
+            {label: 'Raster', value: 'rasters'},
+            {label: 'Table', value: 'tables'}
         ];
     }
     setInitialState(){
@@ -89,7 +89,9 @@ export default class TransactionSubmit extends React.Component {
         //console.log(this.props.transaction.model);
     }
     render() {
-        let {model} = this.props.transaction;
+        let {transaction,readyToLoad} = this.props;
+        //console.log(readyToLoad);
+        let model = transaction.model;
         const markup = (
             <form className='form-horizontal' onSubmit={this.handleClick}>
                 <div className='form-group'>

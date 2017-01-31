@@ -27,6 +27,9 @@ function _stringify(){
     },this);
     return arr.join(", ");
 }
+function wrapString(str){
+    return `\"${str}\"`;
+}
 
 export class TransactionSubmitModel{
     
@@ -39,7 +42,15 @@ export class TransactionSubmitModel{
     dataType = null;
     submitVersion = null;
     converters = {
-        submitPerson: val=>parseInt(val)
+        submitPerson: val=>parseInt(val),
+        dataType: val=>{
+            let lookup = {
+                featureClasses: wrapString(1),
+                rasters: wrapString(2),
+                tables: wrapString(3)
+            };
+            return lookup[val];
+        }
     }
     
 
@@ -83,10 +94,16 @@ export class TransactionLoadModel{
     //loadDate = Date.now();
     sdePerson = null;
     submitName = null;
+    converters = {
+        sdePerson: val=>parseInt(val)
+    }
     prePopulate(cur,fn){
         return _prePopulate.call(this,cur,fn);
     }
     isValid(){
         return _isValid.call(this);
+    }
+    stringify(){
+        return _stringify.call(this);
     }
 }

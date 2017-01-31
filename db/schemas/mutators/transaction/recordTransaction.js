@@ -22,6 +22,7 @@ export default async (source,args)=>{
     transaction.loadName = loadName;
     transaction.loadDate = Date.now();
     transaction.recorded = 1;
+    transaction.sdePerson = args.sdePerson;
     //check if catalogRow already exists
     //console.log(chalk.red(transaction.submitName));
     let existingRow = await models.DataCatalog.findOne({where:{
