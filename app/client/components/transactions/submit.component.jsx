@@ -17,6 +17,7 @@ export default class TransactionSubmit extends React.Component {
             {label: 'Raster', value: 'rasters'},
             {label: 'Table', value: 'tables'}
         ];
+        this._refs = {};
     }
     setInitialState(){
         this.state = {
@@ -88,15 +89,21 @@ export default class TransactionSubmit extends React.Component {
         this.checkIfValid();
         //console.log(this.props.transaction.model);
     }
+    resetValues(){
+        if (!this.props.transaction.model)
+            return;
+        this.props.transaction.model.prePopulate(this._refs, (tar,val)=>tar.value=val);
+    }
     render() {
         let {transaction,readyToLoad} = this.props;
+        this.resetValues();
         //console.log(readyToLoad);
         let model = transaction.model;
         const markup = (
             <form className='form-horizontal' onSubmit={this.handleClick}>
                 <div className='form-group'>
                     {helper.labelFor('Submit person')}
-                    {helper.asyncDropdownFor('submitPerson', this.props.people, this.updateModel, ref=>this.submitPerson = ref, ()=>!this.props.people.length)}
+                    {helper.asyncDropdownFor('submitPerson', this.props.people, this.updateModel, ref=>this._refs['submitPerson'] = ref, ()=>!this.props.people.length)}
                 </div>
                 <div className='form-group'>
                     {helper.labelFor('Action')}

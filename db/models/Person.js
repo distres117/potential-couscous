@@ -99,6 +99,12 @@ module.exports = function(sequelize, DataTypes) {
 			get: function(){
 				return `${this.lastName}, ${this.firstName}`;
 			}
+		},
+		userName:{
+			type: DataTypes.VIRTUAL,
+			get: function(){
+				return (`${this.firstName[0]}${this.lastName}`).toLowerCase();
+			}
 		}
 	}, {
 		tableName: 'tblPersons',

@@ -14,5 +14,6 @@ export default {
         SET_PEOPLE: 'set_people',
         SET_VERSIONS:'set_versions',
         START_LONG_PROCESS:'start_long_process',
-        END_LONG_PROCESS:'end_long_process'
+        END_LONG_PROCESS:'end_long_process',
+        SET_APP_USER:'set_app_user'
 };

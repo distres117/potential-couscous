@@ -43,6 +43,7 @@ var prodPlugins = ([
 let externals = isClientTest ? [nodeExternals()] : [];
 module.exports = {
     entry:[
+        'babel-polyfill',
         'jquery/dist/jquery.min.js',
         'bootstrap/dist/js/bootstrap.min.js',
         '!style-loader!css-loader!less-loader!./app/styles/global.less',

@@ -10,7 +10,7 @@
     "dev-scratch": "cross-env DB=DEV concurrently \"nodemon .\" \"webpack -w\"",
     "start": "node .",
     "build": "webpack",
-    "seed":"cross-env DB=DEV node app/utils/seed.js --compilers js:babel-core/register --require babel-polyfill"
+    "seed": "cross-env DB=DEV node app/utils/seed.js --compilers js:babel-core/register --require babel-polyfill"
   },
   "author": "",
   "license": "ISC",
@@ -39,6 +39,7 @@
     "cross-env": "^3.1.3",
     "css-loader": "^0.26.1",
     "enzyme": "^2.7.0",
+    "es6-promise": "^4.0.5",
     "express": "^4.14.0",
     "express-graphql": "^0.6.1",
     "file-loader": "^0.9.0",

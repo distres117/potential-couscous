@@ -84,3 +84,11 @@ export const versionsReducer = (state=[], action)=>{
             return state;
     }
 }
+export const appUserReducer = (state=0, action)=>{
+    switch(action.type){
+        case types.SET_APP_USER:
+            return action.payload;
+        default:
+            return state;
+    }
+}

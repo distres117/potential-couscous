@@ -7,7 +7,10 @@ db.connect(true)
         return db.models.Organization.create({abbrev:'NYCEM'});
     })
     .then(org=>{
-        return db.models.Person.create({organizationId: org.organizationId, firstName:"Person", lastName: "Test"})
+        return Promise.all([
+            db.models.Person.create({organizationId: org.organizationId, firstName:"Person", lastName: "Test"}),
+            db.models.Person.create({organizationId:org.organizationId, firstName:'Oliver', lastName: 'McRobbie' })
+        ]);
     })
     .then(()=>{
         console.log('Db seeded successfully');

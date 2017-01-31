@@ -1,4 +1,12 @@
 import * as _ from 'lodash';
+import getStore from '../redux/store';
+
+function getCurrentUser(){
+    let state = getStore().getState();
+        if (state.currentUser)
+            return state.currentUser;
+        return null;
+}
 function _prePopulate(cur, fn){
         if (!Object.keys(cur).length)
             return;
@@ -32,9 +40,8 @@ function wrapString(str){
 }
 
 export class TransactionSubmitModel{
-    
     //submitDate = Date.now();
-    submitPerson = null;
+    submitPerson = getCurrentUser();
     action = null;
     submitName = null;
     description = null;
@@ -52,11 +59,12 @@ export class TransactionSubmitModel{
             return lookup[val];
         }
     }
-    
-
+    prePopulate(cur,fn){
+        return _prePopulate.call(this,cur,fn);
+    }
     isValid(){
         let optional = ['indexes', 'description'];
-        if (this.submitName && !this.submitName.includes('sde.SDE'));
+        if (this.submitName && this.submitName.indexOf('sde.SDE') > -1);
             optional.push('submitVersion');
         return _isValid.call(this, optional);
     }
@@ -67,7 +75,7 @@ export class TransactionSubmitModel{
 
 export class TransactionReviewModel{
     //reviewDate = Date.now();
-    reviewPerson = null;
+    reviewPerson = getCurrentUser();
     reviewNotes = null;
     passed = null;
     converters = {
@@ -92,7 +100,7 @@ export class TransactionReviewModel{
 
 export class TransactionLoadModel{
     //loadDate = Date.now();
-    sdePerson = null;
+    sdePerson = getCurrentUser();
     submitName = null;
     converters = {
         sdePerson: val=>parseInt(val)
