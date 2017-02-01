@@ -50,28 +50,31 @@ export default class TransactionReview extends React.Component{
         this.resetValues();
         //console.log(this.props.transaction.model, this.props.current);
         return(
-            <div className='panel panel-default'>
-                <div className='panel-heading'>
-                    <h3 className='panel-title'>Review Transaction</h3>
+            <div>
+                <div className='panel panel-default'>
+                    <div className='panel-heading'>
+                        <h3 className='panel-title'>Review Transaction</h3>
+                    </div>
+                    <div className='panel-body'>
+                        <form className='form-horizontal'>
+                            <div className='form-group'>
+                                {helper.labelFor('Reviewer')}
+                                {helper.dropDownFor('reviewPerson',this.props.people, this.updateModel, ref=>this._refs['reviewPerson']=ref)}
+                            </div>
+                            <div className='form-group'>
+                                {helper.labelFor('Review notes *')}
+                                {helper.textAreaFor('reviewNotes', this.updateModel, ref=>this._refs['reviewNotes']=ref)}
+                            </div>
+                            <div className='form-group'>
+                                {helper.labelFor('Passed')}
+                                {helper.dropDownFor('passed', this.passedList, this.updateModel, ref=>this._refs['passed'] = ref)}
+                            </div>
+                            <button className='btn btn-primary pull-right' name='submitTransaction' ref={ref=>this.submitBtn=ref} onClick={this.handleClick}>Submit</button> 
+                        </form>
+                    </div>
+                    
                 </div>
-                <div className='panel-body'>
-                    <form className='form-horizontal'>
-                        <div className='form-group'>
-                            {helper.labelFor('Reviewer')}
-                            {helper.dropDownFor('reviewPerson',this.props.people, this.updateModel, ref=>this._refs['reviewPerson']=ref)}
-                        </div>
-                        <div className='form-group'>
-                            {helper.labelFor('Review notes')}
-                            {helper.textAreaFor('reviewNotes', this.updateModel, ref=>this._refs['reviewNotes']=ref)}
-                        </div>
-                        <div className='form-group'>
-                            {helper.labelFor('Passed')}
-                            {helper.dropDownFor('passed', this.passedList, this.updateModel, ref=>this._refs['passed'] = ref)}
-                        </div>
-                        <button className='btn btn-primary pull-right' name='submitTransaction' ref={ref=>this.submitBtn=ref} onClick={this.handleClick}>Submit</button> 
-                    </form>
-                </div>
-                
+                <span className='pull-right'>* = optional field</span>
             </div>
         ) 
     }

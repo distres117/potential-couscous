@@ -140,11 +140,11 @@ export default class TransactionSubmit extends React.Component {
                 </div>
                 
                 <div className='form-group'>
-                    {helper.labelFor('Description')}
+                    {helper.labelFor('Description *')}
                     {helper.textAreaFor('description', this.updateModel)}
                 </div>
                 <div className='form-group'>
-                    {helper.labelFor('Indexes')}
+                    {helper.labelFor('Indexes *')}
                     {helper.textFieldFor('indexes', this.updateModel)}
                 </div>
                 <button className='btn btn-primary pull-right' disabled='true' ref={ref=>this.submitBtn=ref}>Submit</button>
@@ -153,6 +153,7 @@ export default class TransactionSubmit extends React.Component {
         return (
             <div>
                 {helper.panelFor('Submit Transaction', markup)}
+                 <span className='pull-right'>* = optional field</span>
             </div>
         );
     }

@@ -4,7 +4,7 @@ import {formStyles} from '../components/styles/element.styles';
 
 export default {
     labelFor(title){
-        return <label className='col-lg-2 control-label'>{title}</label>
+        return <label className='col-lg-3 control-label'>{title}</label>
     },
     dropDownFor(name,items=[],change, ref, noDefault=false){
         return (
@@ -120,7 +120,7 @@ export default {
     },
     collapsibleFor(title, markup){
         return (
-            <div className='col-lg-8'>
+            <div className='col-lg-8 col-lg-offset-3'>
                 <a role='button' data-toggle='collapse' href='#collapsible'>{title}</a>
                 <div className='collapse' id='collapsible'>
                     {markup}
