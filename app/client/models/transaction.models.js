@@ -63,9 +63,9 @@ export class TransactionSubmitModel{
         return _prePopulate.call(this,cur,fn);
     }
     isValid(){
-        let optional = ['indexes', 'description'];
-        if (this.submitName && this.submitName.indexOf('sde.SDE') > -1);
-            optional.push('submitVersion');
+        let optional = ['indexes', 'description','submitVersion'];
+        if (this.submitName && this.submitName.includes('sde.SDE'))
+            optional.pop();
         return _isValid.call(this, optional);
     }
     stringify(){
