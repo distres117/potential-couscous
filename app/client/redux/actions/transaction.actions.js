@@ -35,6 +35,8 @@ export const startGetTransactionData = (offset = 0,query)=>{
             }`
         })
         .then(res=>{
+            if (res.data.errors)
+                return; 
             dispatch({
                 type: types.GET_TABLE_DATA,
                 payload: res.data.data.transactions //data.data...not too nice

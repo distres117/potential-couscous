@@ -39,6 +39,8 @@ export const startGetOrgPeopleAction = (query)=>{
             }`
         })
         .then(res=>{
+            if (res.data.errors)
+                return;
             let orgs = res.data.data.organizations;
             if (orgs.length){
                 let items = orgs[0].people.map(p=>{

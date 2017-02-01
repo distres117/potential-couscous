@@ -1,5 +1,6 @@
 import types from './action.types';
 import {getDetailsGp} from '../../services/arcpyService';
+import {toastr} from 'react-redux-toastr';
 
 export const startGetReadyToLoad = ()=>{
     return (dispatch, getState)=>{
@@ -12,6 +13,14 @@ export const startGetReadyToLoad = ()=>{
                 payload: res
             });
         })
+        .catch(err=>{
+            toastr.error('Uh-oh', err);
+            return;
+            // dispatch({
+            //     type:types.READY_TO_LOAD,
+            //     payload: {loaded:true}
+            // });
+        });
     }
 }
 export const noWork = ()=>{
