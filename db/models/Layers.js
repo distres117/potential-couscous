@@ -14,9 +14,9 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'LayerName'
 		},
 		groupLayer: {
-			type: "BIT",
+			type: DataTypes.INTEGER,
 			allowNull: true,
-			defaultValue: "((0))",
+			defaultValue: 0,
 			field: 'GroupLayer'
 		},
 		path: {

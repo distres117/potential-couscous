@@ -59,8 +59,8 @@ module.exports = function(sequelize, DataTypes) {
 		classMethods:{
 			associate: models=>{
 				Disbursement.belongsTo(models.DataCatalog, {foreignKey: 'DataCatalogID'});
-				Disbursement.hasOne(models.DomainFormat, {foreignKey: 'FormatID'});
-				Disbursement.hasOne(models.DomainTransmittal, {foreignKey: 'TransmittalID'});
+				//Disbursement.hasOne(models.DomainFormat, {foreignKey: 'FormatID'});
+				//Disbursement.hasOne(models.DomainTransmittal, {foreignKey: 'TransmittalID'});
 			}
 		}
 	});

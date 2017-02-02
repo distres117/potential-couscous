@@ -2,7 +2,8 @@ import * as _ from 'lodash';
 import {models} from '../../index';
 import {attributeFields} from 'graphql-sequelize';
 import {GraphQLObjectType, GraphQLList} from 'graphql';
-import dataCatalogType from './dataCatalogType'
+import dataCatalogType from './dataCatalogType';
+import layerType from './layerType';
 
 const transactionType = new GraphQLObjectType({
     name: 'Transaction',
@@ -14,6 +15,17 @@ const transactionType = new GraphQLObjectType({
                 resolve(row){
                     return row.getDataCatalog();
                 }
+            },
+            layers: {
+                type: new GraphQLList(layerType),
+                async resolve(row){
+                    let catalogRow = await row.getDataCatalog();
+                    let layers = [];
+                    if (catalogRow){
+                        layers = await catalogRow.getLayers();
+                    }
+                    return layers;
+                } 
             }
         })
     }

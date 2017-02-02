@@ -7,7 +7,7 @@ import chalk from 'chalk';
 
 let db = {};
 const modelsDir = __dirname + '/models';
-const whiteList = [
+const whiteList = [ //name matches file not model name
     'DataCatalog', 
     'Transaction', 
     'Information', 'FeatureClass', 
@@ -15,7 +15,9 @@ const whiteList = [
     'EnterpriseGeodatabase', 
     'Keyword', 
     'Person',
-    'Organization'
+    'Organization',
+    'Disbursement',
+    'Layers'
 ]; //For dev purposes
 let sequelize = new Sequelize(config.database, config.username, config.password, config.options);
 fs.readdirSync(modelsDir)

@@ -35,8 +35,8 @@ module.exports = function(sequelize, DataTypes) {
 				DataCatalog.hasMany(models.Field, {foreignKey: 'DataCatalogID'});
 				DataCatalog.hasOne(models.Information, {foreignKey:'DataCatalogID'});
 				DataCatalog.hasMany(models.Keyword, {foreignKey:'DataCatalogID'});
-				// DataCatalog.hasMany(models.Disbursement, {foreignKey:'DataCatalogID'});
-				// DataCatalog.hasMany(models.Layer, {foreignKey:'DataCatalogID'});
+				DataCatalog.hasMany(models.Disbursement, {foreignKey:'DataCatalogID'});
+				DataCatalog.hasMany(models.Layer, {foreignKey:'DataCatalogID'});
 				DataCatalog.hasOne(models.EnterpriseGdb, {foreignKey:'DataCatalogID'});
 			}
 		}

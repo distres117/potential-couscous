@@ -4,6 +4,7 @@ import {attributeFields} from 'graphql-sequelize';
 import transactionType from './transactionType';
 import informationType from './informationType';
 import featureClassType from './featureClassType';
+import layerType from './layerType';
 import keywordType from './keywordType';
 import fieldType from './fieldType';
 import gdbType from './gdbType';
@@ -49,7 +50,14 @@ const dataCatalogType = new GraphQLObjectType({
                 resolve(row){
                     return row.getKeywords();
                 }
+            },
+            layers:{
+                type:new GraphQLList(layerType),
+                resolve(row){
+                    return row.getLayers();
+                }
             }
+            
 
 
     })
