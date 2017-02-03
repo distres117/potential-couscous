@@ -19,7 +19,7 @@ export default class Navbar extends React.Component{
                 <div className='container-fluid'>
                     <div className='navbar-header'>
                     </div>
-                    <Link className='navbar-brand' to='/'>Data Catalog v2</Link>
+                    <Link className='navbar-brand' to='/'><i className='glyphicon glyphicon-globe'></i> Data Catalog</Link>
                     <div className='collapse navbar-collapse'>
                     <ul className='nav navbar-nav navbar-right'>
                         {this.makeLinkFor('transactions', 'Transactions')}

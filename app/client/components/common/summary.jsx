@@ -1,8 +1,10 @@
 import React from 'react';
 import SummaryTable from '../dashboard/summaryTable.component';
+import SummaryCallout from '../dashboard/summaryCallout.component';
 import {connected} from '../../helpers/redux.helpers';
 import {startGetInitialAction} from '../../redux/actions/common.actions';
 import helpers from '../../helpers/format.helpers';
+import {filterData} from '../../helpers/flter.helpers';
 import {convertToLookup} from '../../helpers/flter.helpers';
 
 @connected
@@ -40,6 +42,12 @@ export default class Summary extends React.Component{
             return formats[tag](cell);
         return cell;
     }
+    calloutQuery(key,data, filterFn){
+        let tableData = data[key];
+        if (!tableData || !tableData.length)
+            return;
+        return filterData(data[key], filterFn);
+    }
 
     componentDidMount(){
         this.props.dispatch(startGetInitialAction());
@@ -49,9 +57,18 @@ export default class Summary extends React.Component{
         if (_.keys(summaryData).length){
             return (
                 <div>
-                    <SummaryTable dataType='transactions' keyColumn='transactionId' title='Recently created transactions' filter={this.transactionFilter} omit={['recorded']} formatter={this.formatter}></SummaryTable>
-                    <SummaryTable dataType='transactions' keyColumn='transactionId' title='Recently closed transactions' filter={this.closeTransactionFilter} omit={['recorded']} formatter={this.formatter}></SummaryTable>
-                    <SummaryTable dataType='disbursements' keyColumn='disbursementId' title='Recently disbursed' process={this.disbursementProcess} formatter={this.formatter} ></SummaryTable>
+                    <div className='col-lg-12 well'>
+                        <SummaryCallout title='Open transactions' query={data=>this.calloutQuery('transactions', data, o=>o.recorded===0)}/>
+                        <SummaryCallout title='Recorded transactions' query={data=>this.calloutQuery('transactions', data, o=>o.recorded===1)}/>
+                        <SummaryCallout title='Disbursements' query={data=>this.calloutQuery('disbursements', data)}/>
+                        <SummaryCallout title='Layers' query={data=>this.calloutQuery('layers', data)}/>
+                    </div> 
+                    <br/>
+                    <div>
+                        <SummaryTable dataType='transactions' keyColumn='transactionId' title='Recently created transactions' filter={this.transactionFilter} omit={['recorded']} formatter={this.formatter}></SummaryTable>
+                        <SummaryTable dataType='transactions' keyColumn='transactionId' title='Recently closed transactions' filter={this.closeTransactionFilter} omit={['recorded']} formatter={this.formatter}></SummaryTable>
+                        <SummaryTable dataType='disbursements' keyColumn='disbursementId' title='Recently disbursed' process={this.disbursementProcess} formatter={this.formatter} ></SummaryTable>
+                    </div> 
                 </div>
             )
         }

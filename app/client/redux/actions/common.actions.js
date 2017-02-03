@@ -29,12 +29,18 @@ export const startGetInitialAction = ()=>{
             query:`{
                 people{personId,fullName}
             }`
-        }
+        };
+        let layersQ = {
+            query:`{
+                layers{layerName}
+            }`
+        };
 
         return Promise.all([
             client.post('/api', transationsQ),
             client.post('/api', disbursementsQ),
-            client.post('/api', peopleQ)
+            client.post('/api', peopleQ),
+            client.post('/api', layersQ)
 
         ])
         .then(responses=>{

@@ -3,6 +3,8 @@ const commonStyles = {
 }
 
 export const contentPanelStyles = {
+    background:'white',
+    paddingTop: '90px'
     //paddingLeft: commonStyles.leftSide
 }
 
