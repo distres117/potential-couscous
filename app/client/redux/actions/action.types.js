@@ -2,6 +2,8 @@ export default {
         READY_TO_LOAD: 'ready_to_load',
         GET_ALL_PEOPLE:'get_all_people',
         GET_TABLE_DATA: 'get_table_data',
+        GET_DATA_SUMMARIES:'get_data_summaries',
+        GET_DATA_INITIAL:'get_data_initial',
         SET_CURRENT_RECORD: 'set_current_record',
         OVERWRITE_CURRENT_RECORD:'overwrite_current_record',
         CREATE_TRANSACTION: 'create_transaction',

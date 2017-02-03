@@ -19,3 +19,11 @@ export const tableDataReducer = (state = [], action)=>{
             return state;
     }
 }
+export const summaryDataReducer = (state = {}, action)=>{
+    switch(action.type){
+        case types.GET_DATA_INITIAL:
+            return action.payload;
+        default:
+            return state;
+    }
+}

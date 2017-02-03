@@ -83,6 +83,16 @@ export default {
             </div>
         );
     },
+    asyncPanelFor(hook,title,markup){
+        if (!hook)
+            return this.panelFor(title, 
+                <div style={{textAlign:'center'}}>
+                    <div style={{display:'inline-block'}} className='loader'></div>
+                </div>
+            )
+        return this.panelFor(title,markup);
+        
+    },
     infoPaneFor(items, cur, headerField){
         function getMarkup(_items){
             if (!_items)

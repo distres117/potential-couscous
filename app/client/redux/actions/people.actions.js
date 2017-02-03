@@ -1,6 +1,7 @@
 import client from '../../services/axios.service';
 import {toastr} from 'react-redux-toastr';
 import {setPeopleAction, getAppUserAction} from './app.actions';
+import {convertToLookup} from '../../helpers/flter.helpers';
 
 const peopleSchema = `
                     personId,
@@ -43,9 +44,7 @@ export const startGetOrgPeopleAction = (query)=>{
                 return;
             let orgs = res.data.data.organizations;
             if (orgs.length){
-                let items = orgs[0].people.map(p=>{
-                    return {value: p.personId, label: p.fullName};
-                });
+                let items = convertToLookup(orgs[0].people, 'personId', 'fullName')
                 if (!getState().currentUser)
                     dispatch(getAppUserAction(orgs[0].people)); 
                 dispatch(setPeopleAction(items));

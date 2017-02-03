@@ -1,5 +1,5 @@
 import {gpServiceReducer} from './gpService.reducer';
-import {peopleReducer, tableDataReducer} from './db.reducer';
+import {peopleReducer, tableDataReducer, summaryDataReducer} from './db.reducer';
 import {currentRecordReducer, transactionReducer, searchReducer, versionsReducer, longProcessReducer, appUserReducer} from './app.reducers';
 import {combineReducers} from 'redux';
 import {reducer as toastReducer} from 'react-redux-toastr';
@@ -15,6 +15,7 @@ export default combineReducers({
    versions:versionsReducer,
    processing:longProcessReducer,
    currentUser: appUserReducer,
+   summaryData: summaryDataReducer, 
    clicked: (state=false, action)=>{
        if (action.type === 'THIS NO WORK')
             return action.payload;
