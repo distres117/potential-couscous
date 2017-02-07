@@ -21,6 +21,8 @@ export default {
             return;
         let rArr = [];
         function _flatten(o, ro) {
+            if (!o)
+                return;
             for (let key of Object.keys(o)) {
                 if (typeof o[key] === 'object' && !Array.isArray(o[key]))
                     _flatten(o[key], ro);
@@ -35,5 +37,10 @@ export default {
             rArr.push(ro);
         }
         return rArr;
+    },
+    booleanFormat(cell, trueFn){
+        if (trueFn(cell))
+            return (<i className='glyphicon glyphicon-ok text-success'/>)
+        return (<i className='glyphicon glyphicon-remove'/>)
     }
 }

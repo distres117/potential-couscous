@@ -1,7 +1,9 @@
 import client from '../../services/axios.service';
 import {toastr} from 'react-redux-toastr';
 import {setPeopleAction, getAppUserAction} from './app.actions';
+import {setTableData} from './common.actions';
 import {convertToLookup} from '../../helpers/flter.helpers';
+import format from '../../helpers/format.helpers';
 
 const peopleSchema = `
                     personId,
@@ -53,4 +55,35 @@ export const startGetOrgPeopleAction = (query)=>{
                 toastr.error('Organization was not found');
         });
     };
+}
+
+export const startGetAllPeopleAction = ()=>{
+    return (dispatch, getState)=>{
+        return client.post('/api',{
+            query: `{
+                people(order:"lastName"){
+                    ${peopleSchema}, organization{
+                        abbrev, organizationId, name
+                    }
+                }
+            }`
+        })
+        .then(res=>{
+            if (res.data.errors)
+                return;
+            let people =  format.flatten(res.data.data.people);
+            dispatch(setTableData(people));
+        });
+    }
+}
+
+export const filterByOrgAction = (org, baseData)=>{
+    return (dispatch,getState)=>{
+        if (!org){
+            dispatch(setTableData(baseData));
+            return;
+        }
+        let filteredData = baseData.filter(val=>val.abbrev === org);
+        dispatch(setTableData(filteredData));
+    }
 }

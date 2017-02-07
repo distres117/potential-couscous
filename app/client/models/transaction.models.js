@@ -1,43 +1,5 @@
 import * as _ from 'lodash';
-import getStore from '../redux/store';
-
-function getCurrentUser(){
-    let state = getStore().getState();
-        if (state.currentUser)
-            return state.currentUser;
-        return null;
-}
-function _prePopulate(cur, fn){
-        if (!Object.keys(cur).length)
-            return;
-        let instance = this;
-        Object.keys(cur).forEach(k=>{
-            if(instance.hasOwnProperty(k) && cur.hasOwnProperty(k)){
-                if (fn)
-                    fn(cur[k],instance[k]);
-                else if (cur[k] !== null)
-                    instance[k]=cur[k];
-                    
-            }
-        });
-    }
-function _isValid(optionalFields=[]){
-    let instance = this;
-    return _.difference(_.keys(instance), optionalFields).every(k=>instance[k]!==null && instance[k]!== '' );
-}
-function _stringify(){
-    let arr = [];
-    _.without(_.keys(this),'converters').forEach(k=>{
-        if (this[k]!== null){
-            let val = this.converters[k] ? this.converters[k](this[k]) : `\"${this[k]}\"`;
-            arr.push(`${k}:${val}`);
-        }
-    },this);
-    return arr.join(", ");
-}
-function wrapString(str){
-    return `\"${str}\"`;
-}
+import {getCurrentUser,_prePopulate,_isValid,_stringify, wrapString} from './common';
 
 export class TransactionSubmitModel{
     //submitDate = Date.now();

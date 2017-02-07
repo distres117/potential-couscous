@@ -103,7 +103,9 @@ module.exports = function(sequelize, DataTypes) {
 		userName:{
 			type: DataTypes.VIRTUAL,
 			get: function(){
-				return (`${this.firstName[0]}${this.lastName}`).toLowerCase();
+				if (this.firstName && this.lastName)
+					return (`${this.firstName[0]}${this.lastName}`).toLowerCase();
+				return;
 			}
 		}
 	}, {

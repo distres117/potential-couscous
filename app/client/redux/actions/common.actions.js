@@ -61,6 +61,12 @@ export const startGetInitialAction = ()=>{
 export const startGetInitial = ()=>{
 
 }
+export const setTableData = data=>{
+    return {
+        type: types.GET_TABLE_DATA,
+        payload:data
+    }
+}
 
 
 

@@ -6,9 +6,9 @@ export default {
     labelFor(title){
         return <label className='col-lg-3 control-label'>{title}</label>
     },
-    dropDownFor(name,items=[],change, ref, noDefault=false){
+    dropDownFor(name,items=[],change, ref, noDefault=false, cls){
         return (
-            <div className='col-lg-8'>
+            <div className={cls || 'col-lg-8'}>
                 <select className='form-control'name={name} onChange={change} style={formStyles.dropDown} ref={ref} >
                     <option></option>
                     {items.map((it,i)=>{
@@ -20,12 +20,12 @@ export default {
             </div> 
         );
     },
-    asyncDropdownFor(name, items=[], change,ref,hook){
+    asyncDropdownFor(name, items=[], change,ref,hook,cls){
         if (!hook()){
             return (
                 <div>
                     <div hidden={hook()}>
-                        {this.dropDownFor(name,items,change,ref)}
+                        {this.dropDownFor(name,items,change,ref,cls)}
                     </div>
                 </div>);
         }
@@ -62,10 +62,10 @@ export default {
             </div>
         )
     },
-    textFieldFor(name, change, ref){
+    textFieldFor(name, change, ref, cls, placeholder=''){
         return(
-            <div className='col-lg-8'>
-                <input type='text' className='form-control' onChange={change} name={name} ref={ref}/>
+            <div className={cls || 'col-lg-8'}>
+                <input type='text' placeholder={placeholder} className='form-control' onChange={change} name={name} ref={ref}/>
             </div>
         )
     },
