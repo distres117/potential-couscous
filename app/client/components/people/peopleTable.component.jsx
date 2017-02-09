@@ -1,7 +1,7 @@
 import React from 'react';
 import {connected} from '../../helpers/redux.helpers';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-import {setCurrentRecordAction, createTransactionAction, renderTransactionViewAction} from '../../redux/actions/app.actions.js';
+import {setCurrentRecordAction, overwriteCurrentRecordAction} from '../../redux/actions/app.actions.js';
 import format from '../../helpers/format.helpers.js';
 
 @connected
@@ -11,10 +11,7 @@ export default class PeopleTable extends React.Component{
     }
     handleRowSelect = (row, isSelected, e)=>{
         let {dispatch} = this.props;
-        dispatch(setCurrentRecordAction(row));
-        dispatch(renderTransactionViewAction(row));
-
-        
+        dispatch(overwriteCurrentRecordAction(row));
     }
     render(){
         const selectRowProp = {

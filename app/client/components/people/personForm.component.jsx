@@ -2,16 +2,41 @@ import React from 'react';
 import {connected} from '../../helpers/redux.helpers';
 import helpers from '../../helpers/html.helpers';
 import {convertToLookup} from '../../helpers/flter.helpers';
+import {PersonModel} from '../../models/person.models';
 
 @connected
 export default class PersonForm extends React.Component{
     constructor(props){
         super(props);
         this._refs = {};
+        this.model = new PersonModel();
+        this.isNew = true;
+    }
+    componentWillReceiveProps(nextProps){
+        if (!nextProps.current.isNull()){
+            this.populate(nextProps.current);
+            //this.model.prePopulate(this._refs, (tar,val)=>tar.value=val || '');
+            this.isNew = false;
+            //console.log(this.model, nextProps.current);
+        }else{
+            this.model = new PersonModel();
+            this.isNew = true;
+            this.populate();
+        }
+    }
+    populate(props){
+        this.model.prePopulate(this._refs, props || this.model);
+        this.validate();
+        console.log(this.model);
+    }
+    validate(){
+        this.submitBtn.disabled = !this.model.isValid();
     }
     updateModel = e =>{
     }
     render(){
+        let organizations = convertToLookup(this.props.organizations, 'organizationId', 'name')
+        let states = convertToLookup(this.props.states,'stateId', 'abbreviation');
         let markup = (
             <form className='form-horizontal'>
                 <div className='form-group'>
@@ -26,9 +51,11 @@ export default class PersonForm extends React.Component{
                 </div>
                 <div className='form-group'>
                     {helpers.labelFor('Organization')}
-                    {helpers.dropDownFor('organizationId',[],null,ref=>this._refs['organizationId'] = ref,true, 'col-lg-3' )}
-                    {helpers.textFieldFor('position', this.updateModel, ref=>this._refs['position'] = ref, 'col-lg-3', 'Position')}
-                    {helpers.textFieldFor('division', this.updateModel, ref=>this._refs['division'] = ref, 'col-lg-3', 'Division')}
+                    {helpers.dropDownFor('organizationId',organizations,this.updateModel,ref=>this._refs['organizationId'] = ref)}
+                </div>
+                <div className='form-group'>
+                    {helpers.textFieldFor('position', this.updateModel, ref=>this._refs['position'] = ref, 'col-lg-4 col-lg-offset-3', 'Position')}
+                    {helpers.textFieldFor('division', this.updateModel, ref=>this._refs['division'] = ref, 'col-lg-4', 'Division')}
                 </div>
                 <div className='form-group'>
                     {helpers.labelFor('Address')}
@@ -39,20 +66,20 @@ export default class PersonForm extends React.Component{
                 </div>
                 <div className='form-group'>
                     {helpers.labelFor('State')}
-                    {helpers.textFieldFor('city', this.updateModel, ref=>this._refs['city'], 'col-lg-3', 'City')}
-                    {helpers.dropDownFor('state', [], this.updateModel, ref=>this._refs['state'],true, 'col-lg-3', 'State')}
-                    {helpers.textFieldFor('zip', this.updateModel, ref=>this._refs['zip'], 'col-lg-3', 'Zip')}
+                    {helpers.textFieldFor('city', this.updateModel, ref=>this._refs['city'] = ref, 'col-lg-3', 'City')}
+                    {helpers.dropDownFor('state', states, this.updateModel, ref=>this._refs['state']= ref,true, 'col-lg-3', 'State')}
+                    {helpers.textFieldFor('zip', this.updateModel, ref=>this._refs['zip'] = ref, 'col-lg-3', 'Zip')}
                 </div>
                 <div className='form-group'>
                     {helpers.labelFor('Phone')}
-                    {helpers.textFieldFor('phone', this.updateModel, ref=>this._refs['phone'], 'col-lg-5')}
-                    {helpers.textFieldFor('extension', this.updateModel, ref=>this._refs['extension'], 'col-lg-3', 'Ext.')}
+                    {helpers.textFieldFor('phone', this.updateModel, ref=>this._refs['phone'] = ref, 'col-lg-5')}
+                    {helpers.textFieldFor('extension', this.updateModel, ref=>this._refs['extension'] = ref, 'col-lg-3', 'Ext.')}
                 </div>
                 <div className='form-group'>
                     {helpers.labelFor('Notes')}
-                    {helpers.textAreaFor('notes', this.updateModel, ref=>this._refs['notes'])}
+                    {helpers.textAreaFor('notes', this.updateModel, ref=>this._refs['notes'] = ref)}
                 </div>
-                <button className='btn btn-primary pull-right' disabled='true' ref={ref=>this.submitBtn=ref}>Submit</button>
+                <button className='btn btn-primary pull-right' disabled='true' ref={ref=>this.submitBtn=ref}>{this.isNew ? 'Submit':'Update'}</button>
             </form>
         );
         return (

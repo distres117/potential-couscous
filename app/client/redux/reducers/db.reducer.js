@@ -8,6 +8,14 @@ export const peopleReducer = (state=[], action)=>{
             return state;
     }
 }
+export const statesReducer = (state=[], action)=>{
+    switch(action.type){
+        case types.GET_STATES:
+            return action.payload;
+        default:
+            return state;
+    }
+}
 
 export const tableDataReducer = (state = [], action)=>{
     switch(action.type){

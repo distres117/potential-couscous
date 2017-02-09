@@ -43,19 +43,16 @@ export const transactionReducer = (state=new Transaction(), action)=>{
         case types.CREATE_TRANSACTION:
             _.assign(model,{
                 mode:'create',
-                model:action.payload
             });
             return model;
         case types.REVIEW_TRANSACTION:
             _.assign(model,{
                 mode: 'review',
-                model: action.payload
             });
             return model;
         case types.LOAD_TRANSACTION:
             _.assign(model,{
                 mode: 'load',
-                model: action.payload
             });
             return model;
         case types.NULL_TRANSACTION:
@@ -87,6 +84,14 @@ export const versionsReducer = (state=[], action)=>{
 export const appUserReducer = (state=0, action)=>{
     switch(action.type){
         case types.SET_APP_USER:
+            return action.payload;
+        default:
+            return state;
+    }
+}
+export const organizationsReducer = (state=[], action)=>{
+    switch(action.type){
+        case types.GET_ORGANIZATIONS:
             return action.payload;
         default:
             return state;

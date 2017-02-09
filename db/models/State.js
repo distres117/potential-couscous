@@ -1,7 +1,7 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('tblStates', {
+	let State = sequelize.define('State', {
 		stateId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -19,6 +19,8 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'Abbreviation'
 		}
 	}, {
-		tableName: 'tblStates'
+		tableName: 'tblStates',
+		timestamps:false
 	});
+	return State;
 };

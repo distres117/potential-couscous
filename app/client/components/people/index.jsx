@@ -1,37 +1,44 @@
 import React from 'react';
 import {connected} from '../../helpers/redux.helpers';
-import {startGetAllPeopleAction, filterByOrgAction} from '../../redux/actions/people.actions';
+import {startGetAllPeopleAction, filterByOrgAction, startGetStates} from '../../redux/actions/people.actions';
+import {startGetOrganizationsAction} from '../../redux/actions/organization.actions.js';
+import {clearCurrentRecordAction} from '../../redux/actions/app.actions';
 import PeopleTable from './peopleTable.component';
 import PersonForm from './personForm.component';
 import { formStyles, infoStyles, tableStyles, splitViews } from '../styles/layout.styles';
 import { wellStyles } from '../styles/element.styles';
 import helpers from '../../helpers/html.helpers.js';
+import {convertToLookup} from '../../helpers/flter.helpers';
 
 @connected
 export default class People extends React.Component{
     constructor(props){
         super(props);
-        this.state = {orgs:[]}
+        this.baseData = null;
     }
     componentDidMount(){
         let {dispatch} = this.props;
         dispatch(startGetAllPeopleAction());
+        dispatch(startGetOrganizationsAction());
+        dispatch(startGetStates());
     }
     componentWillReceiveProps(nextProps){
-        if (!this.state.orgs.length && nextProps.tableData.length){
-            this.setState({orgs:_.uniq(nextProps.tableData.map(d=>d.abbrev).filter(f=>f)).sort()});
+        if (!this.baseData && nextProps.tableData.length){
             this.baseData = nextProps.tableData;
         }
     }
     handleCreateNew = (e)=>{
-
+        this.props.dispatch(clearCurrentRecordAction());
     }
     filterByOrg = e=>{
         let {dispatch} = this.props;
-        let value = e.target.value;
+        let value = parseInt(e.target.value);
         dispatch(filterByOrgAction(value, this.baseData));
     }
     render(){
+        let organizations = convertToLookup(this.props.organizations, 'organizationId','abbrev');
+        if (organizations)
+            organizations = _.sortBy(organizations.filter(f=>f.label),['label']);
         return (
             <div>
                 <div style={splitViews.left}>
@@ -43,7 +50,7 @@ export default class People extends React.Component{
                             <button className='btn btn-success btn-sm' onClick={this.handleCreateNew}>Add new person</button>
                             <div className='pull-right'>
                                 {helpers.labelFor('Show only')}
-                                {helpers.dropDownFor(null, this.state.orgs, this.filterByOrg)}
+                                {helpers.dropDownFor(null, organizations, this.filterByOrg)}
                             </div>
                         </div>
                     </div>

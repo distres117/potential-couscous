@@ -6,23 +6,29 @@ export function getCurrentUser(){
             return state.currentUser;
         return null;
 }
-export function _prePopulate(cur, fn){
-        if (!Object.keys(cur).length)
-            return;
+export function _prePopulate(refs, cur){
+    if (cur && Object.keys(cur).length){
         let instance = this;
-        Object.keys(cur).forEach(k=>{
-            if(instance.hasOwnProperty(k) && cur.hasOwnProperty(k)){
-                if (fn)
-                    fn(cur[k],instance[k]);
-                else if (cur[k] !== null)
-                    instance[k]=cur[k];
-                    
+        Object.keys(instance).forEach(k=>{
+            if (cur[k] !== null){
+                instance[k]=cur[k];
             }
         });
     }
-export function _isValid(optionalFields=[]){
+    if (refs)
+        _emit.call(this,refs);
+}
+function _emit(refs){
     let instance = this;
-    return _.difference(_.keys(instance), optionalFields).every(k=>instance[k]!==null && instance[k]!== '' );
+    Object.keys(refs).forEach(k=>{
+        refs[k].value = instance[k] || '';
+    });
+}
+export function _isValid(optionalFields=[], requiredFields=[]){
+    let instance = this;
+    if (!optionalFields)
+        optionalFields = _.keys(instance);
+    return _.concat(_.difference(_.keys(instance), optionalFields),requiredFields).every(k=>instance[k]!==null && instance[k]!== '' );
 }
 export function _stringify(){
     let arr = [];

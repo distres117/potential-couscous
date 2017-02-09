@@ -17,5 +17,7 @@ export default {
         SET_VERSIONS:'set_versions',
         START_LONG_PROCESS:'start_long_process',
         END_LONG_PROCESS:'end_long_process',
-        SET_APP_USER:'set_app_user'
+        SET_APP_USER:'set_app_user',
+        GET_ORGANIZATIONS:'get_organizations',
+        GET_STATES:'get_states'
 };

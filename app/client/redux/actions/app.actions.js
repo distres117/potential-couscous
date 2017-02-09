@@ -6,7 +6,13 @@ import authService from '../../services/authService';
 export const setCurrentRecordAction = (row) => {
     //console.log('current: ', row);
     return {
-        type: types.SET_CURRENT_RECORD,
+        type: types.OVERWRITE_CURRENT_RECORD,
+        payload: row
+    }
+}
+export const overwriteCurrentRecordAction = row =>{
+    return {
+        type: types.OVERWRITE_CURRENT_RECORD,
         payload: row
     }
 }
@@ -37,7 +43,7 @@ export const reviewTransactionAction = () => {
     return (dispatch, getState) => {
         let model = new TransactionReviewModel();
         let current = getState().current;
-        model.prePopulate(current);
+        model.prePopulate(null, current);
         //dispatch(nullTransactionAction())
         dispatch({
             type: types.REVIEW_TRANSACTION,
@@ -61,7 +67,7 @@ export const loadTransactionAction = () => {
     return (dispatch, getState) => {
         let model = new TransactionLoadModel();
         let current = getState().current;
-        model.prePopulate(current);
+        model.prePopulate(null,current);
         dispatch({
             type: types.LOAD_TRANSACTION,
             payload: model
