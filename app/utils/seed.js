@@ -4,12 +4,16 @@ const db = require('../../db');
 
 db.connect(true)
     .then(()=>{
-        return db.models.Organization.create({abbrev:'NYCEM'});
-    })
-    .then(org=>{
         return Promise.all([
-            db.models.Person.create({organizationId: org.organizationId, firstName:"Person", lastName: "Test"}),
-            db.models.Person.create({organizationId:org.organizationId, firstName:'Oliver', lastName: 'McRobbie' })
+            db.models.Organization.create({abbrev:'NYCEM', name:'NYCEM'}),
+            db.models.Organization.create({abbrev:'TESTORG', name:'TESTORG'})
+        ])
+        
+    })
+    .then(orgs=>{
+        return Promise.all([
+            db.models.Person.create({organizationId: orgs[0].organizationId, firstName:"Person", lastName: "Test"}),
+            db.models.Person.create({organizationId:orgs[1].organizationId, firstName:'Oliver', lastName: 'McRobbie' })
         ]);
     })
     .then(()=>{

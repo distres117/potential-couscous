@@ -67,6 +67,12 @@ export const setTableData = data=>{
         payload:data
     }
 }
+export const commitTableData = data=>{
+    return {
+        type:types.COMMIT_TABLE_DATA,
+        payload: data
+    }
+}
 
 
 

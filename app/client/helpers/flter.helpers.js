@@ -6,7 +6,7 @@ export const summarizeData = (arr, filterFn)=>{
 
 export const convertToLookup = (arr, valField, labelField)=>{
     if (!arr || !arr.length)
-        return;
+        return [];
     return arr.map(a=>{
         return {value: a[valField], label: a[labelField]};
     });

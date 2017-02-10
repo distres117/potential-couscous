@@ -7,15 +7,19 @@ export default {
         return <label className='col-lg-3 control-label'>{title}</label>
     },
     dropDownFor(name,items=[],change, ref, noDefault=false, cls){
+        let elems;
+        if (items.length){
+            elems = items.map((it,i)=>{
+                let v = it && it.value !== undefined ? it.value : (it ? it :'');
+                it = it && it.label ? it.label : it;
+                return <option value={v} key={i}>{it}</option>
+            });
+        }
         return (
             <div className={cls || 'col-lg-8'}>
                 <select className='form-control'name={name} onChange={change} style={formStyles.dropDown} ref={ref} >
                     <option></option>
-                    {items.map((it,i)=>{
-                        let v = it.value !== undefined ? it.value : it;
-                        it = it.label || it;
-                        return <option value={v} key={i}>{it}</option>
-                    })}
+                    {elems}
                 </select>
             </div> 
         );

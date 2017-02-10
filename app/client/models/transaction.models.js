@@ -10,15 +10,18 @@ export class TransactionSubmitModel{
     indexes = null;
     dataType = null;
     submitVersion = null;
-    converters = {
-        submitPerson: val=>parseInt(val),
-        dataType: val=>{
-            let lookup = {
-                featureClasses: wrapString(1),
-                rasters: wrapString(2),
-                tables: wrapString(3)
-            };
-            return lookup[val];
+    
+    getCoverters(){
+        return {
+            submitPerson: val=>parseInt(val),
+            dataType: val=>{
+                let lookup = {
+                    featureClasses: wrapString(1),
+                    rasters: wrapString(2),
+                    tables: wrapString(3)
+                };
+                return lookup[val];
+            }
         }
     }
     prePopulate(cur,fn){
@@ -40,11 +43,13 @@ export class TransactionReviewModel{
     reviewPerson = getCurrentUser();
     reviewNotes = null;
     passed = null;
-    converters = {
-        reviewPerson: val=>parseInt(val),
-        passed: val=>parseInt(val)
-        //reviewDate: val=>parseInt(val)
-    };
+    
+    getConverters(){
+        return {
+            reviewPerson: val=>parseInt(val),
+            passed: val=>parseInt(val)
+        }
+    }
 
     prePopulate(cur,fn){
         return _prePopulate.call(this,cur,fn);
@@ -64,8 +69,11 @@ export class TransactionLoadModel{
     //loadDate = Date.now();
     sdePerson = getCurrentUser();
     submitName = null;
-    converters = {
-        sdePerson: val=>parseInt(val)
+    
+    getConverters(){
+        return {
+            sdePerson: val=>parseInt(val)
+        };
     }
     prePopulate(cur,fn){
         return _prePopulate.call(this,cur,fn);

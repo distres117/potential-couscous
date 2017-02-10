@@ -1,5 +1,9 @@
 import getStore from '../redux/store';
+import * as _ from 'lodash';
 
+export function isNull(){
+    return Object.keys(this).every(k=>this[k]===null || this[k]=== undefined )
+}
 export function getCurrentUser(){
     let state = getStore().getState();
         if (state.currentUser)
@@ -32,9 +36,10 @@ export function _isValid(optionalFields=[], requiredFields=[]){
 }
 export function _stringify(){
     let arr = [];
-    _.without(_.keys(this),'converters').forEach(k=>{
-        if (this[k]!== null){
-            let val = this.converters[k] ? this.converters[k](this[k]) : `\"${this[k]}\"`;
+    _.keys(this).forEach(k=>{
+        if (this[k]!== null && this[k] !== undefined){
+            let converters = this.getConverters()
+            let val = converters[k] ? converters[k](this[k]) : `\"${this[k]}\"`;
             arr.push(`${k}:${val}`);
         }
     },this);

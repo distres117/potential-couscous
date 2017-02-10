@@ -25,7 +25,7 @@ export default class PeopleTable extends React.Component{
                 <TableHeaderColumn hidden={true} dataField='personId' isKey={true}>#</TableHeaderColumn>
                 <TableHeaderColumn dataField='lastName'>Last name</TableHeaderColumn>
                 <TableHeaderColumn dataField='firstName'>First name</TableHeaderColumn>
-                <TableHeaderColumn dataField='name'>Organization</TableHeaderColumn>
+                <TableHeaderColumn dataField='abbrev'>Organization</TableHeaderColumn>
             </BootstrapTable>
         );
     }

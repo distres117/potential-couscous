@@ -12,5 +12,13 @@ export default{
             const person = await models.Person.create(_.assign(args));
             return person;
         }
+    },
+    changePerson:{
+        type:personType,
+        args:_.assign(attributeFields(models.Person)),
+        async resolve(source, args){
+            let person = await models.Person.findById(args.personId);
+            return person.update(_.assign(_.omit(args,['personId'])));
+        }
     }
 }

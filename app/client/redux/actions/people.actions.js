@@ -1,7 +1,8 @@
 import client from '../../services/axios.service';
 import {toastr} from 'react-redux-toastr';
 import {setPeopleAction, getAppUserAction} from './app.actions';
-import {setTableData} from './common.actions';
+import {setTableData, commitTableData} from './common.actions';
+import {clearCurrentRecordAction} from './app.actions';
 import {convertToLookup} from '../../helpers/flter.helpers';
 import format from '../../helpers/format.helpers';
 import types from './action.types';
@@ -106,5 +107,45 @@ export const filterByOrgAction = (org, baseData)=>{
         }
         let filteredData = baseData.filter(val=>val.organizationId === org);
         dispatch(setTableData(filteredData));
+    }
+}
+export const startCommitPersonAction = model =>{
+    return (dispatch, getState)=>{
+        return client.post('/api', {
+            query:`
+                mutation{
+                    newPerson(${model.stringify()}){
+                        ${peopleSchema}
+                    }
+            }`
+        })
+        .then(res=>{
+            if (res.data.errors)
+                return;
+            toastr.success('Person successfully added');
+            dispatch(startGetAllPeopleAction());
+            dispatch(clearCurrentRecordAction());
+        });
+    }
+}
+export const startUpdatePersonAction = (id, model)=>{
+    return (dispatch, getState)=>{
+        console.log(model.stringify());
+        return client.post('/api',{
+            query:`
+                mutation{
+                    changePerson(personId:${id}, ${model.stringify()}){
+                        ${peopleSchema}
+                    }
+                }
+            `
+        })
+        .then(res=>{
+            if (res.data.errors){
+                return;
+            }
+            toastr.success('Person updated successfully');
+            dispatch(startGetAllPeopleAction());
+        })
     }
 }

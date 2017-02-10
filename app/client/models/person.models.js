@@ -18,17 +18,22 @@ export class PersonModel{
     extension = null;
     eMail = null;
     notes = null;
-    converters = {};
 
     prePopulate(cur,fn, clearFn){
         return _prePopulate.call(this,cur,fn, clearFn);
     }
     isValid(){
-        let required = ['firstName', 'lastName', 'eMail'];
+        let required = ['firstName', 'lastName', 'eMail', 'organizationId'];
         return _isValid.call(this,null, required);
     }
     stringify(){
         return _stringify.call(this);
+    }
+    getConverters(){
+        return {
+            organizationId: val=>parseInt(val),
+            state: val=>parseInt(val)
+        }
     }
 
 }
