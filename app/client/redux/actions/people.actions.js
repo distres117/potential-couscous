@@ -1,6 +1,6 @@
 import client from '../../services/axios.service';
 import {toastr} from 'react-redux-toastr';
-import {setPeopleAction, getAppUserAction} from './app.actions';
+import {setPeopleAction, setAppUserAction} from './app.actions';
 import {setTableData, commitTableData} from './common.actions';
 import {clearCurrentRecordAction} from './app.actions';
 import {convertToLookup} from '../../helpers/flter.helpers';
@@ -50,7 +50,7 @@ export const startGetOrgPeopleAction = (query)=>{
             if (orgs.length){
                 let items = convertToLookup(orgs[0].people, 'personId', 'fullName')
                 if (!getState().currentUser)
-                    dispatch(getAppUserAction(orgs[0].people)); 
+                    dispatch(setAppUserAction(orgs[0].people)); 
                 dispatch(setPeopleAction(items));
             }
             else

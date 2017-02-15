@@ -26,30 +26,41 @@ export default class TransactionSubmit extends React.Component {
             searchData:null
         }
     }
+    componentDidMount(){
+        this.initialize(this.props);
+    }
     componentWillReceiveProps(nextProps){
-        this.checkIfValid();
-        let{searchResult} = nextProps;
-        if (searchResult.result){
+        let {searchResult, current} = nextProps;
+        if (searchResult && searchResult.result){
             if (searchResult.extra)
                 this.setState({searchMessage:searchResult.message, searchData:searchResult.extra.transactionId});
             this.handleSearchResult(nextProps.searchResult.result);
         }
+        this.initialize(nextProps);
+
     }
-    // componentDidMount(){
-    //     this.props.dispatch(startGetReadyToLoad());
-    // }
-    checkIfValid(){
-        this.submitBtn.disabled = !this.props.transaction.model.isValid(); //because of the way we're collecting values, must check validity manually after change/mount'
+    initialize(props){
+        this.model = new TransactionSubmitModel();
+        if(!props.current.isNull()){
+            this.populate(props.current);
+        }
+        if(props.currentUser){
+            this.model.submitPerson = props.currentUser;
+            this.populate();
+        }
+    }
+    validate(){
+        this.submitBtn.disabled = !this.model.isValid(); //because of the way we're collecting values, must check validity manually after change/mount'
         //console.log(this.submitBtn.disabled);
     }
     onDateChange = (dateString, {dateMoment, timestamp}) => {
-        this.props.transaction.model.submitDate = new Date(dateString);
+        this.model.submitDate = new Date(dateString);
     }
     handleClick = (e)=>{
-        let {dispatch, transaction} = this.props;
+        let {dispatch} = this.props;
         e.preventDefault();
         //console.log(transaction.model);
-        dispatch(startCommitTransaction(transaction.model));
+        dispatch(startCommitTransaction(this.model));
     }
     handleSearch = e=>{
         e.preventDefault();
@@ -67,8 +78,8 @@ export default class TransactionSubmit extends React.Component {
         let len = elem.options.length;
         elem.options[len] = newOption;
         elem.selectedIndex = len;
-        this.props.transaction.model['submitName'] = result;
-        this.checkIfValid();
+        this.model['submitName'] = result;
+        this.validate();
         
     }
     handleSetCurrent = e =>{
@@ -85,20 +96,15 @@ export default class TransactionSubmit extends React.Component {
     }
 
     updateModel = (e)=>{
-        this.props.transaction.model[e.target.name] = e.target.value;
-        this.checkIfValid();
-        //console.log(this.props.transaction.model);
+        this.model[e.target.name] = e.target.value;
+        this.validate();
     }
-    resetValues(){
-        if (!this.props.transaction.model)
-            return;
-        this.props.transaction.model.prePopulate(this._refs, (tar,val)=>tar.value=val);
+    populate(props){
+        this.model.prePopulate(this._refs, props || this.model);
+        this.validate();
     }
     render() {
-        let {transaction,readyToLoad} = this.props;
-        this.resetValues();
-        //console.log(readyToLoad);
-        let model = transaction.model;
+        let {readyToLoad} = this.props;
         const markup = (
             <form className='form-horizontal' onSubmit={this.handleClick}>
                 <div className='form-group'>

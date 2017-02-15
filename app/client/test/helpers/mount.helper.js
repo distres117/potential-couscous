@@ -39,7 +39,7 @@ export const mount = (_ComponentClass, state, blockDispatch = true)=>{
        </Provider> 
     );
     wrapped.dispatchArray = dispatchArray
-    //wrapped.setProps({render:true});
+    wrapped.setProps({_render:true});
     return wrapped;
 };
 

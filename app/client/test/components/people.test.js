@@ -17,7 +17,6 @@ describe('person component tests', ()=>{
             ],
         };
         let instance = mount(PersonForm,state);
-        instance.setProps({render:true}) //just something to activate the lifecycle method
         //console.log(instance.debug())
         expect(instance.find("input[name='firstName']").node.value).equals('Testy');
         expect(instance.find("input[name='lastName']").node.value).equals('McTest');

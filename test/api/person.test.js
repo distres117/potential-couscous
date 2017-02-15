@@ -60,25 +60,4 @@ describe('People api tests', ()=>{
             console.log(err);
         });
     });
-    it('should update created person', ()=>{
-        let model = new PersonModel();
-        Object.assign(model,{
-            firstName: 'Jim',
-            lastName: 'testy',
-            organizationId:2
-        })
-        let mutation = `
-        mutation{
-            changePerson(personId: 1, ${model.stringify()}){
-                personId, firstName,lastName, organizationId
-            }
-        }`;
-        return graphql(Schema, mutation)
-        .then(res=>{
-            let person = res.data.changePerson;
-            expect(person.personId).equals(1);
-            expect(person.organizationId).equals(2);
-            expect(person.firstName).equals('Jim');
-        })
-    })
 });

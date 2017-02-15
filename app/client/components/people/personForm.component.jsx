@@ -81,8 +81,8 @@ export default class PersonForm extends React.Component{
                     {helpers.textFieldFor('address2', this.updateModel, ref=>this._refs['address2'] = ref, 'col-lg-8 col-lg-offset-3')}
                 </div>
                 <div className='form-group'>
-                    {helpers.textFieldFor('city', this.updateModel, ref=>this._refs['city'] = ref, 'col-lg-4 col-lg-offset-3', 'City')}
-                    {helpers.dropDownFor('state', states, this.updateModel, ref=>this._refs['state']= ref,true, 'col-lg-2', 'State')}
+                    {helpers.textFieldFor('city', this.updateModel, ref=>this._refs['city'] = ref, 'col-lg-3 col-lg-offset-3', 'City')}
+                    {helpers.dropDownFor('state', states, this.updateModel, ref=>this._refs['state']= ref,true, 'col-lg-3', 'State')}
                     {helpers.textFieldFor('zip', this.updateModel, ref=>this._refs['zip'] = ref, 'col-lg-2', 'Zip')}
                 </div>
                 <div className='form-group'>

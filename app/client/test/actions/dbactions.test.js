@@ -20,7 +20,7 @@ function configStub(returnData){ //stubbing the api instead of using nock -- eas
 const createStore = configureMockStore([thunk]);
 
 let sandbox;
-xdescribe('db actions testing',()=>{
+describe('db actions testing',()=>{
     describe('startTransactionDatasetSearch',function(){
         this.timeout(20000);
         let store;

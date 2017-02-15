@@ -13,42 +13,49 @@ export default class TransactionReview extends React.Component{
             {value: 1, label:'Yes'}
         ];
         this._refs = {};
+        
     }
     componentDidMount(){
-        //this ensures that the appropriate values are changed on the initial mounting
-        this.resetValues();
-        this.checkIfValid();
+        this.initialize(this.props);
     }
-    checkIfValid(){
-        if (!this.props.transaction.model)
-            return;
-        this.submitBtn.disabled = !this.props.transaction.model.isValid(); //because of the way we're collecting values, must check validity manually after change/mount'
+    
+    componentWillReceiveProps(nextProps){
+        this.initialize(nextProps);
+    }
+    initialize(props){
+        if(!props.current.isNull()){
+            this.model = new TransactionReviewModel();
+            //console.log(this.props.people, this.model.reviewPerson);
+            this.populate(props.current);
+        }
+        if(props.currentUser){
+            this.model.reviewPerson = props.currentUser;
+            this.populate();
+        }
+    }
+    validate(){
+        this.submitBtn.disabled = !this.model.isValid(); //because of the way we're collecting values, must check validity manually after change/mount'
     }
     handleClick = (e)=>{
         e.preventDefault();
-        let {dispatch, current, transaction} = this.props;
-        dispatch(startUpdateTransaction(current.transactionId, transaction.model ));
+        let {dispatch, current} = this.props;
+        dispatch(startUpdateTransaction(current.transactionId, this.model ));
         //console.log(this.props.transaction.model, this.props.transaction.model.isValid());
     }
     onDateChange = (dateString, opt)=>{
-        this.props.transaction.model.reviewDate = opt.timestamp;
-        this.checkIfValid();
+        this.model.reviewDate = opt.timestamp;
+        this.validate();
     }
     updateModel = (e)=>{
-        let model = this.props.transaction.model;
+        let model = this.model;
         model[e.target.name] = e.target.value;
-        this.checkIfValid();
-        
+        this.validate();
     }
-    resetValues(){
-        if (!this.props.transaction.model)
-            return;
-        this.props.transaction.model.prePopulate(this._refs, (tar,val)=>tar.value=val);
+    populate(props){
+        this.model.prePopulate(this._refs, props || this.model);
+        this.validate();
     }
     render(){
-        //this ensures that values are changed for each subsequent rendering (after initial mount)
-        this.resetValues();
-        //console.log(this.props.transaction.model, this.props.current);
         return(
             <div>
                 <div className='panel panel-default'>

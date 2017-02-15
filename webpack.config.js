@@ -82,7 +82,7 @@ module.exports = {
             { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
         ]
     },
-    devtool: isDev ? 'cheap-module-eval-source-map' : null
+    devtool: isDev || isClientTest ? 'cheap-module-eval-source-map' : null
     // sassLoader:{
     //     includePaths: [path.resolve(__dirname, './node_modules/foundation-sites/scss')]
     // }

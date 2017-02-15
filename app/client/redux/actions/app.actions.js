@@ -98,7 +98,7 @@ export const endLongProcess = () => {
         type: types.END_LONG_PROCESS
     }
 }
-export const getAppUserAction = people => {
+export const setAppUserAction = people => {
     return (dispatch, getState) => {
         let user = authService();
         if (!user) {

@@ -5,7 +5,7 @@ import {mount, shallow} from '../helpers/mount.helper';
 import {startGetReadyToLoad, noWork} from '../../redux/actions/gpService.actions';
 
 
-describe('Test component', ()=>{
+xdescribe('Test component', ()=>{
     it('renders shallow', ()=>{
         let wrapped = shallow(TestComponent, {readyToLoad:{}}, true);
         expect(wrapped).to.exist;

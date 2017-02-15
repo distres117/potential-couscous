@@ -10,38 +10,46 @@ export default class TransactionLoad extends React.Component{
         super(props);
         this._refs = {};
     }
-    componentDidMount(){
-        this.resetValues();
-        this.checkIfValid();
+    componentWillReceiveProps(nextProps){
+        this.initialize(nextProps);
     }
-    checkIfValid(){
-        if (!this.props.transaction.model)
-            return;
-        this.submitBtn.disabled = !this.props.transaction.model.isValid(); //because of the way we're collecting values, must check validity manually after change/mount'
+    componentDidMount(){
+        this.initialize(this.props);
+    }
+    initialize(props){
+        if(!props.current.isNull()){
+            this.model = new TransactionLoadModel();
+            //console.log(this.props.people, this.model.reviewPerson);
+            this.populate(props.current);
+        }
+        if(props.currentUser){
+            this.model.sdePerson = props.currentUser;
+            this.populate();
+        }
+    }
+    validate(){
+        this.submitBtn.disabled = !this.model.isValid(); //because of the way we're collecting values, must check validity manually after change/mount'
     }
     handleClick = (e)=>{
-        let {current,dispatch, transaction} = this.props;
+        let {current,dispatch} = this.props;
         e.preventDefault();
-        dispatch(startRecordTransaction(current.transactionId, transaction.model));
+        dispatch(startRecordTransaction(current.transactionId, this.model));
         //console.log(this.props.transaction.model, this.props.transaction.model.isValid());
     }
 
-    resetValues(){
-        if (!this.props.transaction.model)
-            return;
-        //console.log(this.props.transaction.model);
-        this.props.transaction.model.prePopulate(this._refs, (tar,val)=>tar.value=val);
+    populate(props){
+        this.model.prePopulate(this._refs, props || this.model);
+        this.validate();
     }
     onDateChange = (dateString)=>{
-        this.props.transaction.model.loadDate = new Date(dateString);
-        this.checkIfValid();
+        this.model.loadDate = new Date(dateString);
+        this.validate();
     }
     updateModel = (e)=>{
-        this.props.transaction.model[e.target.name] = e.target.value;
-        this.checkIfValid();
+        this.model[e.target.name] = e.target.value;
+        this.validate();
     }
     render(){
-        this.resetValues();
         let {processing} = this.props;
         const markup = (
             <form className='form-horizontal' onSubmit={this.handleClick}>

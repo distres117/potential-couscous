@@ -20,7 +20,7 @@ def exportMetadata(datasetN, datasetT):
         dataset = arcpy.ListFeatureClasses(str(datasetN))
     else:
         return
-    if dataset.count == 0:
+    if len(dataset) == 0:
         print("cannot find dataset")
         return
     outXml = os.path.join(XML_PATH, datasetN + ".xml")

@@ -1,6 +1,6 @@
-import {getCurrentUser,_prePopulate,_isValid,_stringify, wrapString} from './common';
+import FormModel from './common';
 
-export class PersonModel{
+export class PersonModel extends FormModel{
     title = null;
     firstName = null;
     middleName = null;
@@ -20,14 +20,14 @@ export class PersonModel{
     notes = null;
 
     prePopulate(cur,fn, clearFn){
-        return _prePopulate.call(this,cur,fn, clearFn);
+        return super._prePopulate.call(this,cur,fn, clearFn);
     }
     isValid(){
         let required = ['firstName', 'lastName', 'eMail', 'organizationId'];
-        return _isValid.call(this,null, required);
+        return super._isValid.call(this,null, required);
     }
     stringify(){
-        return _stringify.call(this);
+        return super._stringify.call(this, this.getConverters());
     }
     getConverters(){
         return {

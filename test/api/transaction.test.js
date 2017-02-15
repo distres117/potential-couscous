@@ -7,7 +7,7 @@ import {TransactionSubmitModel} from '../../app/client/models/transaction.models
 import * as _ from 'lodash';
 import fs from 'fs';
 
-xdescribe('api tests', function () { //for new dataset, must have run util tests at least once (to export the metadata)
+describe('api tests', function () { //for new dataset, must have run util tests at least once (to export the metadata)
     let transaction;
     const datasetName = '_OMtesting_feature';
     const loadDataset = `sde.SDE.${datasetName}`;
@@ -314,25 +314,5 @@ xdescribe('api tests', function () { //for new dataset, must have run util tests
                 expect(catalogRow.status).to.equal('Production');
                 expect(catalogRow.name).to.equal(loadRenamed);
             });
-    });
-    it('should create new transaction using model', ()=>{
-        let model = new TransactionSubmitModel();
-        _.assign(model,{
-            action: 'New', submitDate:1485226245630, submitPerson:"10"
-        });
-        let query = `
-            mutation{
-                newTransaction(${model.stringify()}){
-                        transactionId
-                }
-            }
-        `;
-        return graphql(Schema, query)
-        .then(async res=>{
-            if (res.errors)
-                console.log(res.errors);
-            expect(res.data.newTransaction.transactionId).to.equal(7);
-        });
-        
     });
 });

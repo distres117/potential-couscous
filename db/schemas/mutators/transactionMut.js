@@ -45,7 +45,7 @@ export default {
     },
     recordTransaction: {
         type: transactionType,
-        args: _.assign(attributeFields(models.Transaction, { only: ['transactionId', 'submitName', 'sdePerson'] })),
+        args: _.assign(attributeFields(models.Transaction)),
         resolve: recordTransactionFn
     },
     archiveTransaction: { //creates a new row in transactions
