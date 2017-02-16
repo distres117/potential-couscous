@@ -19,7 +19,7 @@ export default class People extends React.Component{
     componentDidMount(){
         let {dispatch} = this.props;
         dispatch(startGetAllPeopleAction());
-        dispatch(startGetOrganizationsAction());
+        dispatch(startGetOrganizationsAction(false));
         dispatch(startGetStates());
     }
     componentWillReceiveProps(nextProps){

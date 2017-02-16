@@ -12,5 +12,13 @@ export default{
             const organization = await models.Organization.create(_.assign(args));
             return organization;
         }
+    },
+    changeOrganization:{
+        type:organizationType,
+        args:_.assign(attributeFields(models.Organization)),
+        async resolve(source, args){
+            let person = await models.Organization.findById(args.organizationId);
+            return person.update(_.assign(_.omit(args,['organizationId'])));
+        }
     }
 }

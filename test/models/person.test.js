@@ -6,7 +6,7 @@ import Sequelize from 'sequelize';
 import {PersonModel} from '../../app/client/models/person.models';
 import * as _ from 'lodash';
 
-describe.only('Person model tests', ()=>{
+describe('Person model tests', ()=>{
     before(()=>{
         return connect(true)
         .then(()=>{

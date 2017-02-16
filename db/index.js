@@ -10,12 +10,14 @@ const modelsDir = __dirname + '/models';
 const whiteList = [ //name matches file not model name
     'DataCatalog', 
     'Transaction', 
-    'Information', 'FeatureClass', 
+    'Information', 
+    'FeatureClass', 
     'Field', 
     'EnterpriseGeodatabase', 
     'Keyword', 
     'Person',
     'Organization',
+    'DomainOrgType',
     'Disbursement',
     'Layers',
     'State'

@@ -19,5 +19,6 @@ export default {
         END_LONG_PROCESS:'end_long_process',
         SET_APP_USER:'set_app_user',
         GET_ORGANIZATIONS:'get_organizations',
-        GET_STATES:'get_states'
+        GET_STATES:'get_states',
+        GET_ORG_TYPES:'get_orgtypes'
 };
