@@ -18,6 +18,7 @@ export default class People extends React.Component{
     }
     componentDidMount(){
         let {dispatch} = this.props;
+        dispatch(clearCurrentRecordAction());
         dispatch(startGetAllPeopleAction());
         dispatch(startGetOrganizationsAction(false));
         dispatch(startGetStates());

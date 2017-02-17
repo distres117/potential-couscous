@@ -3,6 +3,7 @@ import {models} from '../../index';
 import {attributeFields} from 'graphql-sequelize';
 import {GraphQLObjectType, GraphQLList} from 'graphql';
 import personType from './personType';
+import orgTypeType from './orgTypeType';
 
 const organizationType = new GraphQLObjectType({
     name: 'Organization',
@@ -13,6 +14,12 @@ const organizationType = new GraphQLObjectType({
                 type: new GraphQLList(personType),
                 resolve(row){
                     return row.getPeople();
+                }
+            },
+            orgType:{
+                type:orgTypeType,
+                resolve(row){
+                    return models.OrgType.findById(row.orgTypeId);
                 }
             }
         })

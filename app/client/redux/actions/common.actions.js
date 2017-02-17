@@ -73,6 +73,16 @@ export const commitTableData = data=>{
         payload: data
     }
 }
+export const filterAction = (field,val, baseData)=>{
+    return (dispatch,getState)=>{
+        if (!val){
+            dispatch(setTableData(baseData));
+            return;
+        }
+        let filteredData = baseData.filter(data=>data[field] === val);
+        dispatch(setTableData(filteredData));
+    }
+}
 
 
 

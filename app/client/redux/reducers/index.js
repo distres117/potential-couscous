@@ -1,5 +1,5 @@
 import {gpServiceReducer} from './gpService.reducer';
-import {peopleReducer, tableDataReducer, summaryDataReducer, statesReducer} from './db.reducer';
+import {peopleReducer, tableDataReducer, summaryDataReducer, statesReducer, orgTypesReducer} from './db.reducer';
 import {currentRecordReducer, transactionReducer, searchReducer, versionsReducer, longProcessReducer, appUserReducer, organizationsReducer} from './app.reducers';
 import {combineReducers} from 'redux';
 import {reducer as toastReducer} from 'react-redux-toastr';
@@ -8,6 +8,7 @@ export default combineReducers({
    readyToLoad:gpServiceReducer,
    people: peopleReducer,
    states: statesReducer,
+   orgTypes: orgTypesReducer,
    organizations: organizationsReducer,
    tableData: tableDataReducer,
    current: currentRecordReducer,

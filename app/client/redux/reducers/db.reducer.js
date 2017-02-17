@@ -16,6 +16,14 @@ export const statesReducer = (state=[], action)=>{
             return state;
     }
 }
+export const orgTypesReducer = (state=[], action)=>{
+    switch(action.type){
+        case types.GET_ORG_TYPES:
+            return action.payload;
+        default:
+            return state;
+    }
+}
 
 export const tableDataReducer = (state = [], action)=>{
     switch(action.type){

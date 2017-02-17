@@ -3,14 +3,17 @@ import types from './action.types';
 import {setTableData} from './common.actions';
 import {clearCurrentRecordAction} from './app.actions';
 import {toastr} from 'react-redux-toastr';
-const organizationSchema = 'organizationId, name, abbrev';
+import format from '../../helpers/format.helpers';
+const organizationSchema = 'organizationId, name, abbrev, orgTypeId';
 
 export const startGetOrganizationsAction = (toTable = true)=>{
     return (dispatch,getState)=>{
         return client.post('/api',{
             query:`{
-                organizations{
-                    ${organizationSchema}
+                organizations(order:"name"){
+                    ${organizationSchema},orgType{
+                        type
+                    }
                 }
             }`
         })
@@ -23,7 +26,8 @@ export const startGetOrganizationsAction = (toTable = true)=>{
                     payload: res.data.data.organizations
                 })
             }else{
-                dispatch(setTableData(res.data.data.organizations));
+                let organizations = format.flatten(res.data.data.organizations);
+                dispatch(setTableData(organizations));
             }
         })
     }
@@ -66,3 +70,22 @@ export const startChangeOrganizationAction = (id,model)=>{
         });
     }
 }
+export const startGetOrgTypes = ()=>{
+    return (dispatch, getState)=>{
+        return client.post('/api',{
+            query:`{
+                orgTypes{
+                    orgTypeId, type
+                }
+            }`
+        })
+        .then(res=>{
+            if (res.data.errors)
+                return;
+            dispatch({
+                type:types.GET_ORG_TYPES,
+                payload: res.data.data.orgTypes
+            });
+        });
+    }
+} 
