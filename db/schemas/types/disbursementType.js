@@ -35,6 +35,12 @@ const disbursementType = new GraphQLObjectType({
                 resolve(row){
                     return models.Person.findById(row.recipient);
                 }
+            },
+            providerPerson:{
+                type: personType,
+                resolve(row){
+                    return models.Person.findById(row.provider);
+                }
             }
         });
     }

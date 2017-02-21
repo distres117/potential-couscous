@@ -1,6 +1,7 @@
 import FormModel from './common';
 
 export class DisbursementModel extends FormModel{
+    dataCatalogId = null;
     recipient = null;
     contractor = null;
     provider = null;

@@ -59,7 +59,7 @@ export const startGetOrgPeopleAction = (query)=>{
     };
 }
 
-export const startGetAllPeopleAction = ()=>{
+export const startGetAllPeopleAction = (toTable = true)=>{
     return (dispatch, getState)=>{
         return client.post('/api',{
             query: `{
@@ -73,8 +73,15 @@ export const startGetAllPeopleAction = ()=>{
         .then(res=>{
             if (res.data.errors)
                 return;
-            let people =  format.flatten(res.data.data.people);
-            dispatch(setTableData(people));
+            if (!toTable){
+                dispatch({
+                    type: types.SET_PEOPLE,
+                    payload: convertToLookup(res.data.data.people, 'personId', 'fullName')
+                });
+            }else{
+                let people =  format.flatten(res.data.data.people);
+                dispatch(setTableData(people));
+            }
         });
     }
 }

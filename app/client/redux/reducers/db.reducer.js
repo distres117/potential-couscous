@@ -8,6 +8,30 @@ export const peopleReducer = (state=[], action)=>{
             return state;
     }
 }
+export const typesReducer = (state=[], action)=>{
+    switch(action.type){
+        case types.GET_DISBURSEMENT_FORMATS:
+            return action.payload;
+        default:
+            return state;
+    }
+}
+export const transmittalsReducer = (state=[], action)=>{
+    switch(action.type){
+        case types.GET_DISBURSEMENT_TRANSMITTALS:
+            return action.payload;
+        default:
+            return state;
+    }
+}
+export const catalogReducer = (state=[], action)=>{
+    switch(action.type){
+        case types.GET_CATALOG_ROWS:
+            return action.payload;
+        default:
+            return state;
+    }
+}
 export const statesReducer = (state=[], action)=>{
     switch(action.type){
         case types.GET_STATES:
