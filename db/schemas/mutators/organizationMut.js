@@ -17,8 +17,8 @@ export default{
         type:organizationType,
         args:_.assign(attributeFields(models.Organization)),
         async resolve(source, args){
-            let person = await models.Organization.findById(args.organizationId);
-            return person.update(_.assign(_.omit(args,['organizationId'])));
+            let organization = await models.Organization.findById(args.organizationId);
+            return organization.update(_.assign(_.omit(args,['organizationId'])));
         }
     }
 }

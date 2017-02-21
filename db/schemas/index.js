@@ -11,12 +11,20 @@ import stateQuery from './queries/stateQuery';
 import layerQuery from './queries/layerQuery';
 import personQuery from './queries/personQuery';
 import keywordQuery from './queries/keywordQuery';
+import domainFormatQuery from './queries/domainFormatQuery';
+import domainTransmittalQuery from './queries/domainTransmittalQuery';
 import transactionMut from './mutators/transactionMut';
 import organizationMut from './mutators/organizationMut';
+import disbursementMut from './mutators/disbursementMut';
 import personMut from './mutators/peopleMut';
 import * as _ from 'lodash';
-const rootQueryFields = Object.assign(dataCatalogQuery, transactionQuery, featureClassQuery, keywordQuery, personQuery, organizationQuery, layerQuery, disbursementQuery, stateQuery, orgTypeQuery);
-const rootMutateFields = Object.assign(transactionMut, personMut, organizationMut);
+const rootQueryFields = Object.assign(
+    dataCatalogQuery, transactionQuery, featureClassQuery, 
+    keywordQuery, personQuery, organizationQuery, 
+    layerQuery, disbursementQuery, stateQuery, orgTypeQuery, 
+    domainFormatQuery,domainTransmittalQuery);
+
+const rootMutateFields = Object.assign(transactionMut, personMut, organizationMut, disbursementMut);
 const Query = new GraphQLObjectType({
     name: 'Query',
     description: 'Root query object',

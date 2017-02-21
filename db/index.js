@@ -20,7 +20,9 @@ const whiteList = [ //name matches file not model name
     'DomainOrgType',
     'Disbursement',
     'Layers',
-    'State'
+    'State',
+    'DomainFormat',
+    'DomainTransmittal'
 ]; //For dev purposes
 let sequelize = new Sequelize(config.database, config.username, config.password, config.options);
 fs.readdirSync(modelsDir)

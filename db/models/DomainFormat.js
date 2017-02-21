@@ -15,11 +15,7 @@ module.exports = function(sequelize, DataTypes) {
 		}
 	}, {
 		tableName: 'tblDomainFormat',
-		classMethods:{
-			associate: models=>{
-				DomainFormat.belongsTo(models.Disbursement, {foreignKey:'FormatID'});
-			}
-		}
+		timestamps:false
 	});
 	return DomainFormat;
 };

@@ -20,5 +20,7 @@ export default {
         SET_APP_USER:'set_app_user',
         GET_ORGANIZATIONS:'get_organizations',
         GET_STATES:'get_states',
-        GET_ORG_TYPES:'get_orgtypes'
+        GET_ORG_TYPES:'get_orgtypes',
+        GET_DISBURSEMENT_FORMATS:'get_disbursement_formats',
+        GET_DISBURSEMENT_TRANSMITTALS:'get_disbursement_transmittals'
 };

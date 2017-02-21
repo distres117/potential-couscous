@@ -16,11 +16,7 @@ module.exports = function(sequelize, DataTypes) {
 	}, {
 		timestamps:false,
 		tableName: 'tblDomainTransmittal',
-		classMethods:{
-			associate:models=>{
-				DomainTransmittal.belongsTo(models.Disbursement, {foreignKey:'TransmittalID'});
-			}
-		}
+		timestamps:false
 	});
 	return DomainTransmittal;
 };

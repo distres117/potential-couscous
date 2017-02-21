@@ -6,7 +6,8 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			primaryKey: true,
-			field: 'DisbursementID'
+			field: 'DisbursementID',
+			autoIncrement: true
 		},
 		dataCatalogId: {
 			type: DataTypes.INTEGER,
