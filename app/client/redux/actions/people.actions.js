@@ -1,6 +1,6 @@
 import client from '../../services/axios.service';
 import {toastr} from 'react-redux-toastr';
-import {setPeopleAction, setAppUserAction} from './app.actions';
+import {setPeopleAction, setAppUserAction, overwriteCurrentRecordAction} from './app.actions';
 import {setTableData, commitTableData} from './common.actions';
 import {clearCurrentRecordAction} from './app.actions';
 import {convertToLookup} from '../../helpers/flter.helpers';
@@ -153,6 +153,7 @@ export const startUpdatePersonAction = (id, model)=>{
             }
             toastr.success('Person updated successfully');
             dispatch(startGetAllPeopleAction());
+            dispatch(overwriteCurrentRecordAction(res.data.data.changePerson));
         })
     }
 }

@@ -3,7 +3,7 @@ import FormModel from './common';
 export class DisbursementModel extends FormModel{
     dataCatalogId = null;
     recipient = null;
-    contractor = null;
+    //contractor = null;
     provider = null;
     formatId = null;
     transmittalId = null;
@@ -25,8 +25,8 @@ export class DisbursementModel extends FormModel{
             return parseInt(val);
         }
         return {
+            dataCatalogId:numConvert,
             recipient: numConvert,
-            contractor: numConvert,
             provider: numConvert,
             formatId: numConvert,
             transmittalId: numConvert

@@ -9,7 +9,8 @@ export class OrganizationModel extends FormModel{
         return super._prePopulate.call(this,cur,fn);
     }
     isValid(){
-        return super._isValid.call(this);
+        const optional = ['abbrev'];
+        return super._isValid.call(this, optional);
     }
     stringify(){
         return super._stringify.call(this, this.getConverters());

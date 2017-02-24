@@ -1,7 +1,7 @@
 import client from '../../services/axios.service';
 import types from './action.types';
 import {setTableData} from './common.actions';
-import {clearCurrentRecordAction} from './app.actions';
+import {clearCurrentRecordAction, overwriteCurrentRecordAction} from './app.actions';
 import {toastr} from 'react-redux-toastr';
 import format from '../../helpers/format.helpers';
 import {convertToLookup} from '../../helpers/flter.helpers';
@@ -31,10 +31,44 @@ export const startGetDisbursements = (limit = 100, skip=0) =>{
 }
 
 export const startCommitDisbursement = model =>{
-
+    return (dispatch) => {
+        return client.post('/api',{
+            query:`
+                mutation{
+                    newDisbursement(${model.stringify()}){
+                        ${disbursementSchema}
+                    }
+                }
+            `
+        })
+        .then(res=>{
+            if (res.data.errors)
+                return;
+            toastr.success('Disbursement added successfully');
+            dispatch(startGetDisbursements());
+            dispatch(clearCurrentRecordAction());
+        });
+    }
 }
 export const startChangeDisbursement = (id, model) =>{
-
+    return (dispatch)=>{
+        return client.post('/api', {
+            query:`
+                mutation{
+                    changeDisbursement(disbursementId:${id}, ${model.stringify()}){
+                        ${disbursementSchema}
+                    }
+                }
+            `
+        })
+        .then(res=>{
+            if (res.data.errors)
+                return;
+            toastr.success('Disbursement was updated successfully');
+            dispatch(startGetDisbursements());
+            dispatch(overwriteCurrentRecordAction(res.data.data.changeDisbursement));
+        });
+    }
 }
 export const startGetDisbursementFormats = ()=>{
     return (dispatch, getState)=>{

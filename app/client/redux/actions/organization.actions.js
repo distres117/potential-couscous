@@ -1,7 +1,7 @@
 import client from '../../services/axios.service';
 import types from './action.types';
 import {setTableData} from './common.actions';
-import {clearCurrentRecordAction} from './app.actions';
+import {clearCurrentRecordAction, overwriteCurrentRecordAction} from './app.actions';
 import {toastr} from 'react-redux-toastr';
 import format from '../../helpers/format.helpers';
 const organizationSchema = 'organizationId, name, abbrev, orgTypeId';
@@ -67,6 +67,7 @@ export const startChangeOrganizationAction = (id,model)=>{
                 return;
             toastr.success('Organization updated successfully');
             dispatch(startGetOrganizationsAction());
+            dispatch(overwriteCurrentRecordAction(res.data.data.changeOrganization));
         });
     }
 }

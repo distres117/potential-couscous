@@ -21,6 +21,15 @@ db.connect(true)
             db.models.Person.create({organizationId:orgs[1].organizationId, firstName:'Oliver', lastName: 'McRobbie' })
         ]);
     })
+    .then(()=>{//create some domains
+        return Promise.all([
+            db.models.DomainFormat.create({formatId:1, type:'csv'}),
+            db.models.DomainTransmittal.create({transmittalId:1, type:'email'})
+        ]);
+    })
+    .then(()=>{
+        return db.models.Disbursement.create({date:Date.now(), recipient:1, contractor: 1, provider: 2, formatId:1, transmittalId:1,selCriteria:'query', notes:'blah blah blah'});
+    })
     .then(()=>{
         console.log('Db seeded successfully');
         process.exit(0);

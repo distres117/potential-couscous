@@ -9,6 +9,7 @@ export default{
         type: disbursementType,
         args: _.assign(attributeFields(models.Disbursement, {exclude: ['disbursementId']} )),
         resolve(source,args){
+            args.date = Date.now();
             return models.Disbursement.create(_.assign(args));
         }
     },
