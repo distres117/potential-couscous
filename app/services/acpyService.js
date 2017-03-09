@@ -1,4 +1,4 @@
-import {runProcess} from '../utils/childProcess';
+import {runProcess, runProcessGp} from '../utils/childProcess';
 import axios from 'axios';
 import endpoints from '../config/endpoints';
 import querystring from 'querystring';
@@ -13,35 +13,29 @@ const client = axios.create({
     }
 });
 
-function makeRequest(data){
+function makeRequest(res){
      return new Promise((resolve,reject)=>{
-        client.post('/execute?f=json',querystring.stringify(data))
-        .then(res=>{
-            if (!res.data.errors){
-                if (_.isString(res.data)){
-                    let data = res.data.replace(/\"\s*\"/g, 'null'); //ugh, manual parsing of response string (replace empty strings with null) :<
-                    let _res;
-                    try{
-                        _res = parseJson(data);
-                    }
-                    catch(e){
-                        return reject(e);
-                    }
-                    return resolve(_res.results[0]);
-                }
-                return resolve(res.data.results[0].value);
-            }else{
-                reject(res.errors);
+        if (!res.stderr){
+            let data = res.stdout.replace(/\"\s*\"/g, 'null'); //ugh, manual parsing of response string (replace empty strings with null) :<
+            let _res = {}
+            try{
+                _res.data = parseJson(data);
             }
-        })
+            catch(e){
+                return reject(e);
+            }
+            return resolve(_res);
+        }else{
+            reject(res.stderr);
+        }
     });
 }
 export const getList = async ()=>{
-    let res = await client.post(endpoints.gpService);
-    return res.data.results[0].value;
+    let res = await runProcessGp();
+    return makeRequest(res);
 }
 
-export const getDetails = (datasetName, datasetType)=>{
+export const getDetails = (datasetName, datasetType = '', location = '')=>{
     let data = {datasetName,datasetType};
     return runProcess(datasetName, datasetType)
         .then(res=>{
@@ -49,11 +43,16 @@ export const getDetails = (datasetName, datasetType)=>{
                 console.log('from python process: ', res.stdout);
             else
                 console.log('python process error: ', res.stderr);
-            return getDetailsGp(datasetName, datasetType);    
+            return runProcessGp(datasetName, datasetType, location);    
+        })
+        .then(res=>{
+            return makeRequest(res);
         });
     
 }
-export const getDetailsGp = (datasetName, datasetType)=>{
-    let data = {datasetName,datasetType};
-    return makeRequest(data);
+export const getDetailsGp = (datasetName, datasetType, location)=>{
+    return runProcessGp(datasetName, datasetType, location)
+    .then(res=>{
+        return makeRequest(res);
+    });
 }

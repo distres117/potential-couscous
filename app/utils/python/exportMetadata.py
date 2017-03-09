@@ -19,10 +19,9 @@ def exportMetadata(datasetN, datasetT):
     elif datasetT == "1":
         dataset = arcpy.ListFeatureClasses(str(datasetN))
     else:
-        return
+        raise ValueError("feature type not recognized")
     if len(dataset) == 0:
-        print("cannot find dataset")
-        return
+        raise ValueError("cannot find dataset")
     outXml = os.path.join(XML_PATH, datasetN + ".xml")
     if os.path.exists(outXml) == False:
         arcpy.ExportMetadata_conversion(dataset[0], TRANSLATOR, outXml)

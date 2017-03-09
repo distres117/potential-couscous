@@ -6,7 +6,7 @@ import Sequelize from 'sequelize';
 import {DisbursementModel} from '../../app/client/models/disbursement.model';
 import * as _ from 'lodash';
 
-describe.only('disbursement model and api tests', ()=>{
+describe('disbursement model and api tests', ()=>{
     before(()=>{
         return connect(true);
         // .then(()=>{

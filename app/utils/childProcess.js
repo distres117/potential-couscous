@@ -1,6 +1,7 @@
-const scriptPath = __dirname + '\\exportMetadata.py';
+const path = require('path');
 const exec = require('child-process-promise').exec;
-
+const exportScript = path.join(__dirname, 'python', 'exportMetadata.py');
+const gpScript = path.join(__dirname, 'python', 'gpservice.py');
 // export const runProcess = (datasetName, datasetType)=>{
 //     return new Promise((resolve,reject)=>{
 //         let prc = exec(`${scriptPath} ${datasetName} ${datasetType}`);
@@ -20,5 +21,8 @@ const exec = require('child-process-promise').exec;
 //     })
 // };
 export const runProcess = (datasetName, datasetType)=>{
-    return exec(`${scriptPath} ${datasetName} ${datasetType}`);
+    return exec(`${exportScript} ${datasetName} ${datasetType}`);
+}
+export const runProcessGp = (datasetName = '', datasetType = '', location = '')=>{
+    return exec(`${gpScript} ${datasetName} ${datasetType} ${location}`);
 }

@@ -7,7 +7,7 @@ import {TransactionSubmitModel, TransactionLoadModel, TransactionReviewModel} fr
 import * as _ from 'lodash';
 
 
-describe('model tests',function(){
+describe.only('model tests',function(){
     this.timeout(30000);
     before(()=>{
         return connect(true);
@@ -67,7 +67,7 @@ describe('model tests',function(){
             }
         `;
         return graphql(Schema,query)
-        .then(res=>{
+        .then(async res=>{
             expect(model.isValid()).true;
             expect(res.data.recordTransaction.recorded).to.equal(1);
         });

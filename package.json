@@ -9,7 +9,7 @@
     "dev": "cross-env DB=DEV TEST=true concurrently \"nodemon .\" \"webpack -w\"",
     "dev-scratch": "cross-env DB=DEV concurrently \"nodemon .\" \"webpack -w\"",
     "start": "node .",
-    "start-dev":"cross-env DB=DEV npm start",
+    "start-dev": "cross-env DB=DEV npm start",
     "build": "webpack",
     "seed": "cross-env DB=DEV node app/utils/seed.js --compilers js:babel-core/register --require babel-polyfill"
   },
@@ -27,7 +27,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.16.0",
     "babel-register": "^6.18.0",
-    "body-parser": "^1.15.2",
+    "body-parser": "^1.17.1",
     "bootstrap": "^3.3.7",
     "bootswatch": "^3.3.7",
     "browser-sync": "^2.18.2",

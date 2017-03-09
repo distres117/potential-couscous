@@ -105,7 +105,7 @@ export const startTransactionsDatasetSearch = (name)=>{
                         // });
                     }else{
                         toastr.success('Match found in SDE');
-                        let versions = res.sdeVersions;
+                        let versions = res.data.data.sdeVersions;
                         dispatch(setVersions(versions));
                         dispatch({
                             type:types.SEARCH_RESULT_DATASET,
