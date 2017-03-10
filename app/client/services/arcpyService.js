@@ -14,6 +14,6 @@ export const getList = ()=>{
 }
 
 export const searchDataGp = (datasetName)=>{
-    let data = {datasetName, location: 'sde'};
+    let data = {datasetName, datasetType: "1", location: 'sde'};
     return client.post('/gp/getDetailsGp', data);
 }

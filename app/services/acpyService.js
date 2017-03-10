@@ -15,19 +15,19 @@ const client = axios.create({
 
 function makeRequest(res){
      return new Promise((resolve,reject)=>{
+        let _res = {};
         if (!res.stderr){
             let data = res.stdout.replace(/\"\s*\"/g, 'null'); //ugh, manual parsing of response string (replace empty strings with null) :<
-            let _res = {}
             try{
                 _res.data = parseJson(data);
             }
             catch(e){
-                return reject(e);
+                _res.errors = e;
             }
-            return resolve(_res);
         }else{
-            reject(res.stderr);
+            _res.errors = res.stderr;
         }
+        return resolve(_res);
     });
 }
 export const getList = async ()=>{

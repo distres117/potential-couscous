@@ -12,6 +12,7 @@ const client = axios.create({
 });
 const oldPost = client.post;
 client.post = (...args)=>{ //Cool, now we can set a timeout for every post call without touching existing code
+    console.log(args);
     let hook = {resolved:false};
     return new Promise((resolve,reject)=>{
         startTimeoutCheck(hook, ()=>{
@@ -24,7 +25,7 @@ client.post = (...args)=>{ //Cool, now we can set a timeout for every post call 
             resolve(response); //the action must check if 'errors' is on the return hash
             // TODO: app-wide timeout switch to set all async boxes render 'Timed out'
         },60000);
-        oldPost(...args)
+        oldPost.apply(null,args)
         .then(res=>{
             hook.resolved = true;
             resolve(res);

@@ -30,8 +30,9 @@ gpRouter.post('/getDetails', async (req,res,next)=>{
     res.json(result);
 });
 gpRouter.post('/getDetailsGp', async (req,res,next)=>{
-    const {datasetName,datasetType} = req.body;
-    const result = await getDetailsGp(datasetName,datasetType);
+    const {datasetName,datasetType, location} = req.body;
+    console.log(req.body);
+    const result = await getDetailsGp(datasetName,datasetType, location || '');
     res.json(result);
 });
 gpRouter.post('/getList', async (req,res,next)=>{

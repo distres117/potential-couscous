@@ -135,8 +135,9 @@ def runProcess():
                 else:
                     des = arcpy.Describe(dataset)
             except:
-                outputDict["error"] = 'dataset not found'
-                return outputDict #get out of here if data not found
+                raise ValueError("dataset not found")
+                #outputDict["error"] = 'dataset not found'
+                #return outputDict #get out of here if data not found
             outputDict["catalogPath"] = des.catalogPath
             if datasetType == "table": #TODO
                 pass
@@ -149,7 +150,8 @@ def runProcess():
                 outputDict["fields"] = getFields(dataset)
             outputDict["metadata"] = getMetadata(des.name) # TODO: strip sde from dataset name (if exists) to allow for more flexible search
             return outputDict
-
+        else:
+            raise ValueError("dataset not found")
 #****************** execution
 output = json.dumps(runProcess())
 print(output)
