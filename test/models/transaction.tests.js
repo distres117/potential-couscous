@@ -7,7 +7,7 @@ import {TransactionSubmitModel, TransactionLoadModel, TransactionReviewModel} fr
 import * as _ from 'lodash';
 
 
-describe.only('model tests',function(){
+describe('model tests',function(){
     this.timeout(30000);
     before(()=>{
         return connect(true);
