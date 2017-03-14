@@ -12,7 +12,6 @@ const client = axios.create({
 });
 const oldPost = client.post;
 client.post = (...args)=>{ //Cool, now we can set a timeout for every post call without touching existing code
-    console.log(args);
     let hook = {resolved:false};
     return new Promise((resolve,reject)=>{
         startTimeoutCheck(hook, ()=>{

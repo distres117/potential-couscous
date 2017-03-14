@@ -24,16 +24,18 @@ app.use('/api', GraphHTTP({
     graphiql:true
 }));
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 gpRouter.post('/getDetails', async (req,res,next)=>{
     const {datasetName, datasetType, location} =  req.body;
     const result = await getDetails(datasetName, datasetType, location || '');
     res.json(result);
 });
-gpRouter.post('/getDetailsGp', async (req,res,next)=>{
+gpRouter.post('/getDetailsGp', (req,res,next)=>{
     const {datasetName,datasetType, location} = req.body;
-    console.log(req.body);
-    const result = await getDetailsGp(datasetName,datasetType, location || '');
-    res.json(result);
+    getDetailsGp(datasetName,datasetType, location || '')
+    .then(result=>{
+        res.json(result);
+    });
 });
 gpRouter.post('/getList', async (req,res,next)=>{
     const result = await getList();

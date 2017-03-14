@@ -16,7 +16,7 @@ datasetName = sys.argv[1] if len(sys.argv) > 1 else ""
 datasetType = sys.argv[2] if len(sys.argv) > 2 else ""
 location = sys.argv[3] if len(sys.argv) > 3 else ""
 localWs = r"\\vnxfileserver\GIS_FILES\SDE_IMPORT\READY_TO_LOAD\Data_to_import.gdb"
-dbWs = r"\\vnxfileserver\GIS_FILES\GIS_TOOLS\SDE_connections\voemsql1_mapexporter.sde"
+dbWs = r"\\vnxfileserver\GIS_FILES\GIS_TOOLS\SDE_connections\gis_sde_CPVSQL03_mapexporter.sde"
 XML_PATH = r"\\vnxfileserver\GIS_FILES\SDE_IMPORT\READY_TO_LOAD\metadata_export"
 TRANSLATOR = r"\\vnxfileserver\GIS_FILES\GIS_TOOLS\Translator\ARCGIS2FGDC.xml"
 

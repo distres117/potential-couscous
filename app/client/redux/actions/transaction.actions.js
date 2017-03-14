@@ -93,7 +93,6 @@ export const startTransactionsDatasetSearch = (name)=>{
             if (!foundRows.length){
                 return searchDataGp(name)
                 .then(res=>{
-                    debugger;
                     if (res.data.errors){
                         //just alert the user
                         toastr.error('Dataset not found!');

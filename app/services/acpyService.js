@@ -54,5 +54,8 @@ export const getDetailsGp = (datasetName, datasetType, location)=>{
     return runProcessGp(datasetName, datasetType, location)
     .then(res=>{
         return makeRequest(res);
-    });
+    })
+    .catch(res=>{
+        return makeRequest(res);
+    })
 }
