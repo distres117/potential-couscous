@@ -1,16 +1,16 @@
 import types from './action.types';
-import {getDetailsGp} from '../../services/arcpyService';
+import {getList} from '../../services/arcpyService';
 import {toastr} from 'react-redux-toastr';
 
 export const startGetReadyToLoad = ()=>{
     return (dispatch, getState)=>{
         if (getState().readyToLoad.loaded)
             return;
-        getDetailsGp()
+        getList()
         .then(res=>{
             dispatch({
                 type:types.READY_TO_LOAD,
-                payload: res
+                payload: res.data.data
             });
         })
         .catch(err=>{

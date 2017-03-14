@@ -47,7 +47,7 @@ export default async (source,args)=>{
     catch(e){
         console.log(e);
     }
-    let value = result.value; 
+    let value = result.data; 
     let metadata = value.metadata ? value.metadata.metadata : null;
     
     //create new DataCatalog row

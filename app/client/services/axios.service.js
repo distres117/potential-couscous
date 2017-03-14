@@ -24,7 +24,7 @@ client.post = (...args)=>{ //Cool, now we can set a timeout for every post call 
             resolve(response); //the action must check if 'errors' is on the return hash
             // TODO: app-wide timeout switch to set all async boxes render 'Timed out'
         },60000);
-        oldPost(...args)
+        oldPost.apply(null,args)
         .then(res=>{
             hook.resolved = true;
             resolve(res);

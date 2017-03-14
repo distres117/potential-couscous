@@ -93,7 +93,7 @@ export const startTransactionsDatasetSearch = (name)=>{
             if (!foundRows.length){
                 return searchDataGp(name)
                 .then(res=>{
-                    if (res.error){
+                    if (res.data.errors){
                         //just alert the user
                         toastr.error('Dataset not found!');
                         // dispatch({
@@ -105,7 +105,7 @@ export const startTransactionsDatasetSearch = (name)=>{
                         // });
                     }else{
                         toastr.success('Match found in SDE');
-                        let versions = res.sdeVersions;
+                        let versions = res.data.data.sdeVersions;
                         dispatch(setVersions(versions));
                         dispatch({
                             type:types.SEARCH_RESULT_DATASET,

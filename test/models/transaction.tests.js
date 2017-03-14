@@ -67,7 +67,7 @@ describe('model tests',function(){
             }
         `;
         return graphql(Schema,query)
-        .then(res=>{
+        .then(async res=>{
             expect(model.isValid()).true;
             expect(res.data.recordTransaction.recorded).to.equal(1);
         });
