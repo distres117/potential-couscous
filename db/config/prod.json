@@ -1,0 +1,10 @@
+{
+    "database":"DataCatalog_dev",
+    "username":"devapp",
+    "password":"T95L3_apr16",
+    "options":{
+        "dialect":"mssql",
+        "host":"cpv-dev-sql01",
+        "logging":false
+    }
+}

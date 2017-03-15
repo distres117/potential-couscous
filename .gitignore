@@ -1,8 +1,4 @@
 node_modules
-dev.json
-prod.json
-endpoints.json
-endpoints.js
 .tmp
 public
 daemon
