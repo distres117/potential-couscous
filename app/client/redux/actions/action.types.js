@@ -5,6 +5,8 @@ export default {
         GET_DATA_SUMMARIES:'get_data_summaries',
         GET_DATA_INITIAL:'get_data_initial',
         SET_CURRENT_RECORD: 'set_current_record',
+        SET_QUERY:'set_query',
+        CLEAR_QUERY:'clear_query',
         OVERWRITE_CURRENT_RECORD:'overwrite_current_record',
         CREATE_TRANSACTION: 'create_transaction',
         CLEAR_CURRENT_RECORD: 'clear_current_record',

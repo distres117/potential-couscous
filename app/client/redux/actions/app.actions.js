@@ -118,3 +118,14 @@ export const setAppUserAction = people => {
     }
 
 }
+export const setDataQuery = query =>{
+    return {
+        type: types.SET_QUERY,
+        payload:query
+    };
+}
+export const clearDataQuery = ()=>{
+    return {
+        type: types.CLEAR_QUERY
+    }
+}

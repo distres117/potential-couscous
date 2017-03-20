@@ -39,9 +39,9 @@ export default {
             </div>
         )
     },
-    datePickerFor(name, change){
+    datePickerFor(name, change, cls){
         return (
-            <div className='col-lg-9'>
+            <div className={cls ||'col-lg-9'}>
                 <DateField dateFormat="YYYY-MM-DD" forceValidDate={true} updateOnDateClick={true} collapseOnDateClick={true} defaultValue={Date.now()} showClock={false}>
                     <DatePicker name={name} navigation={true} locale="en" forceValidDate={true} highlightWeekends={false} highlightToday={false} weekNumbers={true} weekStartDay={0} footer={false} onChange={change}/>
                 </DateField>

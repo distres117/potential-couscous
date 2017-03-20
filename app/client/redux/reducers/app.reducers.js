@@ -97,3 +97,13 @@ export const organizationsReducer = (state=[], action)=>{
             return state;
     }
 }
+export const queryReducer = (state='',action)=>{
+    switch(action.type){
+        case types.SET_QUERY:
+            return action.payload;
+        case types.CLEAR_QUERY:
+            return '';
+        default:
+            return state;
+    }
+}
