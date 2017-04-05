@@ -25,5 +25,6 @@ export default {
         GET_ORG_TYPES:'get_orgtypes',
         GET_DISBURSEMENT_FORMATS:'get_disbursement_formats',
         GET_DISBURSEMENT_TRANSMITTALS:'get_disbursement_transmittals',
-        GET_CATALOG_ROWS:'get_catalog_rows'
+        GET_CATALOG_ROWS:'get_catalog_rows',
+        GET_DOMAIN_CATEGORIES:'get_domain_categories'
 };

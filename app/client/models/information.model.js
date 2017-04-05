@@ -26,7 +26,7 @@ export class InformationModel extends FormModel{
         return super._prePopulate.call(this,cur,fn);
     }
     isValid(){
-        let required = ['title', 'abstract','purpose'];
+        let required = ['title', 'abstract','purpose','dataCatalogId'];
         return super._isValid.call(this,null,required);
     }
     stringify(){

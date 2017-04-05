@@ -4,7 +4,7 @@ import { formStyles, infoStyles, tableStyles, splitViews } from '../styles/layou
 import InformationTable from './informationTable';
 import InformationForm from './informationForm';
 import {clearCurrentRecordAction, setDataQuery, clearDataQuery} from '../../redux/actions/app.actions';
-import {getCatalogRows} from '../../redux/actions/information.actions';
+import {getCatalogRows, getDomainCategories} from '../../redux/actions/information.actions';
 import { wellStyles } from '../styles/element.styles';
 import helpers from '../../helpers/html.helpers';
 import {filterAction} from '../../redux/actions/common.actions';
@@ -20,6 +20,7 @@ export default class Information extends React.Component{
         let {dispatch} = this.props;
         dispatch(clearCurrentRecordAction());
         dispatch(getCatalogRows());
+        dispatch(getDomainCategories());
     }
     filterByStatus = e=>{
         let {dispatch} = this.props;
