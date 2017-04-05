@@ -3,6 +3,21 @@ require('babel-polyfill');
 const db = require('../../db');
 
 db.connect(true)
+    .then(()=>{
+        //create catalog row
+        return db.models.DataCatalog.create({name:'TestRow'});
+    })
+    .then(catalogRow=>{
+        //create information row
+        return db.models.Information.create({
+            abstract: 'stupid test abstract',
+            title:'this should change',
+            purpose:'who knows',
+            dataCatalogId: catalogRow.dataCatalogId,
+            source: 'my butt',
+            maintainedBy:'carrot top'
+        })
+    })
     .then(()=>{ //create org types
         return Promise.all([
             db.models.OrgType.create({type:'Pubic safety'}),

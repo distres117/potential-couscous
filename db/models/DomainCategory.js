@@ -1,13 +1,13 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('tblDomainCategories', {
-		categoryId: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			primaryKey: true,
-			field: 'CategoryID'
-		},
+	const DomainCategory = sequelize.define('DomainCategory', {
+		// categoryId: {
+		// 	type: DataTypes.INTEGER,
+		// 	allowNull: false,
+		// 	primaryKey: true,
+		// 	field: 'CategoryID'
+		// },
 		primary: {
 			type: DataTypes.STRING,
 			allowNull: true,
@@ -24,6 +24,9 @@ module.exports = function(sequelize, DataTypes) {
 			field: 'Tertiary'
 		}
 	}, {
-		tableName: 'tblDomainCategories'
+		tableName: 'tblDomainCategories',
+		timestamps:false
 	});
+	DomainCategory.removeAttribute('id');
+	return DomainCategory;
 };

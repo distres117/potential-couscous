@@ -5,6 +5,8 @@ export default {
         GET_DATA_SUMMARIES:'get_data_summaries',
         GET_DATA_INITIAL:'get_data_initial',
         SET_CURRENT_RECORD: 'set_current_record',
+        SET_QUERY:'set_query',
+        CLEAR_QUERY:'clear_query',
         OVERWRITE_CURRENT_RECORD:'overwrite_current_record',
         CREATE_TRANSACTION: 'create_transaction',
         CLEAR_CURRENT_RECORD: 'clear_current_record',
@@ -23,5 +25,6 @@ export default {
         GET_ORG_TYPES:'get_orgtypes',
         GET_DISBURSEMENT_FORMATS:'get_disbursement_formats',
         GET_DISBURSEMENT_TRANSMITTALS:'get_disbursement_transmittals',
-        GET_CATALOG_ROWS:'get_catalog_rows'
+        GET_CATALOG_ROWS:'get_catalog_rows',
+        GET_DOMAIN_CATEGORIES:'get_domain_categories'
 };

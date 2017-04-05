@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
@@ -23,6 +24,16 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING,
 			allowNull: true,
 			field: 'Status'
+		},
+		updated:{
+			type: DataTypes.VIRTUAL,
+			get: async function(){
+				let trans = await this.getTransactions();
+				if (trans.length)
+					return _.orderBy(trans, 'lastUpdated', 'desc')[0].lastUpdated;
+				return null;
+			}
+
 		}
 	}, {
 		timestamps:false,

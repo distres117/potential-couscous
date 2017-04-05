@@ -8,7 +8,7 @@ import layerType from './layerType';
 import keywordType from './keywordType';
 import fieldType from './fieldType';
 import gdbType from './gdbType';
-import {GraphQLObjectType, GraphQLList} from 'graphql';
+import {GraphQLObjectType, GraphQLList, GraphQLInt} from 'graphql';
 
 const dataCatalogType = new GraphQLObjectType({
     name: 'DataCatalog',
